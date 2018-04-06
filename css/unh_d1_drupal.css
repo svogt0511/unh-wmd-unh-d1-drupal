@@ -1,0 +1,664 @@
+/*
+ *
+ * Search Form Styles
+ *
+ */
+
+
+.course-search-header {
+   //padding: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.course-search-header h2 {
+     margin: 0 !important;
+}
+
+/* Textual Course Search Block */
+.form-item-search-text label {
+  display: none;
+}
+
+/*
+ *
+ * Search Bar Styles
+ *
+ */
+
+/* search bar - search by text form */
+
+.search-bar {
+  padding-top: 15px;
+}
+
+.search-bar-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+/*
+.search-bar-header .search-hdr.left h2, .search-bar-header .search-hdr.left button {
+  display: inline;
+}
+
+.search-bar-header .search-hdr.right form .form-item-search-text, .search-bar-header .search-hdr.right form .search-by-text-btn {
+  display: inline;
+}
+
+.search-bar-header .search-hdr.right form .form-item-search-text input {
+  width: 250px;
+}
+*/
+
+.search-bar-header .search-hdr.left, .search-bar-header .search-hdr.right {
+  white-space: nowrap;
+}
+
+.search-bar-header .search-hdr.left h2 {
+  display: inline-block;
+  margin-bottom: 0;
+  margin-right: 15px;
+}
+
+.search-bar-header .search-hdr.right .search-by-text-form  .form-item-search-text {
+    width: 250px;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+button.btn.btn-highlight.choose-topics-btn.collapsed  {
+  margin: 0 !important;
+  vertical-align: top !important;
+}
+
+.btn.search-by-text-btn {
+  vertical-align: top !important;
+}
+
+@media (max-width: 1200px) {
+  .search-bar-header .search-hdr.left h2 {
+    font-size: 24px;
+    vertical-align: bottom;
+  }
+
+  .search-bar-header .search-hdr.right .form-item-search-text input {
+    width: 200px;
+    float: right;
+  }
+}
+
+@media (max-width: 998px) {
+  .search-bar-header .search-hdr.left, .search-bar-header .search-hdr.right {
+      display: block !important;
+  }
+}
+
+
+
+/* search bar - search by topics form */
+
+.choose-topics-btn.btn-highlight:focus, .search-by-text-btn.btn-highlight:focus {
+    background-color: #c56104;
+    border-color: #c56104;
+}
+
+
+
+/********NEW SEARCH BAR STYLES******/
+
+.topic-areas{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    //justify-content: space-between;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+
+/*
+ *
+ * Search Form Styles
+ *
+ */
+
+
+form.search-by-topic-form .form-radios {
+  text-align: right;
+}
+
+form.search-by-topic-form .form-radios > div.form-item.radio {
+  display: inline-block;
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+form.search-by-topic-form .form-radios > div.form-item.radio:first-child {
+  margin-left: 0;
+}
+
+form.search-by-topic-form .form-radios > div.form-item.radio:last-child {
+  margin-right: 10px;
+}
+
+form.search-by-topic-form .form-item-filters {
+  margin-bottom: 10px;
+}
+
+
+@media (max-width: 490px) {
+  form.search-by-topic-form .form-radios {
+    text-align: left;
+  }
+
+  form.search-by-topic-form .form-radios > div.form-item.radio {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+}
+
+form.search-by-topic-form .form-radios > div.form-item.radio {
+  display: inline-block;
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+
+/* COLUMN WIDTH: FORM TOPICS */
+form.search-by-topic-form .topic-areas .form-group.form-type-checkboxes {
+  width: 20%;
+}
+
+@media (max-width: 768px) {
+  form.search-by-topic-form .topic-areas .form-group.form-type-checkboxes {
+    width: 45%;
+  }
+}
+
+form.search-by-topic-form .topic-filters .form-group {
+  margin-bottom: 2px;
+}
+
+
+form.search-by-topic-form .topic-filters .form-group:last-child {
+  margin-bottom: 0px;
+}
+
+
+/*
+ *
+ * SEARCH RESULT STYLES
+ *
+ */
+
+.search-results .search-area:first-child .search-area-header.h2  {
+  margin-top: 0;
+}
+
+/*
+ *
+ * Locations - google maps styles
+ *
+ */
+
+ .embedded-google-maps {
+  float: right;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+ }
+
+ .embedded-google-maps iframe {
+   margin-bottom: 10px;
+ }
+
+ .embedded-google-maps iframe:first-child {
+   margin-top: 10px;
+ }
+
+ .embedded-google-maps iframe:last-child {
+   margin-bottom: 10;
+ }
+
+
+/* search result - button styles */
+  .search-again-button {
+    margin-top: 20px;
+  }
+
+  .search-again-button.top-of-page {
+    float: right;
+  }
+
+
+  .search-again-button.bottom-of-page {
+    float: right;
+    display: inline-block;
+  }
+
+
+/*
+ *
+ * Search result page styles
+ *
+ */
+
+.course-unavailable {
+  font-weight: 600;
+}
+
+.course-error {
+  color: red;
+  font-weight: bold;
+}
+
+.search-results .course-row a {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+
+/* The 'back to top' button on the course-search-results page. */
+
+.page-course-search-results #back-to-top {
+  display: none;
+}
+
+.page-course-search-results .back-to-top {
+  background-color: #737373 !important;
+  border-color: #737373 !important;
+  cursor: pointer;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: none;
+}
+
+/* The 'back to top' button. */
+
+.page-course-search-results .list__chevron.course-list .certificates-block {
+  text-indent: 0
+}
+
+.page-course-search-results .list__chevron.course-list span.course-unavailable {
+  background-color: #dddddd;
+}
+
+.page-course-search-results .list__chevron.course-list a.course-unavailable {
+  color: #444444;
+}
+
+
+/*
+ *
+ * Request More Information Form (side form) - get rid of 'go back to form' in the confirmation page.
+ *
+ */
+
+.page-node-done #block-system-main .links {
+    display: none;
+}
+
+.side-form-block .side-form-header {
+    border-radius: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none !important;
+    font-weight: 600;
+    white-space: normal;
+    color: #ffffff;
+    margin-bottom: 0;
+    background-color: #003591;
+    border-color: #002c78;
+    text-align: center;
+    padding: 6px 12px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+}
+
+
+.side-form-block .side-form-body {
+  margin-bottom: 10px;
+}
+
+
+
+/*
+ *
+ * Right Rail Styles (including accordion headers for sections: 'cards')
+ *
+ */
+
+.card {
+    position: relative;
+    display: block;
+    margin-bottom: .75rem;
+    background-color: #fff;
+    border-radius: .25rem;
+    border: 1px solid rgba(0,0,0,0.125);
+}
+
+.card .card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid rgba(0,0,0,0.125);
+}
+
+.card .card-header a {
+    color: #003591;
+    text-decoration: none;
+}
+
+.card .card-header a:hover {
+    text-decoration: underline;
+}
+
+.card .card-header h5 {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.card .card-header .sectionSemester {
+    color: #003591;
+    font-size: 12px;
+}
+
+.card .card-header .fa.fa-minus,.card .card-header .fa.fa-plus {
+    position: absolute;
+    right: 10px;
+    top: 25px;
+}
+
+.card .card-header .fa.fa-minus {
+  display: none;
+}
+
+.card .card-header .section-wait-list-status {
+    background-color: #B5231D !important;
+    color: #ffffff;
+    display: inline-block;
+    margin: 5px 0 0 0;
+    font-size: 12px;
+    padding: 2px;
+}
+
+.card .card-header:first-child {
+    border-radius: calc(-0.75rem) calc(-0.75rem) 0 0;
+}
+
+.card .card-header::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card .collapse {
+    display: none;
+}
+
+.card .collapse.in {
+    display: block;
+}
+
+.card .card-block {
+    padding: 1.25rem;
+}
+
+.card .card-block::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card .sectionTopText {
+    margin-bottom: 15px;
+}
+
+.card .sectionDescription > .section {
+    margin-bottom: 10px;
+}
+
+.card .sectionDescription > .section .section.item {
+    margin-bottom: 5px;
+}
+
+.card .sectionDescription > .section .section.item:last-child {
+    margin-bottom: 0;
+}
+
+.card .sectionDescription > .section:last-child {
+    margin-bottom: 0;
+}
+
+.card .bogus-class {
+    margin-top: 10px;
+}
+
+.card .btn-enroll {
+    margin: 0 auto 10px auto;
+}
+
+.card .btn-enroll-container {
+    margin: 0 10px;
+}
+
+.card .btn-waitlist {
+    background-color: #B5231D !important;
+    border-color: #B5231D !important;
+    margin: 0 auto 10px auto;
+}
+
+
+.sections_pane > div.sectionAccordion_class {
+  margin-bottom: 15px;
+}
+
+.sections_pane > div.sectionAccordion_class:last-child {
+  margin-bottom: 0;
+}
+
+
+.card .header {
+  white-space: nowrap;
+  padding-right: 0;
+}
+
+@media (max-width: 1200px) {
+  .card .courseDiscounts .header {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 1000px) {
+  .card .sectionNumber .header {
+    white-space: normal;
+  }
+}
+
+/* unavailable and waitlisted section styles */
+
+.sections_pane > div.section-unavailable {
+  margin-bottom: 15px;
+}
+
+.sections_pane > div.section-waitlisted {
+  margin-bottom: 15px;
+  color: red;
+  font-weight: red;
+}
+
+.btn-waitlist {
+  background-color: #B5231D !important;
+}
+
+/* Course buttons pane. */
+
+.course-buttons-pane {
+  margin-bottom: 15px;
+}
+
+.course-buttons-pane a.btn-block {
+  margin: 8px 0;
+}
+
+.course-buttons-pane a.btn-block:first-child {
+ margin-top: 0;
+}
+
+/* Required forms block. */
+.required-forms-block {
+  margin-bottom: 15px;
+}
+
+
+.required-forms-block .required-forms-header {
+  font-weight: bold;
+  font-size: 15px;
+  color: #263645;
+}
+
+
+
+/*
+ *
+ * Certificate block
+ *
+ */
+
+.certificates-block {
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+
+.certificates-block .certificate{
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.certificates-block .certificate:last-child{
+  margin-bottom: 0;
+}
+
+.certificates-block .certificate .fa {
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+
+
+
+/*************************************************************************
+ *
+ * NON-D1 COURSE STYLES
+ *
+ *************************************************************************/
+
+
+/*
+ *
+ * Right Rail Styles (including accordion headers for sections: 'cards', see above.)
+ *
+ */
+
+
+/* Course page styles - RR non-D1 courses. */
+
+.course-info-pane .course-date, .course-info-pane .course-time {
+  display: inline-block;
+  white-space: nowrap;
+  /*margin-bottom: 3px;*/
+}
+
+.course-info-pane .course-date-wrapper, .course-info-pane .course-time-wrapper {
+  /*margin-bottom: 3px;*/
+}
+
+.course-info-pane .course-date-wrapper:last-child, .course-info-pane .course-time-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+.course-info-pane .course-instructor {
+  white-space: nowrap;
+  /*margin-bottom: 3px;*/
+}
+
+.course-info-pane .course-instructor:last-child {
+  margin-bottom: 0px;
+}
+
+
+/*
+ *
+ * Right Rail video
+ *
+ */
+
+.field-type-video-embed-field {
+    margin: .5em 0 1em 0 !important;
+}
+
+
+
+
+/*************************************************************************
+ *
+ * ADMIN STYLES
+ *
+ *************************************************************************/
+
+ /*
+  *
+  * Course Node Edit Form - Drupal Admin IF
+  *
+  */
+
+.course-node-form .group-additional-course-tabs > h2, .course-node-form .group-course-tabs > h2 {
+  /* color: black !important; */
+}
+
+/*
+ *
+ * Course Node Edit Form - Drupal Admin IF
+ *
+ * Course Schedule - date module styles were a mess.
+ *
+ */
+
+/* Course content editor styles */
+.field-name-field-course-dates-times .date-float {
+  display: none;
+}
+
+.field-name-field-course-dates-times .date-no-float {
+  width: auto;
+  display: inline-block;
+}
+
+.field-name-field-course-dates-times .date-no-float label {
+  display: none;
+}
+
+/**
+ *
+ * Module config form styles.
+ *
+ */
+ 
+ .page-admin-config-unh-d1 pre.google-track-enrollments-script > script {
+  display: block;
+ }
+ 
+ 
+ 
+ 
