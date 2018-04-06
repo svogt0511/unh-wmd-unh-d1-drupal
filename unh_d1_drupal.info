@@ -3,6 +3,12 @@ description = This module creates some common/themable Drupal constructs for Des
 version = "7.x-0.0-alpha-0"
 core = 7.x
 package = "D1"
+
 configure = admin/config/unh-d1/unh-d1-drupal-settings
+
 dependencies[] = ctools
 dependencies[] = unh_d1_client
+
+stylesheets[all][] = css/unh_d1_drupal.css
+
+scripts[] = js/unh_d1_drupal.js

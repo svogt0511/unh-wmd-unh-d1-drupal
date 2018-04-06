@@ -63,23 +63,21 @@ function unh_d1_drupal_permission() {
  */
 function unh_d1_drupal_settings_form($form, &$form_state) {
 
-  $programAreas = unh_d1_client_programAreas();
-  
+  $programAreas = unh_d1_client_getprogramAreas();
+
   $options_array = array();
   foreach($programAreas as $programArea) {
     # the values for the dropdown box
     $options_array[$programArea['code']] = $programArea['name'];
   }
 
-  $form['unh_d1_drupal_program_area_options'] = array(
-  '#type' => 'value',
-  '#value' => $options_array,
-  );
+
   $form['unh_d1_drupal_program_area'] = array(
       '#title' => t('Program Area'),
       '#type' => 'select',
       '#description' => "Select the applicable program area.  Used to limit our set of resources to our particular program.",
-      '#options' => $form['unh_d1_drupal_program_area_options']['#value'],
+      //'#options' => $form['unh_d1_drupal_program_area_options']['#value'],
+      '#options' => $options_array,
       '#default_value' => variable_get('unh_d1_drupal_program_area', ''),
       '#required' => TRUE,
   );
@@ -87,7 +85,7 @@ function unh_d1_drupal_settings_form($form, &$form_state) {
   if (_unh_d1_drupal_google_analytics_is_enabled() && _d1_drupal_add_to_head_is_enabled()) {
     $title = 'Google Track Enrollments (' . variable_get('googleanalytics_account') . ')';
     $disabled = FALSE;
-    $additional_desc = '';
+    $additional_desc = UNH_D1_DRUPAL_GOOGLE_ET_DESC_ADDL;
   } else {
     $title = UNH_D1_DRUPAL_GOOGLE_ET_TITLE;
     $disabled = TRUE;
@@ -104,14 +102,20 @@ function unh_d1_drupal_settings_form($form, &$form_state) {
 
   $form = system_settings_form($form);
   $form['#submit'][] = 'unh_d1_drupal_settings_form_custom_submit';
+  
   return $form;
-
 }
 
+/**
+ * Form validation for the UNH D1 Drupal admin settings form.
+ */
 function unh_d1_drupal_settings_form_validate($form, &$form_state){
 
 }
 
+/**
+ * Form custom submit for the UNH D1 Drupal admin settings form.
+ */
 function unh_d1_drupal_settings_form_custom_submit($form, &$form_state){
 
   // Does this even work? (drupal_flush_all_caches)

@@ -16,35 +16,36 @@ define("UNH_D1_DRUPAL_VERSION_7X00_alpha0", "7.x.00.0.alpha.0");
 /**
  * Google Enrollments Tracking Code - settings constants.
  */
- 
-define("UNH_D1_DRUPAL_GOOGLE_ET_CODE". "
-&lt;script&gt;
+
+const UNH_D1_DRUPAL_GOOGLE_ET_CODE = "
+<pre class='google-track-enrollments-script'>
+<script>
 var trackOutboundLink = function(url) {
   ga('send', 'event', 'outbound', 'click', removeQueryStringParameter('cspIndex', url), {
     'transport': 'beacon',
     'hitCallback': function(){document.location = url;}
   });
 }
-&lt;/script&gt;
+</script>
+</pre>
 ";
 
 define("UNH_D1_DRUPAL_GOOGLE_ET_TITLE", "Google Track Enrollments (MISSING REQUIREMENTS - enrollment tracking is disabled)");
-define("UNH_D1_DRUPAL_GOOGLE_ET_DESC_ADDL", "
+const UNH_D1_DRUPAL_GOOGLE_ET_DESC_ADDL = "
 <div style='margin-bottom:5px;'>
-**THIS FEATURE CANNOT BE ENABLED UNTIL THE FOLLOWING REQUIREMENTS ARE MET**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;1) Enable the 'Google Analytics' module and configure it with a Google Analytics ID (UA-XXX).<br>
-&nbsp;&nbsp;&nbsp;&nbsp;2) Enable the 'Add to Head' module and configure the Google tracking code snippet with the name 'google-track-enrollments'.
+**THIS FEATURE SHOULD NOT BE ENABLED UNTIL THE FOLLOWING REQUIREMENTS ARE MET**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1) You must be using <a href='https://support.google.com/tagmanager/answer/2574305' target='_blank'>Google Tag Manager</a> to manage your analytics tracking.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;2) The 'Google Analytics' module must be enabled and configured with a Google Analytics ID (UA-XXX).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3) The 'Add to Head' module must be enabled and configured with a tracking code snippet as described below.
 </div>
-<div style='margin-bottom: 5px;'>The tracking code must in the 'Add to Head' snippet must be named 'google-track-enrollments' and must be entered modified as below from the documented tracking code at: https://support.google.com/analytics/answer/1136920?hl=en
+<div style='margin-bottom: 5px;'>The tracking code must be an 'Add to Head' module snippet named 'google-track-enrollments' and must be entered modified as below (as described in the <a href='https://support.google.com/analytics/answer/1136920?hl=en' target='_blank'>google tracking code documentation</a>). 
 </div>
-<pre>
 " . UNH_D1_DRUPAL_GOOGLE_ET_CODE . "
-</pre>
-");
+";
 
 define("UNH_D1_DRUPAL_GOOGLE_ET_DESC", "
 <div style='margin-bottom: 5px;'>
-Adds the necessary code for tracking of enrollment button clicks.  This feature requires the 'Google Analytics' and the 'Add to Head' modules to be installed, enabled, and appropriately configured.
+This feature adds the necessary code for tracking of enrollment button clicks.  This feature requires the 'Google Analytics' and the 'Add to Head' modules to be installed, enabled, and appropriately configured.
 </div>
 ");
 
