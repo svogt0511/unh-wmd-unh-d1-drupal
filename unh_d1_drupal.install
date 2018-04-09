@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ *
+ * Install basic configurations for Destiny One integration.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function unh_d1_drupal_install() {
+  variable_set('unh_d1_drupal_program_area', '');
+  variable_set('unh_d1_drupal_google_track_enrollments', 0);
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function unh_d1_drupal_uninstall() {
+ // Get global variable array
+ global $conf;
+ foreach (array_keys($conf) as $key) {
+   // Find variables that have the module prefix
+   if (strpos($key, 'unh_d1_pdt_') === 0) {
+     variable_del($key);
+   }
+ }
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Setting default variable values.
+ */
+// function d1client_update_7100() {
+//  variable_set('unh_d1_drupal_cache_time', 3600*3);
+// }
+
+/**
+ * Implements hook_requirements().
+ */
+function unh_d1_drupal_requirements($phase) {
+  if($phase == 'runtime') {
+
+  }
+}
+
+
+
+
