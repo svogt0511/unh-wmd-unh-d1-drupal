@@ -655,10 +655,22 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
  *
  */
  
- .page-admin-config-unh-d1 pre.google-track-enrollments-script > script {
+.page-admin-config-unh-d1 pre.google-track-enrollments-script > script {
   display: block;
- }
+}
  
  
- 
- 
+ /**
+ *
+ * Pane config form styles.
+ *
+ */
+  
+.page-admin .ctools-modal-content #edit-section-tuition.form-wrapper {
+  border: 1px solid lightgray;
+  margin: 5px 0 10px 0;
+}
+
+.page-admin .ctools-modal-content #edit-section-tuition.form-wrapper .fieldset-wrapper {
+  margin-left: 10px;
+}
