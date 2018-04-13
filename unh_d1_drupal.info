@@ -8,6 +8,7 @@ configure = admin/config/unh-d1/unh-d1-drupal-settings
 
 dependencies[] = ctools
 dependencies[] = unh_d1_client
+dependencies[] = panels
 
 stylesheets[all][] = css/unh_d1_drupal.css
 
