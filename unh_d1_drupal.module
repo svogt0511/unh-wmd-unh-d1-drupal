@@ -11,12 +11,11 @@
  *
  */
 
-/**
+/******************************************************************************
  * Get 'helper' functions and constants.
- */
+ ******************************************************************************/
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.constants.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.utils.inc';
-
 /**
  * Implements hook_menu().
  */
@@ -58,9 +57,9 @@ function unh_d1_drupal_permission() {
   );
 }
 
-/**
+/******************************************************************************
  * Form constructor for the UNH D1 Drupal admin settings form.
- */
+******************************************************************************/
 function unh_d1_drupal_settings_form($form, &$form_state) {
 
   $programAreas = unh_d1_client_getprogramAreas();
@@ -121,5 +120,71 @@ function unh_d1_drupal_settings_form_custom_submit($form, &$form_state){
   // Does this even work? (drupal_flush_all_caches)
   drupal_flush_all_caches();
   drupal_set_message('All caches have been cleared.', 'status', FALSE);
+}
+
+/******************************************************************************
+ *
+ * Definitions for various content panes (ctools plugins, theme hooks, etc.).
+ *
+ ******************************************************************************/
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function unh_d1_drupal_ctools_plugin_directory($module, $plugin) {
+  if (($module == 'ctools' || $module == 'panels') && !empty($plugin)) {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function unh_d1_drupal_theme() {
+  $module_path = drupal_get_path('module', 'unh_d1_drupal');
+  $base = array(
+    'path' => "{$module_path}/theme",
+  );
+
+  $ret = array(
+    'unh_d1_drupal__course_sections_pane' => $base + array(
+      'template' => 'unh-d1-drupal--course-sections-pane',
+      'variables' => array(
+        'course_nid' => '0',
+        'sections' => '0',
+        'section_opt_1' => '0',
+        'body_section_fields' => array()
+      ),
+    ),
+  );
+
+  return $ret;
+}
+
+function unh_d1_drupal_preprocess_panels_pane(&$vars) {
+  // ddl($vars, '$vars - preprocess panels pane.');
+
+}
+
+/**
+ * Implements hook_theme_registry_alter(). Brings in all of our module theme templates.
+ */
+ 
+ 
+function unh_d1_drupal_theme_registry_alter(&$theme_registry) {
+  // Defined path to the current module.
+  $module_path = drupal_get_path('module', 'unh_d1_drupal');
+  // Find all .tpl.php files in this module's folder recursively.
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  // Iterate through all found template file objects.
+  foreach ($template_file_objects as $key => $template_file_object) {
+    // If the template has not already been overridden by a theme.
+    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+      // Alter the theme path and template elements.
+      $theme_registry[$key]['theme path'] = $module_path;
+      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+      $theme_registry[$key]['type'] = 'module';
+    }
+  }
 }
 
