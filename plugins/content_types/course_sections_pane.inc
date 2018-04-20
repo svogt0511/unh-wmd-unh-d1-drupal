@@ -202,8 +202,8 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
       // Build a render array.
       '#theme' => 'unh_d1_drupal__course_sections_pane',
       '#course_nid' => $node->nid,
-      '#sections' => '6',
-      '#section_opt_1' => '900',
+      '#course' => NULL,
+      '#sections' => array(),
       '#body_section_fields' => $body_section_fields
     );
     
