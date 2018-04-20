@@ -63,17 +63,17 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Show Section Dates'),
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_dates']['show']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_dates']['show']), 
   );
   
   $form['section_dates']['options'] = array(
     '#type' => 'radios',
     '#title' => t('Date Options'),
-    '#default_value' => 1,
     '#options' => array(
       t('Start Date Only'),
       t('Start and End Dates'),
-    )
+    ),
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_dates']['options']),
   );
   
   $form['section_times'] = array(
@@ -94,11 +94,11 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
   $form['section_times']['options'] = array(
     '#type' => 'radios',
     '#title' => t('Time Options'),
-    '#default_value' => 1,
     '#options' => array(
       t('Start Time Only'),
       t('Start and End Times'),
-    )
+    ),
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_times']['options']) , 
   );
   
   $form['section_tuition'] = array(
@@ -195,7 +195,7 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
     '#return_value' => 1, 
     '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_number']) , 
   );
- 
+
   return $form;
 }
  
@@ -211,32 +211,37 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
 }
  
 /**
- * Run-time rendering of the body of the block (content type).
+ * Run-time rendering course sections pane (right-rail list of section blocks).
  */
  function course_sections_pane_content_type_render($subtype, $conf, $panel_args) {
   
   $block = NULL;
   $node = menu_get_object();
   
-  $body_section_fields = [];
   if ($node->type == 'course') {
+    $body_section_fields = [];
     foreach($conf as $key => $value) {
       if (!empty($value)) {
-        if (($key == 'action_button') ||
+        if (($key == 'section_dates') ||
             ($key == 'section_times') ||
+            ($key == 'section_tuition') ||
+            ($key == 'action_button') ||
             ($key == 'section_locations') ||
+            ($key == 'section_times') ||
             ($key == 'section_instructors') ||
             ($key == 'section_contact_hours') ||
+            ($key == 'section_discounts') ||
             ($key == 'section_notes') ||
             ($key == 'section_ceus') ||
             ($key == 'section_course_code') ||
             ($key == 'section_number'))
         {
-          $body_section_fields [] = $key;
+          $body_section_fields [$key] = $value;
         }
       }
     }
-
+    
+    $config['body_section_fields'] = $body_section_fields;
   
     // Render the content with either theme() or by building a render array.
     $block = new stdClass();
@@ -251,7 +256,7 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
       '#course_nid' => $node->nid,
       '#course' => NULL,
       '#sections' => array(),
-      '#body_section_fields' => $body_section_fields
+      '#config' => $config
     );
     
   }

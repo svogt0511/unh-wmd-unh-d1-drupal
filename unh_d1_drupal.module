@@ -152,9 +152,9 @@ function unh_d1_drupal_theme() {
       'template' => 'unh-d1-drupal--course-sections-pane',
       'variables' => array(
         'course_nid' => '0',
-        'body_section_fields' => array(),
         'course' => NULL,
         'sections' => array(),
+        'config' => array(),
       ),
     ),
     'unh_d1_drupal__course_section' => $base + array(
@@ -164,7 +164,7 @@ function unh_d1_drupal_theme() {
         'course' => NULL,
         'section' => NULL,
         'config' => array(),
-        'section_num' => 0,
+        'disp_idx' => 0,
         'disp_open' => FALSE,
       ),
     ),
@@ -215,15 +215,14 @@ function unh_d1_drupal_preprocess_panels_pane(&$vars) {
  *
  * $course_nid and $body_section_fields already rendered from panel settings.
  */
-function unh_d1_drupal_preprocess_unh_d1_drupal__course_sections_pane(&$vars) {
-  // ddl($vars, '$vars - preprocess panels pane.');
-  ddl("GOT HERE ZZZZ!");
-  
+function unh_d1_drupal_preprocess_unh_d1_drupal__course_sections_pane(&$vars) {  
   //$course_nid = 0;
+  ddl('START OF TEMPLATE!');
+  ddl($vars, '$vars');
   $course_nid = $vars['course_nid'];
-  $body_section_fields = $vars['body_section_fields'];
   $course = NULL;
   $sections = [];
+  $config = $vars['config'];
   
   $information_level = 'full';
   $program_area = unh_d1_drupal_settings_program_area();
@@ -235,18 +234,19 @@ function unh_d1_drupal_preprocess_unh_d1_drupal__course_sections_pane(&$vars) {
     if (!empty ($wrapper)) {
       $course_code = $wrapper->field_course_code->value();
       $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area));
-      if (!empty($course_code)) {
+      if (!empty($course_code) && !empty($course)) {
         $sections = unh_d1_client_searchCourseSections($course_code, array($program_area), $information_level);      
       }
     }
   }
 
   $vars['course_nid'] = $course_nid;
-  $vars['body_section_fields'] = $body_section_fields;
   $vars['course'] = $course;
   $vars['sections'] = $sections;
-  
-  ddl($vars, '$vars ZZZZ!');
+  $vars['config'] = $config;
+
+  ddl($vars, '$vars');  
+  ddl('end OF TEMPLATE! AAAA');
 }
 
 /**
@@ -265,8 +265,9 @@ function unh_d1_drupal_preprocess_unh_d1_drupal__course_sections_pane(&$vars) {
  * $course_nid and $body_section_fields already rendered from panel settings.
  */
 function unh_d1_drupal_preprocess_unh_d1_drupal__course_section(&$vars) {
-  ddl("GOT HERE PREPROCESS A SECTION BLOCK!");
+  ddl("ZZZZ - GOT HERE PREPROCESS A SECTION BLOCK! START!");
   ddl($vars, '$vars - preprocess a section block');
+  ddl("ZZZZ - GOT HERE PREPROCESS A SECTION BLOCK! END!");
 }
 
 

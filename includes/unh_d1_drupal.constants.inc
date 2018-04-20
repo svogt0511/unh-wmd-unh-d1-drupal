@@ -50,7 +50,19 @@ This feature adds the necessary code for tracking of enrollment button clicks.  
 ");
 
 
+/**
+ * MISC CONSTANTS.
+ */
+define("UNH_D1_DRUPAL_DATE_FORMAT", "M-d-Y");
+define("UNH_D1_DRUPAL_TIME_FORMAT", "hh [.:] MM space? meridian");
 
+
+/**
+ * RIGHT RAIL SECTION BLOCK LIST SETTINGS CONSTANTS.
+ */
+define("UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_DATE_ONLY", 0);
+define("UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_AND_END_DATE", 1);
+ 
 
 
 

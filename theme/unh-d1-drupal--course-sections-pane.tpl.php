@@ -1,15 +1,8 @@
-<div class="<?php print $classes; ddl($variables, '$variables - GOT HERE!!'); ?>"<?php print $attributes; ?>>
-<h1>AWESOME!!!! GOT HERE!!! YEA!! YEA!! YEA!! YEA!!</h1>
 <?php 
-  ddl("111111111111");
-  ddl($course_nid, '$course_nid');
-  ddl($course, '$course');
-  ddl($sections, '$sections');
-  ddl($body_section_fields, '$body_section_fields');
-  ddl($variables, '$variables');
-  ddl("222222222222");
-?>
-  
+ddl($variables, '$variables - AWESOME');
+?> 
+<div class="<?php print $classes; ddl($variables, '$variables - GOT HERE!!'); ?>"<?php print $attributes; ?>>
+  <h1>AWESOME!!!! GOT HERE!!! YEA!! YEA!! YEA!! YEA!!</h1>
 </div>
 
 <div class='sections_pane'>
@@ -38,8 +31,8 @@
         array('course_nid' => $course_nid,
           'course' => $course,
           'section' => $section,
-          'config' => $body_section_fields,
-          'section_num' => $i,
+          'config' => $config,
+          'disp_idx' => $i,
           'disp_open' => $disp_open)
       );
 
