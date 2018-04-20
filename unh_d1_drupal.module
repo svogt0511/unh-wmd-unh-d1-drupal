@@ -15,6 +15,7 @@
  * Get 'helper' functions and constants.
  ******************************************************************************/
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.constants.inc';
+require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.settings.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.utils.inc';
 /**
  * Implements hook_menu().
@@ -151,9 +152,20 @@ function unh_d1_drupal_theme() {
       'template' => 'unh-d1-drupal--course-sections-pane',
       'variables' => array(
         'course_nid' => '0',
-        'sections' => '0',
-        'section_opt_1' => '0',
-        'body_section_fields' => array()
+        'course' => NULL,
+        'sections' => array(),
+        'config' => array(),
+      ),
+    ),
+    'unh_d1_drupal__course_section' => $base + array(
+      'template' => 'unh-d1-drupal--course-section',
+      'variables' => array(
+        'course_nid' => 0,
+        'course' => NULL,
+        'section' => NULL,
+        'config' => array(),
+        'disp_idx' => 0,
+        'disp_open' => FALSE,
       ),
     ),
   );
@@ -161,16 +173,9 @@ function unh_d1_drupal_theme() {
   return $ret;
 }
 
-function unh_d1_drupal_preprocess_panels_pane(&$vars) {
-  // ddl($vars, '$vars - preprocess panels pane.');
-
-}
-
 /**
  * Implements hook_theme_registry_alter(). Brings in all of our module theme templates.
  */
- 
- 
 function unh_d1_drupal_theme_registry_alter(&$theme_registry) {
   // Defined path to the current module.
   $module_path = drupal_get_path('module', 'unh_d1_drupal');
@@ -187,4 +192,82 @@ function unh_d1_drupal_theme_registry_alter(&$theme_registry) {
     }
   }
 }
+
+/*
+function unh_d1_drupal_preprocess_panels_pane(&$vars) {
+  // ddl($vars, '$vars - preprocess panels pane.');
+
+}
+*/
+
+/**
+ * Implements hook_preprocess() for course sections pane.
+ *
+ * Sets up variables for the course sections pane template.  
+ * Makes sure that we are on a course page.
+ *
+ * Available variables:
+ *
+ *  $course_nid = '0',                      // from page context
+ *  $course = NULL,                         // from API (course node => course code)
+ *  $sections = array(),                    // from API (course)
+ *  $body_section_fields = array()          // from pane settings
+ *
+ * $course_nid and $body_section_fields already rendered from panel settings.
+ */
+function unh_d1_drupal_preprocess_unh_d1_drupal__course_sections_pane(&$vars) {  
+  //$course_nid = 0;
+  ddl('START OF TEMPLATE!');
+  ddl($vars, '$vars');
+  $course_nid = $vars['course_nid'];
+  $course = NULL;
+  $sections = [];
+  $config = $vars['config'];
+  
+  $information_level = 'full';
+  $program_area = unh_d1_drupal_settings_program_area();
+  
+  if (!empty($course_nid)) {
+    $node = node_load($course_nid);
+    $wrapper = entity_metadata_wrapper('node', $node);
+    
+    if (!empty ($wrapper)) {
+      $course_code = $wrapper->field_course_code->value();
+      $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area));
+      if (!empty($course_code) && !empty($course)) {
+        $sections = unh_d1_client_searchCourseSections($course_code, array($program_area), $information_level);      
+      }
+    }
+  }
+
+  $vars['course_nid'] = $course_nid;
+  $vars['course'] = $course;
+  $vars['sections'] = $sections;
+  $vars['config'] = $config;
+
+  ddl($vars, '$vars');  
+  ddl('end OF TEMPLATE! AAAA');
+}
+
+/**
+ * Implements hook_preprocess() for course sections pane.
+ *
+ * Sets up variables for the course sections pane template.  
+ * Makes sure that we are on a course page.
+ *
+ * Available variables:
+ *
+ *  $course_nid = '0',                      // from page context
+ *  $course = NULL,                         // from API (course node => course code)
+ *  $sections = array(),                    // from API (course)
+ *  $body_section_fields = array()          // from pane settings
+ *
+ * $course_nid and $body_section_fields already rendered from panel settings.
+ */
+function unh_d1_drupal_preprocess_unh_d1_drupal__course_section(&$vars) {
+  ddl("ZZZZ - GOT HERE PREPROCESS A SECTION BLOCK! START!");
+  ddl($vars, '$vars - preprocess a section block');
+  ddl("ZZZZ - GOT HERE PREPROCESS A SECTION BLOCK! END!");
+}
+
 
