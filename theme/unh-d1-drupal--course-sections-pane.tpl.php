@@ -1,12 +1,15 @@
 <?php 
 ddl($variables, '$variables - COURSE SECTIONS PANE');
+if (!empty($sections)) {
+  // sort the sections
+  $sections = unh_d1_drupal_sort_rr_sections($sections);
+  ddl($sections, '$sections - TEMPLATE - sorting rr sections');
 ?> 
-<div class="<?php print $classes; ddl($variables, '$variables - GOT HERE!!'); ?>"<?php print $attributes; ?>>
+<div class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <h1>RENDERING COURSE SECTIONS PANE</h1>
-</div>
 
-<div class='sections_pane'>
-  <div id='sectionAccordion' role='tablist' aria-multiselectable='true' class='sectionAccordion_class'>
+  <div class='sections_pane'>
+    <div id='sectionAccordion' role='tablist' aria-multiselectable='true' class='sectionAccordion_class'>
   
 <?php
   // @todo: get the $always_display_first_open flag from the panel settings
@@ -47,6 +50,11 @@ ddl($variables, '$variables - COURSE SECTIONS PANE');
   print($output);
 ?>
 
-  </div> <!--sectionAccordion-->
-</div> <!--sections_pane-->
+    </div> <!--sectionAccordion-->
+  </div> <!--sections_pane-->
+</div> <!--<?=$classes?>-->
+
+<?php
+}
+?>
 
