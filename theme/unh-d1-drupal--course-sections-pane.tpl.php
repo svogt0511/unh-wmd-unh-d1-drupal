@@ -1,8 +1,8 @@
 <?php 
-ddl($variables, '$variables - AWESOME');
+ddl($variables, '$variables - COURSE SECTIONS PANE');
 ?> 
 <div class="<?php print $classes; ddl($variables, '$variables - GOT HERE!!'); ?>"<?php print $attributes; ?>>
-  <h1>AWESOME!!!! GOT HERE!!! YEA!! YEA!! YEA!! YEA!!</h1>
+  <h1>RENDERING COURSE SECTIONS PANE</h1>
 </div>
 
 <div class='sections_pane'>
@@ -16,7 +16,6 @@ ddl($variables, '$variables - AWESOME');
   $output = '';
   foreach ($sections as $section) {
     $i++;
-
     // Should we display the first section box open or closed?
     $disp_open = ($first && !$always_display_first_closed);
     
@@ -26,7 +25,7 @@ ddl($variables, '$variables - AWESOME');
         unh_d1_client_sectionIsWaitlisted($section) ||
         unh_d1_client_sectionIsEnrollmentClosed($section) ||
         unh_d1_client_sectionIsFull($section)) {
-        
+      
       $output .= theme('unh_d1_drupal__course_section', 
         array('course_nid' => $course_nid,
           'course' => $course,
