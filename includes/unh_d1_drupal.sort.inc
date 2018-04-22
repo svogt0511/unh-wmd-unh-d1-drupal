@@ -22,10 +22,11 @@
 function unh_d1_drupal_sort_rr_sections($sections = array()) {
   $ret = array();
   
-  ddl($sections, '$sections - GOT HERE!!!');
-  
   if (!empty($sections)) {  
-    $ret = unh_d1_client_sort_sections_sdt($sections);
+    // $ret = unh_d1_client_sort_sections_by_semesterStartDateSectionTitle($sections);
+    // $ret = unh_d1_client_sort_sections_by_semesterSectionTitle($sections);
+    // $ret = unh_d1_client_sort_sections_by_startDateSectionTitle($sections);
+    $ret = unh_d1_client_sort_sections_by_sectionTitle($sections);
   }
   
   return $ret;

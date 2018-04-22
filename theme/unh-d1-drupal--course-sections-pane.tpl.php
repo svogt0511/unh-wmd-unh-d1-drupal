@@ -1,9 +1,7 @@
 <?php 
-ddl($variables, '$variables - COURSE SECTIONS PANE');
 if (!empty($sections)) {
   // sort the sections
   $sections = unh_d1_drupal_sort_rr_sections($sections);
-  ddl($sections, '$sections - TEMPLATE - sorting rr sections');
 ?> 
 <div class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <h1>RENDERING COURSE SECTIONS PANE</h1>
