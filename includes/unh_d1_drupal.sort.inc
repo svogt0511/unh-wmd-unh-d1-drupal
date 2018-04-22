@@ -19,14 +19,21 @@
  * Given a list of sections, returns them sorted by semester/start date/section title.
  * 
  */
-function unh_d1_drupal_sort_rr_sections($sections = array()) {
+function unh_d1_drupal_sort_rr_sections($sections = array(), 
+  $sort_option = UNH_D1_DRUPAL_BODY_SECTIONS_SORT_BY_SECTION_DATE_THEN_TITLE, 
+  $sort_direction = UNH_D1_DRUPAL_BODY_SECTIONS_SORT_ASCENDING) 
+{
   $ret = array();
   
-  if (!empty($sections)) {  
+  if (!empty($sections)) {
     // $ret = unh_d1_client_sort_sections_by_semesterStartDateSectionTitle($sections);
-    // $ret = unh_d1_client_sort_sections_by_semesterSectionTitle($sections);
-    // $ret = unh_d1_client_sort_sections_by_startDateSectionTitle($sections);
-    $ret = unh_d1_client_sort_sections_by_sectionTitle($sections);
+    if ($sort_option == UNH_D1_DRUPAL_BODY_SECTIONS_SORT_BY_SECTION_DATE_THEN_TITLE) {  
+      $ret = unh_d1_client_sort_sections_by_startDateSectionTitle($sections, $sort_direction);
+    } elseif ($sort_option == UNH_D1_DRUPAL_BODY_SECTIONS_SORT_BY_SECTION_TITLE) {
+      $ret = unh_d1_client_sort_sections_by_semesterSectionTitle($sections, $sort_direction);
+    } else {
+      
+    }
   }
   
   return $ret;
