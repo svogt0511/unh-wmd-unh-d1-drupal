@@ -263,33 +263,9 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
   
   $block = NULL;
   $node = menu_get_object();
-  ddl($conf, '$conf RENDERING COURSE SECTIONS PANE');
   if ($node->type == 'course') {
-    $body_section_fields = [];
-    foreach($conf as $key => $value) {
-      if (!empty($value)) {
-        if (($key == 'section_dates') ||
-            ($key == 'section_times') ||
-            ($key == 'section_tuition') ||
-            ($key == 'action_button') ||
-            ($key == 'section_locations') ||
-            ($key == 'section_times') ||
-            ($key == 'section_instructors') ||
-            ($key == 'section_contact_hours') ||
-            ($key == 'section_discounts') ||
-            ($key == 'section_notes') ||
-            ($key == 'section_ceus') ||
-            ($key == 'section_course_code') ||
-            ($key == 'section_number'))
-        {
-          $body_section_fields [$key] = $value;
-        }
-      }
-    }
-   
-    $config['body_section_fields'] = $body_section_fields;
-   ddl($config, '$config RENDERING COURSE SECTIONS PANE');
-  
+    $config = $conf;
+  ddl($config, '$config RENDERING COURSE SECTIONS PANE');
     // Render the content with either theme() or by building a render array.
     $block = new stdClass();
     $block->content = array(
@@ -309,26 +285,4 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
   }
   
   return $block;
-  
-/*  $block = new stdClass();
- 
-  if (isset($conf['nid'])) {
- 
-    $block = new stdClass();
-    if ( $conf['override_title'] == TRUE ) {
-      $block->title = $conf['override_title_text'];
-    }
-    else {
-      $block->title = NULL;
-    }
- 
-    $nid_match = array();
-    preg_match('/\[id: (\d*?)\]$/', $conf['nid'], $nid_match);
-    $node = node_load($nid_match[1]);
-
-    $block->content = node_view($node, 'teaser');
- 
-    return $block;
-  }
-  return NULL;*/
 }
