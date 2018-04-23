@@ -1,12 +1,19 @@
 <?php 
-ddl($variables, '$variables - AWESOME');
+ddl($variables, '$variables - COURSE SECTIONS PANE');
+if (!empty($sections)) {
+  // sort the sections
+  if ($config['section_sort']['sort']) {
+    $sections = unh_d1_drupal_sort_rr_sections($sections, $config['section_sort']['options'], $config['section_sort']['direction']);
+  }
 ?> 
-<div class="<?php print $classes; ddl($variables, '$variables - GOT HERE!!'); ?>"<?php print $attributes; ?>>
-  <h1>AWESOME!!!! GOT HERE!!! YEA!! YEA!! YEA!! YEA!!</h1>
-</div>
+<div class="<?php print $classes; ?>"<?php print $attributes; ?>>
+  <h1>RENDERING COURSE SECTIONS PANE</h1>
+  <div id="ajax-target-801725"></div>
+  <div id="ajax-target-801751"></div>  
+  <div id="ajax-target"></div>
 
-<div class='sections_pane'>
-  <div id='sectionAccordion' role='tablist' aria-multiselectable='true' class='sectionAccordion_class'>
+  <div class='sections_pane'>
+    <div id='sectionAccordion' role='tablist' aria-multiselectable='true' class='sectionAccordion_class'>
   
 <?php
   // @todo: get the $always_display_first_open flag from the panel settings
@@ -16,7 +23,6 @@ ddl($variables, '$variables - AWESOME');
   $output = '';
   foreach ($sections as $section) {
     $i++;
-
     // Should we display the first section box open or closed?
     $disp_open = ($first && !$always_display_first_closed);
     
@@ -26,7 +32,7 @@ ddl($variables, '$variables - AWESOME');
         unh_d1_client_sectionIsWaitlisted($section) ||
         unh_d1_client_sectionIsEnrollmentClosed($section) ||
         unh_d1_client_sectionIsFull($section)) {
-        
+      
       $output .= theme('unh_d1_drupal__course_section', 
         array('course_nid' => $course_nid,
           'course' => $course,
@@ -48,6 +54,11 @@ ddl($variables, '$variables - AWESOME');
   print($output);
 ?>
 
-  </div> <!--sectionAccordion-->
-</div> <!--sections_pane-->
+    </div> <!--sectionAccordion-->
+  </div> <!--sections_pane-->
+</div> <!--<?=$classes?>-->
+
+<?php
+}
+?>
 

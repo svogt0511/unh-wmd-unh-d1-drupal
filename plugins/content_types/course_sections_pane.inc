@@ -2,7 +2,9 @@
 
 /**
  * @file
- * Define a ctools plugin to D1 course section displays.
+ * Define a ctools plugin to D1 course section displays (right rail section list).
+ *
+ * See constants .inc file. 
  */
 
 /**
@@ -49,9 +51,53 @@ function course_sections_pane_admin_info($subtype, $conf, $context = NULL) {
 function course_sections_pane_content_type_edit_form($form, &$form_state) {
 
   $conf = $form_state['conf'];
+  
+  $form['section_sort'] = array(
+    '#tree' => TRUE,
+    '#type' => 'fieldset',
+    '#title' => t('Section Sort Settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,  
+  );
+   
+  $form['section_sort']['sort'] = array(
+    '#title' => t('Sort Sections'),
+    '#type' => 'checkbox',
+    '#return_value' => 1, 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_sort']['sort']), 
+  );
+  
+  $form['section_sort']['options'] = array(
+    '#type' => 'radios',
+    '#title' => t('Sort Options'),
+    '#options' => array(
+      t('Sort by Start Date then by Section Title'),
+      t('Sort by Section Title'),
+    ),
+    '#default_value' => (($form_state['op'] == 'add') ? 0 : $conf['section_sort']['options']), 
+  );  
+  
+  $form['section_sort']['direction'] = array(
+    '#type' => 'radios',
+    '#title' => t('Sort Direction'),
+    '#options' => array(
+      t('Ascending'),
+      t('Descending'),
+    ),
+    '#default_value' => (($form_state['op'] == 'add') ? 0 : $conf['section_sort']['direction']), 
+  );
 
   // the drupal checkboxes form field definition
-  $form['section_dates'] = array(
+  $form['body_section_fields'] = array(
+    '#tree' => TRUE,
+    '#type' => 'fieldset',
+    '#title' => t('Section Body Settings'),
+    '#collapsible' => FALSE,
+    '#collapsed' => false,  
+  );
+
+  // the drupal checkboxes form field definition
+  $form['body_section_fields']['section_dates'] = array(
     '#tree' => TRUE,
     '#type' => 'fieldset',
     '#title' => t('Section Dates'),
@@ -59,24 +105,24 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
     '#collapsed' => TRUE,  
   );
 
-  $form['section_dates']['show'] = array(
+  $form['body_section_fields']['section_dates']['show'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show Section Dates'),
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_dates']['show']), 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_dates']['show']), 
   );
   
-  $form['section_dates']['options'] = array(
+  $form['body_section_fields']['section_dates']['options'] = array(
     '#type' => 'radios',
     '#title' => t('Date Options'),
     '#options' => array(
       t('Start Date Only'),
       t('Start and End Dates'),
     ),
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_dates']['options']),
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_dates']['options']),
   );
   
-  $form['section_times'] = array(
+  $form['body_section_fields']['section_times'] = array(
     '#tree' => TRUE,
     '#type' => 'fieldset',
     '#title' => t('Section Times'),
@@ -84,24 +130,24 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
     '#collapsed' => TRUE,  
   );
    
-  $form['section_times']['show'] = array(
+  $form['body_section_fields']['section_times']['show'] = array(
     '#title' => t('Show Section Times'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_times']['show']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_times']['show']) , 
   );
   
-  $form['section_times']['options'] = array(
+  $form['body_section_fields']['section_times']['options'] = array(
     '#type' => 'radios',
     '#title' => t('Time Options'),
     '#options' => array(
       t('Start Time Only'),
       t('Start and End Times'),
     ),
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_times']['options']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_times']['options']) , 
   );
   
-  $form['section_tuition'] = array(
+  $form['body_section_fields']['section_tuition'] = array(
     '#tree' => TRUE,
     '#type' => 'fieldset',
     '#title' => t('Section Tuition'),
@@ -109,92 +155,106 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
     '#collapsed' => TRUE,  
   );
 
-  $form['section_tuition']['show'] = array(
+  $form['body_section_fields']['section_tuition']['show'] = array(
     '#title' => t('Show Section Tuition'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_tuition']['show']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_tuition']['show']) , 
   );
   
-  $form['section_tuition']['options_label'] = array(
+  $form['body_section_fields']['section_tuition']['options_label'] = array(
     '#markup' => '<div class="options-label">Tuition Options</div>'
   );
 
-  $form['section_tuition']['label'] = array(
+  $form['body_section_fields']['section_tuition']['label'] = array(
     '#type' => 'textfield',
     '#title' => t('Tuition Label'),
-    '#default_value' => (($form_state['op'] == 'add') ? "Cost:" : $conf['section_tuition']['label']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? "Cost:" : $conf['body_section_fields']['section_tuition']['label']) , 
   );
 
-  $form['section_tuition']['published_code'] = array(
+  $form['body_section_fields']['section_tuition']['published_code'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show Published Cost Code'),
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_tuition']['published_code']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_tuition']['published_code']) , 
   );
   
-  $form['action_button'] = array(
+  $form['body_section_fields']['action_button'] = array(
     '#title' => t('Show Action Button'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['action_button']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['action_button']) , 
   ); 
  
-  $form['section_locations'] = array(
+  $form['body_section_fields']['section_locations'] = array(
     '#title' => t('Show Section Locations'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_locations']), 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_locations']), 
   );
     
-  $form['section_instructors'] = array(
+  $form['body_section_fields']['section_instructors'] = array(
     '#title' => t('Show Section Instructors'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_instructors']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_instructors']) , 
   );
 
-  $form['section_contact_hours'] = array(
+  $form['body_section_fields']['section_contact_hours'] = array(
     '#title' => t('Show Section Contact Hours'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_contact_hours']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_contact_hours']) , 
   );
 
-  $form['section_discounts'] = array(
+  $form['body_section_fields']['section_discounts'] = array(
     '#title' => t('Show Section Discounts'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_discounts']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_discounts']) , 
   );
   
-  $form['section_notes'] = array(
+  $form['body_section_fields']['section_notes'] = array(
     '#title' => t('Show Section Notes'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_notes']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_notes']) , 
   );
   
-  $form['section_ceus'] = array(
+  $form['body_section_fields']['section_ceus'] = array(
     '#title' => t('Show Section CEUs'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_ceus']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_ceus']) , 
   );
   
-  $form['section_course_code'] = array(
+  $form['body_section_fields']['section_course_code'] = array(
     '#title' => t('Show Course Code'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_course_code']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_course_code']) , 
   );
 
-  $form['section_number'] = array(
+  $form['body_section_fields']['section_number'] = array(
     '#title' => t('Show Section Number'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_number']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_number']) , 
   );
+  
+  $form['first_section_always_closed'] = array(
+    '#title' => t('First Section Always Closed'),
+    '#type' => 'checkbox',
+    '#return_value' => 1, 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['first_section_always_closed']), 
+  ); 
+
+  $form['section_status_noncached'] = array(
+    '#title' => t('Noncached Section Status'),
+    '#type' => 'checkbox',
+    '#return_value' => 1, 
+    '#default_value' => (($form_state['op'] == 'add') ? 0 : $conf['section_status_noncached']), 
+  );   
 
   return $form;
 }
@@ -219,69 +279,62 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
   $node = menu_get_object();
   
   if ($node->type == 'course') {
-    $body_section_fields = [];
-    foreach($conf as $key => $value) {
-      if (!empty($value)) {
-        if (($key == 'section_dates') ||
-            ($key == 'section_times') ||
-            ($key == 'section_tuition') ||
-            ($key == 'action_button') ||
-            ($key == 'section_locations') ||
-            ($key == 'section_times') ||
-            ($key == 'section_instructors') ||
-            ($key == 'section_contact_hours') ||
-            ($key == 'section_discounts') ||
-            ($key == 'section_notes') ||
-            ($key == 'section_ceus') ||
-            ($key == 'section_course_code') ||
-            ($key == 'section_number'))
-        {
-          $body_section_fields [$key] = $value;
-        }
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $course_code = $wrapper->field_course_code->value();
+    $course = NULL;
+    $sections = array();
+    $courseId = 0;
+    $sectionIds = array();
+    
+    // Get course and section structures
+    if (!empty($course_code)) {
+      $information_level = 'full';
+      $program_area = unh_d1_drupal_settings_program_area();
+      
+      $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area));
+      
+      if (!empty($course)) {
+        $sections = unh_d1_client_searchCourseSections($course_code, array($program_area), $information_level);
+        
+        $courseId = unh_d1_client_getcourseObjectId($course);
+        $sectionIds = unh_d1_client_getSectionArrayObjectIds($sections);
       }
     }
     
-    $config['body_section_fields'] = $body_section_fields;
-  
+ddl($course, '$course - RENDER!');
+ddl($sections, '$sections - RENDER!');
+    // Get config settings.
+    $config = $conf;
+
     // Render the content with either theme() or by building a render array.
     $block = new stdClass();
     $block->content = array(
-      // Render with theme().
+      // Render with theme() - example.
       // $args = array('course_nid' => '160', 'sections' => '20') + $panel_args;
       // '#markup' => theme('unh_d1_drupal__course_sections_pane', $args)
       // '#markup' => d1pdt_courseView_infoPane($panel_args[0])
 
-      // Build a render array.
+      // Render with a render array - example.
       '#theme' => 'unh_d1_drupal__course_sections_pane',
       '#course_nid' => $node->nid,
-      '#course' => NULL,
-      '#sections' => array(),
-      '#config' => $config
+      '#course' => $course,
+      '#sections' => $sections,
+      '#config' => $config,
+      '#attached' => array(
+        'js'=> array(
+          drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.course.js',
+          array(
+            'data' => array(
+              'courseId' => $courseId,
+              'sectionIds' => $sectionIds,
+              'section_status' => 'SECTION IS AVAILABLE'
+            ),
+            'type' => 'setting',
+          ),
+        )
+      )
     );
-    
   }
   
   return $block;
-  
-/*  $block = new stdClass();
- 
-  if (isset($conf['nid'])) {
- 
-    $block = new stdClass();
-    if ( $conf['override_title'] == TRUE ) {
-      $block->title = $conf['override_title_text'];
-    }
-    else {
-      $block->title = NULL;
-    }
- 
-    $nid_match = array();
-    preg_match('/\[id: (\d*?)\]$/', $conf['nid'], $nid_match);
-    $node = node_load($nid_match[1]);
-
-    $block->content = node_view($node, 'teaser');
- 
-    return $block;
-  }
-  return NULL;*/
 }
