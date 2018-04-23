@@ -14,10 +14,27 @@
 /******************************************************************************
  * Get 'helper' functions and constants.
  ******************************************************************************/
+require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.ajax.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.constants.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.settings.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.sort.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.utils.inc';
+
+/*
+function unh_d1_drupal_preprocess_node(&$vars) {
+  // Add JS & CSS by node type
+  $testvar = 'MAKING MY AJAX CALL!!';
+  ddl('got here!');
+    ddl($vars, '$vars - pre got here!!');
+  if( $vars['type'] == 'course') {
+    ddl('got here! 222');
+
+    drupal_add_js(array('unh_d1_drupal' => array('testvar' => $testvar)), array('type' => 'setting'));
+    drupal_add_js(drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.course.js');
+  }
+}
+*/
+
 /**
  * Implements hook_menu().
  */
@@ -42,6 +59,17 @@ function unh_d1_drupal_menu() {
     'page arguments' => array('unh_d1_drupal_settings_form'),
     'access arguments' => array('administer unh_d1_drupal'),
     'type' => MENU_NORMAL_ITEM,
+  );
+  
+  // Add callback for non-cached loading of status (ajax).
+  $items['unh_d1_drupal/ajax/get_section_status/%/%'] = array(
+  //$items['unh_d1_drupal/ajax/get_section_status'] = array(
+    'page callback' => 'unh_d1_drupal_ajax_get_section_status', // Render HTML.
+    'page arguments' => array(3, 4),
+    //page arguments' => array('abc'),
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('access content'),
+    'delivery callback' => 'unh_d1_drupal_ajax_get_section_status_callback',  // Magic goes here.
   );
 
   return $items;
@@ -212,36 +240,14 @@ function unh_d1_drupal_preprocess_panels_pane(&$vars) {
  *  $course_nid = '0',                      // from page context
  *  $course = NULL,                         // from API (course node => course code)
  *  $sections = array(),                    // from API (course)
- *  $body_section_fields = array()          // from pane settings
+ *  $config = array()          // from pane settings
  *
  * $course_nid and $body_section_fields already rendered from panel settings.
  */
-function unh_d1_drupal_preprocess_unh_d1_drupal__course_sections_pane(&$vars) {  
-  $course_nid = $vars['course_nid'];
-  $course = NULL;
-  $sections = [];
-  $config = $vars['config'];
-  
-  $information_level = 'full';
-  $program_area = unh_d1_drupal_settings_program_area();
-  
-  if (!empty($course_nid)) {
-    $node = node_load($course_nid);
-    $wrapper = entity_metadata_wrapper('node', $node);
-    
-    if (!empty ($wrapper)) {
-      $course_code = $wrapper->field_course_code->value();
-      $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area));
-      if (!empty($course_code) && !empty($course)) {
-        $sections = unh_d1_client_searchCourseSections($course_code, array($program_area), $information_level);      
-      }
-    }
-  }
-
-  $vars['course_nid'] = $course_nid;
-  $vars['course'] = $course;
-  $vars['sections'] = $sections;
-  $vars['config'] = $config;
+function unh_d1_drupal_preprocess_unh_d1_drupal__course_sections_pane(&$vars) { 
+  // ddl("YYYY - GOT HERE PREPROCESS COURSE SECTIONS PANE! START!");
+  // ddl($vars, '$vars - preprocess a section block');
+  // ddl("YYYY - GOT HERE PREPROCESS COURSE SECTIONS PANE! END!");
 }
 
 /**
@@ -255,7 +261,7 @@ function unh_d1_drupal_preprocess_unh_d1_drupal__course_sections_pane(&$vars) {
  *  $course_nid = '0',                      // from page context
  *  $course = NULL,                         // from API (course node => course code)
  *  $sections = array(),                    // from API (course)
- *  $body_section_fields = array()          // from pane settings
+ *  $config = array()          // from pane settings
  *
  * $course_nid and $body_section_fields already rendered from panel settings.
  */

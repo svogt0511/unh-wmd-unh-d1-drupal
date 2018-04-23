@@ -1,5 +1,5 @@
 <?php 
-ddl($variables, '$variables - course-sections-pane');
+ddl($variables, '$variables - COURSE SECTIONS PANE');
 if (!empty($sections)) {
   // sort the sections
   if ($config['section_sort']['sort']) {
@@ -8,6 +8,9 @@ if (!empty($sections)) {
 ?> 
 <div class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <h1>RENDERING COURSE SECTIONS PANE</h1>
+  <div id="ajax-target-801725"></div>
+  <div id="ajax-target-801751"></div>  
+  <div id="ajax-target"></div>
 
   <div class='sections_pane'>
     <div id='sectionAccordion' role='tablist' aria-multiselectable='true' class='sectionAccordion_class'>
