@@ -64,7 +64,7 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
     '#title' => t('Sort Sections'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_sort']['sort']) , 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_sort']['sort']), 
   );
   
   $form['section_sort']['options'] = array(
@@ -241,6 +241,20 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
     '#return_value' => 1, 
     '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_number']) , 
   );
+  
+  $form['first_section_always_closed'] = array(
+    '#title' => t('First Section Always Closed'),
+    '#type' => 'checkbox',
+    '#return_value' => 1, 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['first_section_always_closed']), 
+  ); 
+
+  $form['section_status_noncached'] = array(
+    '#title' => t('Noncached Section Status'),
+    '#type' => 'checkbox',
+    '#return_value' => 1, 
+    '#default_value' => (($form_state['op'] == 'add') ? 0 : $conf['section_status_noncached']), 
+  );   
 
   return $form;
 }

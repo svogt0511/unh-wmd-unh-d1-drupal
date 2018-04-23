@@ -666,6 +666,11 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
  *
  */
  
+/* Edit buttons. */
+.page-admin .ctools-modal-content #edit-buttons {
+  margin-top: 10px;
+}
+ 
 /* Section sort styles. */
 .page-admin .ctools-modal-content fieldset#edit-section-sort.form-wrapper {
   margin: 10px 0;
