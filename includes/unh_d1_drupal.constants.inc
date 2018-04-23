@@ -51,10 +51,10 @@ This feature adds the necessary code for tracking of enrollment button clicks.  
 
 
 /**
- * MISC CONSTANTS.
+ * TIME CONSTANTS.
  */
 define("UNH_D1_DRUPAL_DATE_FORMAT", "M-d-Y");
-define("UNH_D1_DRUPAL_TIME_FORMAT", "hh [.:] MM space? meridian");
+define("UNH_D1_DRUPAL_TIME_FORMAT", "h:ia");
 
 
 /**
@@ -63,9 +63,16 @@ define("UNH_D1_DRUPAL_TIME_FORMAT", "hh [.:] MM space? meridian");
 define("UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_DATE_ONLY", 0);
 define("UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_AND_END_DATE", 1);
  
+define("UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_TIME_ONLY", 0);
+define("UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_AND_END_TIME", 1);
 
+/* RR SORT CONSTANTS - style */
+define("UNH_D1_DRUPAL_BODY_SECTIONS_SORT_BY_SECTION_DATE_THEN_TITLE", 0);
+define("UNH_D1_DRUPAL_BODY_SECTIONS_SORT_BY_SECTION_TITLE", 1);
 
-
+/* SORT CONSTANTS - direction */
+define("UNH_D1_DRUPAL_SORT_ASCENDING", 0);
+define("UNH_D1_DRUPAL_SORT_DESCENDING", 1);
 
 
 

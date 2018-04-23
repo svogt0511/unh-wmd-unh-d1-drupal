@@ -660,65 +660,110 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
 }
  
  
- /**
+/**
  *
- * Pane config form styles.
+ * Sections pane config form styles.
  *
  */
-
-.page-admin .ctools-modal-content #edit-section-dates .fieldset-wrapper {
-  margin-left: 5px;
-
+ 
+/* Edit buttons. */
+.page-admin .ctools-modal-content #edit-buttons {
+  margin-top: 10px;
+}
+ 
+/* Section sort styles. */
+.page-admin .ctools-modal-content fieldset#edit-section-sort.form-wrapper {
+  margin: 10px 0;
 }
 
-.page-admin .ctools-modal-content #edit-section-dates .fieldset-wrapper .form-type-radios.form-item-section-dates-options {
+.page-admin .ctools-modal-content fieldset#edit-section-sort .fieldset-wrapper {
+  margin: 0 0;
+  padding-left: 10px;
+}
+
+.page-admin .ctools-modal-content fieldset#edit-section-sort .fieldset-wrapper .form-type-radios.form-item-section-sort-options {
+   margin-top: 5px;
+}
+
+.page-admin .ctools-modal-content fieldset#edit-section-sort .fieldset-wrapper .form-item.form-item-section-sort-options #edit-section-sort-options{
+  padding-left: 10px;
+}
+
+.page-admin .ctools-modal-content fieldset#edit-section-sort .fieldset-wrapper .form-type-radios.form-item-section-sort-direction {
+   margin-top: 5px;
+}
+
+.page-admin .ctools-modal-content fieldset#edit-section-sort .fieldset-wrapper .form-item.form-item-section-sort-direction #edit-section-sort-direction{
+  padding-left: 10px;
+} 
+ 
+/* Section body styles. */
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields.form-wrapper {
+  border: 1px solid lightgray;
+  margin: 10px 0;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields .fieldset-wrapper fieldset {
+  margin: 5px 0;
+}
+
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields .fieldset-wrapper fieldset:first-child {
   margin-top: 5px;
-
 }
 
-.page-admin .ctools-modal-content #edit-section-dates .fieldset-wrapper .form-type-radios.form-item-section-dates-options .form-radios {
-  margin-left: 5px;
-
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields .fieldset-wrapper fieldset:last-of-type {
+  margin-bottom: 10px;
 }
 
-.page-admin .ctools-modal-content #edit-section-times .fieldset-wrapper {
-  margin-left: 5px;
-
+/* Dates field set. */
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-dates .fieldset-wrapper {
+  padding-left: 10px;
 }
 
-.page-admin .ctools-modal-content #edit-section-times .fieldset-wrapper .form-type-radios.form-item-section-times-options {
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-dates .fieldset-wrapper .form-item-body-section-fields-section-dates-options.form-type-radios {
+   margin-top: 5px;
+}
+
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-dates .fieldset-wrapper .form-item-body-section-fields-section-dates-options.form-type-radios #edit-body-section-fields-section-dates-options {
+  padding-left: 10px;
+}
+
+/* Times field set. */
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-times .fieldset-wrapper {
+  padding-left: 10px;
+}
+
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-times .fieldset-wrapper .form-item-body-section-fields-section-times-options.form-type-radios {
   margin-top: 5px;
-
 }
 
-.page-admin .ctools-modal-content #edit-section-times .fieldset-wrapper .form-type-radios.form-item-section-times-options .form-radios {
-  margin-left: 5px;
-
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-times .fieldset-wrapper .form-item-body-section-fields-section-times-options.form-type-radios #edit-body-section-fields-section-times-options{
+  padding-left: 10px;
 }
 
-
-.page-admin .ctools-modal-content #edit-section-tuition .fieldset-wrapper {
-  margin-left: 5px;
-
+/* Tuition field set. */
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-tuition .fieldset-wrapper {
+  padding-left: 10px;
 }
 
-
-.page-admin .ctools-modal-content #edit-section-tuition .fieldset-wrapper .options-label {
-  font-size: 12px;
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-tuition .fieldset-wrapper .options-label {
+  margin-top: 5px;
   font-weight: 700;
-  margin-top: 5px;
   color: #555;
 }
 
-.page-admin .ctools-modal-content #edit-section-tuition .fieldset-wrapper .form-item-section-tuition-label {
-  margin-left: 5px;
-
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-tuition .fieldset-wrapper .form-item-body-section-fields-section-tuition-label {
+ margin-left: 10px;
 }
 
-.page-admin .ctools-modal-content #edit-section-tuition .fieldset-wrapper .form-item-section-tuition-published-code {
-  margin-left: 5px;
-
+.page-admin .ctools-modal-content fieldset#edit-body-section-fields fieldset#edit-body-section-fields-section-tuition .fieldset-wrapper .form-item-body-section-fields-section-tuition-published-code {
+  margin-left: 10px;
 }
+
+
+
   
 
 

@@ -115,9 +115,6 @@ if($body_section_fields['section_dates']['show']){
   foreach($section_schedules as $section_schedule) {
     $start_date = unh_d1_client_getSectionScheduleStartDate($section_schedule);
     $end_date = unh_d1_client_getSectionScheduleEndDate($section_schedule);
-    ddl($section_schedule, '$section_schedule - DATES!');
-    ddl($start_date, '$start_date - DATES!');
-    ddl($end_date, '$end_date - DATES!');
     if (($body_section_fields['section_dates']['options'] == UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_AND_END_DATE) && 
       !empty($start_date) && !empty($end_date)) 
     {
@@ -151,7 +148,46 @@ if($body_section_fields['section_dates']['show']){
   }
 }
 
-ddl($dates, '$dates - SECTION TEMPLATE');
+$section_times = "";
+if($body_section_fields['section_times']['show']) {
+  $section_schedules = unh_d1_client_getSectionSchedules($section);
+  $times = [];
+  foreach($section_schedules as $section_schedule) {
+    $start_time = unh_d1_client_getSectionScheduleStartTime($section_schedule);
+    $end_time = unh_d1_client_getSectionScheduleEndTime($section_schedule);
+    if (($body_section_fields['section_times']['options'] == UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_AND_END_TIME) && 
+      !empty($start_time) && !empty($end_time)) 
+    {
+      if ($start_time == $end_time) {
+        $times[] = $start_time->format(UNH_D1_DRUPAL_TIME_FORMAT);
+      } else {
+        $times[] = $start_time->format(UNH_D1_DRUPAL_TIME_FORMAT) . ' - ' . $end_time->format(UNH_D1_DRUPAL_TIME_FORMAT);
+      }
+    } elseif (($body_section_fields['section_times']['options'] == UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_TIME_ONLY) && 
+      !empty($start_time)) { 
+      $times[] = $start_time->format(UNH_D1_DRUPAL_TIME_FORMAT);
+    }
+  }
+  
+  if (!empty($times)) {
+    $times_str = implode('<br>', $times);
+    $section_times = "
+<div class='section sectionTimes'>
+  <div class='row'>
+    <div class='header col-xs-5'>
+      <label for='sectionTimes$i'>Times:</label>
+    </div>
+    <div class='content col-xs-7'>
+      <span id='sectionTimes$i'>
+        " . $times_str . "
+      </span>
+    </div>
+  </div>
+</div>
+";
+  }
+}
+
 // UNH_D1_DRUPAL_DATE_FORMAT
   //$section_dates .= _d1pdt_sectionDates_block($section, $i, (array_key_exists('section_dates', $body_section_fields ) ? $body_section_fields['section_dates'] : null));
 
@@ -162,7 +198,8 @@ $body_output .= "
   <div class='card-block'>" . 
     $action_button . "
     <div class='section sectionDescription'>" .
-      $section_dates . "
+      $section_dates . 
+      $section_times . "
     </div>
   </div>
 </div>
