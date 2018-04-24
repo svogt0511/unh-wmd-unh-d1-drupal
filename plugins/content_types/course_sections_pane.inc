@@ -243,7 +243,7 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
   );
   
   $form['disp_open'] = array(
-    '#title' => t('Display First Section Open'),
+    '#title' => t('Display First Section Expanded'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
     '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['disp_open']), 
@@ -320,7 +320,7 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
       '#config' => $config,
       '#attached' => array(
         'js'=> array(
-          drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.course.js',
+          drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.sections_pane.js',
           array(
             'data' => array(
               'courseId' => $courseId,
