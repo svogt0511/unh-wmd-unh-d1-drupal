@@ -242,15 +242,15 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
     '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['body_section_fields']['section_number']) , 
   );
   
-  $form['first_section_always_closed'] = array(
-    '#title' => t('First Section Always Closed'),
+  $form['disp_open'] = array(
+    '#title' => t('Display First Section Open'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['first_section_always_closed']), 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['disp_open']), 
   ); 
 
   $form['section_status_noncached'] = array(
-    '#title' => t('Noncached Section Status'),
+    '#title' => t('Don\'t Cache Section Status'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
     '#default_value' => (($form_state['op'] == 'add') ? 0 : $conf['section_status_noncached']), 
@@ -301,8 +301,6 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
       }
     }
     
-ddl($course, '$course - RENDER!');
-ddl($sections, '$sections - RENDER!');
     // Get config settings.
     $config = $conf;
 
