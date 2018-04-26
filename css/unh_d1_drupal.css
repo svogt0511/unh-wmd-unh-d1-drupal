@@ -439,6 +439,10 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
     margin-bottom: 0;
 }
 
+.card .sectionDescription > .section.courseTuition .published-code {
+    font-style: italic;
+}
+
 .card .bogus-class {
     margin-top: 10px;
 }

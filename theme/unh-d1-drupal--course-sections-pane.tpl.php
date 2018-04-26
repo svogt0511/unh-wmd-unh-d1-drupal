@@ -1,5 +1,7 @@
 <?php 
+ddl("COURSE SECTIONS PANE TEMPLATE BEGIN");
 ddl($variables, '$variables - COURSE SECTIONS PANE');
+ddl("COURSE SECTIONS PANE TEMPLATE END");
 if (!empty($sections)) {
   // sort the sections
   if ($config['section_sort']['sort']) {
@@ -17,14 +19,14 @@ if (!empty($sections)) {
   
 <?php
   // @todo: get the $always_display_first_open flag from the panel settings
-  $always_display_first_closed = TRUE;
   $i = 0;
   $first = TRUE; 
+  $disp_open = $config['disp_open'];
   $output = '';
   foreach ($sections as $section) {
     $i++;
     // Should we display the first section box open or closed?
-    $disp_open = ($first && !$always_display_first_closed);
+    $disp_open = ($first && $disp_open);
     
     
     if (unh_d1_client_sectionIsAvailable($section) ||
@@ -42,9 +44,8 @@ if (!empty($sections)) {
           'disp_open' => $disp_open)
       );
 
-      if ($disp_open) {
-        $first = FALSE;
-      }
+      $disp_open = FALSE;
+      $first = FALSE;
     } else {
       // Commented this out - shows nothing on 'section unavailable'.
       $output .= "<!-- <div class='section-unavailable'>$sectionTitle (UNAVAILABLE $sectionSemester)</div> -->";
