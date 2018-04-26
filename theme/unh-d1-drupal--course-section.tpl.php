@@ -192,16 +192,19 @@ if($body_section_fields['section_times']['show']) {
 // GET SECTION TUITION
 $section_tuition = "";
 if($body_section_fields['section_tuition']['show']) {
-  $tuition_items = unh_d1_client_getSectionTuitionItems($section);
-  $tuition = array_column($tuition_items['tuition_items'], 'amount');
-  
-  ddl($tuition_items, '$tuition_items');
-  ddl($tuition, '$tuition');
   $field_label = (!empty($body_section_fields['section_tuition']['label']) ? $body_section_fields['section_tuition']['label'] : 'Tuition:');
   $show_published_code = $body_section_fields['section_tuition']['published_code'];
+  $tuition_items = unh_d1_client_getSectionTuitionInfo($section);  
+  $tuition = [];
+  foreach($tuition_items as $tuition_item) {
+    $amounts = array_column($tuition_item['items'], 'amount');
+    $tuition[] = implode(($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '') . '<br>', $amounts) .
+      ($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '');
+  }
+  
+  //$show_published_code = $body_section_fields['section_tuition']['published_code'];
   if (!empty($tuition)) {
-    $tuition_str = implode('<br>', $tuition) . 
-      ($show_published_code ? (!empty($tuition_items['published_code']) ? '<br>'. $tuition_items['published_code'] : '') : '');
+    $tuition_str = implode('<br>', $tuition);
     $section_tuition = "
 <div class='section item courseTuition'>
   <div class='row'>
@@ -218,8 +221,6 @@ if($body_section_fields['section_tuition']['show']) {
 ";
   }
 }
-
-ddl($tuition_str, '$tuition_str');
 
 // UNH_D1_DRUPAL_DATE_FORMAT
   //$section_dates .= _d1pdt_sectionDates_block($section, $i, (array_key_exists('section_dates', $body_section_fields ) ? $body_section_fields['section_dates'] : null));

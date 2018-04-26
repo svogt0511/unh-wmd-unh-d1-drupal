@@ -27,7 +27,6 @@ function unh_d1_drupal_preprocess_node(&$vars) {
   ddl('got here!');
     ddl($vars, '$vars - pre got here!!');
   if( $vars['type'] == 'course') {
-    ddl('got here! 222');
 
     drupal_add_js(array('unh_d1_drupal' => array('testvar' => $testvar)), array('type' => 'setting'));
     drupal_add_js(drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.course.js');
