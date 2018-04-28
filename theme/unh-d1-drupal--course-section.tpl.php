@@ -78,8 +78,7 @@ if($body_section_fields['action_button']){
     
   } elseif (unh_d1_client_sectionIsNoLongerAvailable($section)) {
   } elseif (unh_d1_client_sectionIsFull($section)) {
-    //$action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_wait_list_url($section) . '">Request Information</a>';  
-    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="https://unhtestpv.destinysolutions.com/public/student/studentRequestInformation.do?method=edit&type=0&courseNumber=798519&notify=section">Request Information</a>';  
+    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Request Information</a>';  
   } elseif (unh_d1_client_sectionIsEnrollmentClosed($section)) {
   
   } else {
