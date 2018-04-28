@@ -32,7 +32,7 @@ function unh_d1_drupal_init() {
     'd1ClientDomainPublic' => unh_d1_client_settings_public_domain()
   );
   drupal_add_js(array('unh_d1_drupal' => $settings), array('type' => 'setting'));
-  drupal_add_js(drupal_get_path('module', 'unh_d1_drupal') . 'js/unh_d1_drupal.js');
+  drupal_add_js(drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.js');
 }
 
 /*
@@ -112,8 +112,9 @@ function unh_d1_drupal_permission() {
 *
 * Adds autocomplete to the 'course code' field.
 *
-* @todo - delete this:
-* Deletes access to the 'location' field??? 
+* @todo: 
+*   - Deletes access to the 'location' field??? 
+*   - finish bringing in form_alter code from d1pdt, training.
 */   
 function unh_d1_drupal_form_course_node_form_alter(&$form, &$form_state, $form_id) {
 
@@ -123,21 +124,14 @@ function unh_d1_drupal_form_course_node_form_alter(&$form, &$form_state, $form_i
       array('system', 'ui.autocomplete'),
     ),
     'js' => array(
-      array(
-        'type' => 'setting',
-        'data' => array('d1client' => $js_settings),
-      ),
       drupal_get_path('module','unh_d1_drupal') . '/js/unh_d1_drupal.course_node.js',
     ),
   );
 
   $form['title']['#autocomplete_path'] = 'title/autocomplete';
   $form['field_course_code']['und'][0]['value']['#attributes']['readonly'] = 'readonly';
-  
-  ddl($form, '$form');
-  ddl($js_settings, '$js_settings');
 
-  // If you ever delete the location field, get rid of this line.
+  // @todo: if you ever delete the location field, get rid of this line.
   $form['field_location']['#access'] = FALSE;
   
 }
