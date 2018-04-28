@@ -25,6 +25,8 @@ $output = '';
   $status = '';
   if (unh_d1_client_sectionIsWaitlisted($section)) {
     $status = '<div class="section-wait-list-status" style="5px 0 0 0">Wait List</div>';
+  } elseif (unh_d1_client_sectionIsFull($section)) {
+    $status = '<div class="section-full-status" style="5px 0 0 0">Full</div>';
   } elseif (unh_d1_client_sectionIsEnrollmentClosed($section)) {
     $status = '<div class="section-enrollment-closed-status" style="5px 0 0 0">Enrollment Closed</div>';
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
@@ -75,9 +77,9 @@ if($body_section_fields['action_button']){
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
     
   } elseif (unh_d1_client_sectionIsNoLongerAvailable($section)) {
-    
   } elseif (unh_d1_client_sectionIsFull($section)) {
-  
+    //$action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_wait_list_url($section) . '">Request Information</a>';  
+    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="https://unhtestpv.destinysolutions.com/public/student/studentRequestInformation.do?method=edit&type=0&courseNumber=798519&notify=section">Request Information</a>';  
   } elseif (unh_d1_client_sectionIsEnrollmentClosed($section)) {
   
   } else {

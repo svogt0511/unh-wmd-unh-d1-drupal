@@ -16,9 +16,24 @@
  ******************************************************************************/
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.ajax.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.constants.inc';
+require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.course_node.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.settings.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.sort.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.utils.inc';
+
+function unh_d1_drupal_init() {
+    
+  // Allows us to pass variables from php to javascript.  We need this in order to make
+  // calls to the d1 api from javascript (for ajax mapping of course title to course code.
+  $settings = array(
+    'd1ClientWebserviceURL' => unh_d1_client_webservice_path(),
+    'd1ClientDomainFE' => unh_d1_client_settings_fe_domain(),
+    'd1ClientDomainBE' => unh_d1_client_settings_be_domain(),
+    'd1ClientDomainPublic' => unh_d1_client_settings_public_domain()
+  );
+  drupal_add_js(array('unh_d1_drupal' => $settings), array('type' => 'setting'));
+  drupal_add_js(drupal_get_path('module', 'unh_d1_drupal') . 'js/unh_d1_drupal.js');
+}
 
 /*
 function unh_d1_drupal_preprocess_node(&$vars) {
@@ -39,6 +54,12 @@ function unh_d1_drupal_preprocess_node(&$vars) {
  */
 function unh_d1_drupal_menu() {
   $items = array();
+  
+  $items['title/autocomplete'] = array(
+    'page callback' => '_unh_d1_drupal_title_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
 
   // Admin main page for d1 config.
   $items['admin/config/unh-d1'] = array(
@@ -85,6 +106,42 @@ function unh_d1_drupal_permission() {
     ),
   );
 }
+
+/**
+* Implements hook_form_alter() for the course node edit form.
+*
+* Adds autocomplete to the 'course code' field.
+*
+* @todo - delete this:
+* Deletes access to the 'location' field??? 
+*/   
+function unh_d1_drupal_form_course_node_form_alter(&$form, &$form_state, $form_id) {
+
+  // Autocomplete for course content type (course title)
+  $form['title']['#attached'] = array(
+    'library' => array(
+      array('system', 'ui.autocomplete'),
+    ),
+    'js' => array(
+      array(
+        'type' => 'setting',
+        'data' => array('d1client' => $js_settings),
+      ),
+      drupal_get_path('module','unh_d1_drupal') . '/js/unh_d1_drupal.course_node.js',
+    ),
+  );
+
+  $form['title']['#autocomplete_path'] = 'title/autocomplete';
+  $form['field_course_code']['und'][0]['value']['#attributes']['readonly'] = 'readonly';
+  
+  ddl($form, '$form');
+  ddl($js_settings, '$js_settings');
+
+  // If you ever delete the location field, get rid of this line.
+  $form['field_location']['#access'] = FALSE;
+  
+}
+
 
 /******************************************************************************
  * Form constructor for the UNH D1 Drupal admin settings form.

@@ -2,7 +2,7 @@
 
 // 'Back to top' button behavior on course-search-results pages
 (function ($) {
-  Drupal.behaviors.d1pdt = {
+  Drupal.behaviors.unh_d1_drupal = {
     attach: function (context, settings) {
 
       // Implements the 'back to top' button on course-search-results pages.
@@ -45,9 +45,6 @@
     }
 
   };
-
-
-
 }(jQuery));
 
 function removeQueryStringParameter(key, url) {
