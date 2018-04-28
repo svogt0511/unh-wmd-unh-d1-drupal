@@ -21,19 +21,17 @@ require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drup
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.sort.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.utils.inc';
 
-function unh_d1_drupal_init() {
     
-  // Allows us to pass variables from php to javascript.  We need this in order to make
-  // calls to the d1 api from javascript (for ajax mapping of course title to course code.
-  $settings = array(
-    'd1ClientWebserviceURL' => unh_d1_client_webservice_path(),
-    'd1ClientDomainFE' => unh_d1_client_settings_fe_domain(),
-    'd1ClientDomainBE' => unh_d1_client_settings_be_domain(),
-    'd1ClientDomainPublic' => unh_d1_client_settings_public_domain()
-  );
-  drupal_add_js(array('unh_d1_drupal' => $settings), array('type' => 'setting'));
-  drupal_add_js(drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.js');
-}
+// Allows us to pass variables from php to javascript.  We need this in order to make
+// calls to the d1 api from javascript (for ajax mapping of course title to course code.
+$settings = array(
+  'd1ClientWebserviceURL' => unh_d1_client_webservice_path(),
+  'd1ClientDomainFE' => unh_d1_client_settings_fe_domain(),
+  'd1ClientDomainBE' => unh_d1_client_settings_be_domain(),
+  'd1ClientDomainPublic' => unh_d1_client_settings_public_domain()
+);
+drupal_add_js(array('unh_d1_drupal' => $settings), array('type' => 'setting'));
+// drupal_add_js(drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.js');
 
 /*
 function unh_d1_drupal_preprocess_node(&$vars) {

@@ -38,16 +38,13 @@
       $(".course-page .card .card-header a[data-toggle='collapse']").click(function(e){
         $(this).find('.fa').toggle();
       });
-
-      // Should be attached only to the course node edit page!
-      $('.node-course-form .group-additional-course-tabs h2').removeClass('element-invisible');
-      $('.node-course-form .group-course-tabs h2').removeClass('element-invisible');
     }
-
   };
-}(jQuery));
 
-function removeQueryStringParameter(key, url) {
+  //
+  // @todo: find out why above doesn't seem to get loaded properly.
+  //
+  function removeQueryStringParameter(key, url) {
     if (!url || !key) {
       return '';
     }
@@ -69,4 +66,17 @@ function removeQueryStringParameter(key, url) {
     }
 
     return url;
-}
+  }
+
+  // Bootstrap accordion for right rail sections does not seem to alter
+  // '+' or '-' properly so we add this code.
+  $(".course-page .card .card-header a[data-toggle='collapse']").click(function(e){
+    $(this).find('.fa').toggle();
+  });
+
+}(jQuery));
+
+
+
+
+

@@ -11,3 +11,5 @@ dependencies[] = unh_d1_client
 dependencies[] = panels
 
 stylesheets[all][] = css/unh_d1_drupal.css
+
+scripts[] = js/unh_d1_drupal.js
