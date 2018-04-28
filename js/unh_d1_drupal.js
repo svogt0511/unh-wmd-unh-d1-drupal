@@ -32,12 +32,6 @@
       if ($.isFunction($('.course-search-page .choose-topics-btn').toggleClass)) {
         $('.course-search-page .choose-topics-btn').toggleClass("collapsed");
       }
-
-      // Bootstrap accordion for right rail sections does not seem to alter
-      // '+' or '-' properly so we add this code.
-      $(".course-page .card .card-header a[data-toggle='collapse']").click(function(e){
-        $(this).find('.fa').toggle();
-      });
     }
   };
 
