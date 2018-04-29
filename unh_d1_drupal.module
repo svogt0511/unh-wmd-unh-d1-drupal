@@ -245,6 +245,14 @@ function unh_d1_drupal_theme() {
         'disp_open' => FALSE,
       ),
     ),
+    'unh_d1_drupal__course_overview_pane' => $base + array(
+      'template' => 'unh-d1-drupal--course-overview-pane',
+      'variables' => array(
+        'course_nid' => '0',
+        'course' => NULL,
+        'config' => array(),
+      ),
+    ),
   );
 
   return $ret;
@@ -320,3 +328,23 @@ function unh_d1_drupal_preprocess_unh_d1_drupal__course_section(&$vars) {
 }
 
 
+/**
+ * Implements hook_preprocess() for course overview pane.
+ *
+ * Sets up variables for the course overview pane template.  
+ * Makes sure that we are on a course page.
+ *
+ * Available variables:
+ *
+ *  $course_nid = '0',                      // from page context
+ *  $course = NULL,                         // from API (course node => course code)
+ *  $sections = array(),                    // from API (course)
+ *  $config = array()          // from pane settings
+ *
+ * $course_nid and $body_section_fields already rendered from panel settings.
+ */
+function unh_d1_drupal_preprocess_unh_d1_drupal__course_overview_pane(&$vars) { 
+  // ddl("YYYY - GOT HERE PREPROCESS COURSE OVERVIEW PANE! START!");
+  // ddl($vars, '$vars - preprocess a section block');
+  // ddl("YYYY - GOT HERE PREPROCESS COURSE OVERVIEW PANE! END!");
+}
