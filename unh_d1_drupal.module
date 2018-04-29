@@ -20,6 +20,7 @@ require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drup
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.settings.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.sort.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.utils.inc';
+require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.views_php.inc';
 
     
 // Allows us to pass variables from php to javascript.  We need this in order to make
