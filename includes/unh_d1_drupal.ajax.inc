@@ -19,8 +19,8 @@
  * Returns the program area as set in this module's settings.
  */
 function unh_d1_drupal_ajax_get_section_status($courseId, $sectionId) {
-  ddl($courseId, 'GOT HERE - AJAX CALL HANDLER');
-  ddl($sectionId, 'GOT HERE - AJAX CALL HANDLER');
+  // ddl($courseId, 'GOT HERE - AJAX CALL HANDLER');
+  // ddl($sectionId, 'GOT HERE - AJAX CALL HANDLER');
 
   $ret = 'GOT HERE - AJAX CALL HANDLER';
   if (!empty($courseId) && !empty($sectionId)) {

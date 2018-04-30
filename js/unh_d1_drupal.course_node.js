@@ -14,7 +14,6 @@
       $("form.node-course-form input#edit-title", context).bind('autocompleteSelect', function(event, node) {
         courseCode = $(node).data('autocompleteValue');
         courseTitle = $(node).text();
-                    console.log('GOT HERE!!!!! ABCDE! 1111!');
 
         // Remove the '(code)' from the title string.
         part_to_remove = '(' + courseCode + ')';
@@ -28,7 +27,7 @@
         $("form.node-course-form input#edit-title").val(courseTitle); 
         $("form.node-course-form input#edit-field-course-code-und-0-value").val(courseCode);
       });
-      console.log('GOT HERE!!!!! ABCDE!');
+
       // Autocomplete for course node edit form - certificate title.
       // Used in combination with the php callback that builds the list of certificates
       // available from D1.  The user does not need to choose from the list.
@@ -36,7 +35,6 @@
       // ** See the module hook_menu for the autocomplete callback.
       $('form.node-course-form input[id*="field-certificate-title"][id^="edit-field-certificate"]' , context).bind('autocompleteSelect', function(event, node) {
       // $("form.node-course-form input#edit-field-certificate-und-0-field-certificate-title-und-0-value" , context).bind('autocompleteSelect', function(event, node) {
-            console.log('GOT HERE!!!!! ABCDE! 2222!');
 
         certificateCode = $(node).data('autocompleteValue');
         certificateTitle = $(node).text();
@@ -49,14 +47,9 @@
           certificateTitle = certificateTitle.trim();
         }
   
-        console.log("got here certificates!")
         parent_this = $(this).closest('div[class*="field-name-field-certificate-title"]');
         sibling_this = $(parent_this).next('div[class*="field-name-field-certificate-code"]');
         child_this = $(sibling_this).find('input[id*="field-certificate-code"]');
-        //console.log($(this).attr('id'));
-        //console.log($(parent_this).attr('id'));
-        //console.log($(sibling_this).attr('id'));
-        //console.log($(child_this).attr('id'));
         $(child_this).val(certificateCode);
         // $(this).val($(node).text());
         $(this).val(certificateTitle);
@@ -81,10 +74,6 @@
             parent_this = $(this).closest('div[class*="field-name-field-certificate-title"]');
             sibling_this = $(parent_this).next('div[class*="field-name-field-certificate-code"]');
             child_this = $(sibling_this).find('input[id*="field-certificate-code"]');
-            //console.log($(this).attr('id'));
-            //console.log($(parent_this).attr('id'));
-            //console.log($(sibling_this).attr('id'));
-            //console.log($(child_this).attr('id'));
             $(child_this).val('');
         }
       );

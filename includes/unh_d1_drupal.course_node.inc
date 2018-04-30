@@ -11,7 +11,6 @@ function _unh_d1_drupal_title_autocomplete($string) {
 
   $program_area = unh_d1_drupal_settings_program_area();
   $courses = unh_d1_client_searchCourse_keyword($string, $program_area);
-  ddl($courses, '$courses');
   
   // Add '(course number)' to autocomplete display.  This will be stripped out
   // in the corresponding javascript.
@@ -37,8 +36,6 @@ function _unh_d1_drupal_certificate_title_autocomplete($string) {
   $program_area = unh_d1_drupal_settings_program_area();
   $information_level = 'long';
   $certificates = unh_d1_client_getCertificates($program_area, $information_level);
-  ddl($program_area, '$program_area');
-  ddl($certificates, '$certificates - abcde got here!');
   // Add '(course number)' to autocomplete display.  This will be stripped out
   // in the corresponding javascript.
   if (!empty($certificates)) {

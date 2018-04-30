@@ -1,7 +1,4 @@
 <?php 
-ddl("COURSE SECTIONS PANE TEMPLATE BEGIN");
-ddl($variables, '$variables - COURSE SECTIONS PANE');
-ddl("COURSE SECTIONS PANE TEMPLATE END");
 if (!empty($sections)) {
   // sort the sections
   if ($config['section_sort']['sort']) {
