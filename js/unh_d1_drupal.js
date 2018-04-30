@@ -67,6 +67,10 @@
   $(".course-page .card .card-header a[data-toggle='collapse']").click(function(e){
     $(this).find('.fa').toggle();
   });
+  
+  // Should be attached only to the course node edit page!
+  $('.node-course-form .group-additional-course-tabs h2').removeClass('element-invisible');
+  $('.node-course-form .group-course-tabs h2').removeClass('element-invisible');
 
 }(jQuery));
 
