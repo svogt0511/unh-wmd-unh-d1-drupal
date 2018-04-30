@@ -283,6 +283,7 @@ function unh_d1_drupal_theme() {
       'variables' => array(
         'course_nid' => '0',
         'course' => NULL,
+        'course_overview' => '',
         'config' => array(),
       ),
     ),

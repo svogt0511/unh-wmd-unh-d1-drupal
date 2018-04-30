@@ -78,9 +78,7 @@ function course_overview_pane_content_type_edit_form_submit($form, &$form_state)
     $wrapper = entity_metadata_wrapper('node', $node);
     $course_code = $wrapper->field_course_code->value();
     $course = NULL;
-    // $sections = array();
-    // $courseId = 0;
-    // $sectionIds = array();
+    $course_overview = '';
     
     // Get course data.
     if (!empty($course_code)) {
@@ -88,15 +86,11 @@ function course_overview_pane_content_type_edit_form_submit($form, &$form_state)
       $program_area = unh_d1_drupal_settings_program_area();
       
       $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area), $information_level);
-      
-      // if (!empty($course)) {
-      //   $sections = unh_d1_client_searchCourseSections($course_code, array($program_area), $information_level);
-        
-      //   $courseId = unh_d1_client_getcourseObjectId($course);
-      //   $sectionIds = unh_d1_client_getSectionArrayObjectIds($sections);
-      // }
+      $course_overview = unh_d1_client_getcourseOverview($course);
+    } else {
+      $course_overview = $wrapper->field_overview->value()['safe_value'];
     }
-    
+
     // Get config settings.
     $config = $conf;
 
@@ -112,6 +106,7 @@ function course_overview_pane_content_type_edit_form_submit($form, &$form_state)
       '#theme' => 'unh_d1_drupal__course_overview_pane',
       '#course_nid' => $node->nid,
       '#course' => $course,
+      '#course_overview' => $course_overview,
       // '#sections' => $sections,
       '#config' => $config,
       /*
