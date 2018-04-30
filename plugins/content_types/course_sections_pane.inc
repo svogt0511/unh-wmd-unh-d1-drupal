@@ -13,7 +13,7 @@
  $plugin = array(
   'title'           => t('Course Node Sections Pane'),
   'single'          => FALSE,
-  'description'     => t('List of sections and their information.'),
+  'description'     => t('List of sections and their information from D1 API.'),
   'category'        => array('UNH DestinyOne'),
   'all contexts'    => TRUE,
   'edit form'       => 'course_sections_pane_content_type_edit_form',
@@ -32,7 +32,7 @@ function course_sections_pane_admin_title($subtype, $conf, $context = NULL) {
  */
 function course_sections_pane_admin_info($subtype, $conf, $context = NULL) {
   $block = new stdClass();
-  $block->title = t('SKV Custom pane');
+  $block->title = t('Course Sections Pane');
   $config = array();
   if ($conf['override_title'] == TRUE) {
     $title_value = '<b>' . $conf['override_title_text'] . '</b>';

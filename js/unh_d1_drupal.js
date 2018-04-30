@@ -2,7 +2,7 @@
 
 // 'Back to top' button behavior on course-search-results pages
 (function ($) {
-  Drupal.behaviors.d1pdt = {
+  Drupal.behaviors.unh_d1_drupal = {
     attach: function (context, settings) {
 
       // Implements the 'back to top' button on course-search-results pages.
@@ -32,25 +32,13 @@
       if ($.isFunction($('.course-search-page .choose-topics-btn').toggleClass)) {
         $('.course-search-page .choose-topics-btn').toggleClass("collapsed");
       }
-
-      // Bootstrap accordion for right rail sections does not seem to alter
-      // '+' or '-' properly so we add this code.
-      $(".course-page .card .card-header a[data-toggle='collapse']").click(function(e){
-        $(this).find('.fa').toggle();
-      });
-
-      // Should be attached only to the course node edit page!
-      $('.node-course-form .group-additional-course-tabs h2').removeClass('element-invisible');
-      $('.node-course-form .group-course-tabs h2').removeClass('element-invisible');
     }
-
   };
 
-
-
-}(jQuery));
-
-function removeQueryStringParameter(key, url) {
+  //
+  // @todo: find out why above doesn't seem to get loaded properly.
+  //
+  function removeQueryStringParameter(key, url) {
     if (!url || !key) {
       return '';
     }
@@ -72,4 +60,21 @@ function removeQueryStringParameter(key, url) {
     }
 
     return url;
-}
+  }
+
+  // Bootstrap accordion for right rail sections does not seem to alter
+  // '+' or '-' properly so we add this code.
+  $(".course-page .card .card-header a[data-toggle='collapse']").click(function(e){
+    $(this).find('.fa').toggle();
+  });
+  
+  // Should be attached only to the course node edit page!
+  $('.node-course-form .group-additional-course-tabs h2').removeClass('element-invisible');
+  $('.node-course-form .group-course-tabs h2').removeClass('element-invisible');
+
+}(jQuery));
+
+
+
+
+

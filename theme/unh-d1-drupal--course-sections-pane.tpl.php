@@ -9,7 +9,6 @@ if (!empty($sections)) {
   }
 ?> 
 <div class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <h1>RENDERING COURSE SECTIONS PANE</h1>
   <div id="ajax-target-801725"></div>
   <div id="ajax-target-801751"></div>  
   <div id="ajax-target"></div>

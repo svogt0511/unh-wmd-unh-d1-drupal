@@ -382,7 +382,7 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
   display: none;
 }
 
-.card .card-header .section-wait-list-status {
+.card .card-header .section-wait-list-status, .card .card-header .section-full-status {
     background-color: #B5231D !important;
     color: #ffffff;
     display: inline-block;
@@ -455,7 +455,7 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
     margin: 0 10px;
 }
 
-.card .btn-waitlist {
+.card .btn-waitlist, .card .btn-request-more-info {
     background-color: #B5231D !important;
     border-color: #B5231D !important;
     margin: 0 auto 10px auto;
