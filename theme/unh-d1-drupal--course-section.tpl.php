@@ -25,6 +25,8 @@ $output = '';
   $status = '';
   if (unh_d1_client_sectionIsWaitlisted($section)) {
     $status = '<div class="section-wait-list-status" style="5px 0 0 0">Wait List</div>';
+  } elseif (unh_d1_client_sectionIsFull($section)) {
+    $status = '<div class="section-full-status" style="5px 0 0 0">Full</div>';
   } elseif (unh_d1_client_sectionIsEnrollmentClosed($section)) {
     $status = '<div class="section-enrollment-closed-status" style="5px 0 0 0">Enrollment Closed</div>';
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
@@ -75,9 +77,8 @@ if($body_section_fields['action_button']){
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
     
   } elseif (unh_d1_client_sectionIsNoLongerAvailable($section)) {
-    
   } elseif (unh_d1_client_sectionIsFull($section)) {
-  
+    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Request Information</a>';  
   } elseif (unh_d1_client_sectionIsEnrollmentClosed($section)) {
   
   } else {
@@ -148,6 +149,7 @@ if($body_section_fields['section_dates']['show']){
   }
 }
 
+// GET SECTION TIMES
 $section_times = "";
 if($body_section_fields['section_times']['show']) {
   $section_schedules = unh_d1_client_getSectionSchedules($section);
@@ -188,6 +190,39 @@ if($body_section_fields['section_times']['show']) {
   }
 }
 
+// GET SECTION TUITION
+$section_tuition = "";
+if($body_section_fields['section_tuition']['show']) {
+  $field_label = (!empty($body_section_fields['section_tuition']['label']) ? $body_section_fields['section_tuition']['label'] : 'Tuition:');
+  $show_published_code = $body_section_fields['section_tuition']['published_code'];
+  $tuition_items = unh_d1_client_getSectionTuitionInfo($section);  
+  $tuition = [];
+  foreach($tuition_items as $tuition_item) {
+    $amounts = array_column($tuition_item['items'], 'amount');
+    $tuition[] = implode(($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '') . '<br>', $amounts) .
+      ($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '');
+  }
+  
+  //$show_published_code = $body_section_fields['section_tuition']['published_code'];
+  if (!empty($tuition)) {
+    $tuition_str = implode('<br>', $tuition);
+    $section_tuition = "
+<div class='section item courseTuition'>
+  <div class='row'>
+    <div class='header col-xs-5'>
+      <label for='courseTuition$i'>" . $field_label . "</label>
+    </div>
+    <div class='content col-xs-7'>
+      <span id='courseTuition$i'>
+        " . $tuition_str . "
+      </span>
+    </div>
+  </div>
+</div>
+";
+  }
+}
+
 // UNH_D1_DRUPAL_DATE_FORMAT
   //$section_dates .= _d1pdt_sectionDates_block($section, $i, (array_key_exists('section_dates', $body_section_fields ) ? $body_section_fields['section_dates'] : null));
 
@@ -199,7 +234,8 @@ $body_output .= "
     $action_button . "
     <div class='section sectionDescription'>" .
       $section_dates . 
-      $section_times . "
+      $section_times . 
+      $section_tuition . "
     </div>
   </div>
 </div>
