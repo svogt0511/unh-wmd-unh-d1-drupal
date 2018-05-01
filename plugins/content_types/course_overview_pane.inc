@@ -73,6 +73,7 @@ function course_overview_pane_content_type_edit_form_submit($form, &$form_state)
   
   $block = NULL;
   $node = menu_get_object();
+  $config = $conf;
   
   if ($node->type == 'course') {
     $wrapper = entity_metadata_wrapper('node', $node);
@@ -87,44 +88,75 @@ function course_overview_pane_content_type_edit_form_submit($form, &$form_state)
       
       $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area), $information_level);
       $course_overview = unh_d1_client_getcourseOverview($course);
+
+      // Render the content with either theme() or by building a render array.
+      $block = new stdClass();
+      $block->content = array(
+        // Render with theme() - example.
+        // $args = array('course_nid' => '160', 'sections' => '20') + $panel_args;
+        // '#markup' => theme('unh_d1_drupal__course_sections_pane', $args)
+        // '#markup' => d1pdt_courseView_infoPane($panel_args[0])
+
+        // Render with a render array - example.
+        '#theme' => 'unh_d1_drupal__d1__course_overview_pane',
+        '#course_nid' => $node->nid,
+        '#course' => $course,
+        '#course_overview' => $course_overview,
+        // '#sections' => $sections,
+        '#config' => $config,
+        /*
+        '#attached' => array(
+          'js'=> array(
+            drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.sections_pane.js',
+            array(
+              'data' => array(
+                'courseId' => $courseId,
+                'sectionIds' => $sectionIds,
+                'section_status' => 'SECTION IS AVAILABLE'
+              ),
+              'type' => 'setting',
+            ),
+          )
+        )
+        */
+      );
     } else {
       $course_overview = $wrapper->field_overview->value()['safe_value'];
-    }
+      
+      // Render the content with either theme() or by building a render array.
+      $block = new stdClass();
+      $block->content = array(
+        // Render with theme() - example.
+        // $args = array('course_nid' => '160', 'sections' => '20') + $panel_args;
+        // '#markup' => theme('unh_d1_drupal__course_sections_pane', $args)
+        // '#markup' => d1pdt_courseView_infoPane($panel_args[0])
 
-    // Get config settings.
-    $config = $conf;
-
-    // Render the content with either theme() or by building a render array.
-    $block = new stdClass();
-    $block->content = array(
-      // Render with theme() - example.
-      // $args = array('course_nid' => '160', 'sections' => '20') + $panel_args;
-      // '#markup' => theme('unh_d1_drupal__course_sections_pane', $args)
-      // '#markup' => d1pdt_courseView_infoPane($panel_args[0])
-
-      // Render with a render array - example.
-      '#theme' => 'unh_d1_drupal__course_overview_pane',
-      '#course_nid' => $node->nid,
-      '#course' => $course,
-      '#course_overview' => $course_overview,
-      // '#sections' => $sections,
-      '#config' => $config,
-      /*
-      '#attached' => array(
-        'js'=> array(
-          drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.sections_pane.js',
-          array(
-            'data' => array(
-              'courseId' => $courseId,
-              'sectionIds' => $sectionIds,
-              'section_status' => 'SECTION IS AVAILABLE'
+        // Render with a render array - example.
+        '#theme' => 'unh_d1_drupal__non_d1__course_overview_pane',
+        '#course_nid' => $node->nid,
+        '#course' => $course,
+        '#course_overview' => $course_overview,
+        // '#sections' => $sections,
+        '#config' => $config,
+        /*
+        '#attached' => array(
+          'js'=> array(
+            drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.sections_pane.js',
+            array(
+              'data' => array(
+                'courseId' => $courseId,
+                'sectionIds' => $sectionIds,
+                'section_status' => 'SECTION IS AVAILABLE'
+              ),
+              'type' => 'setting',
             ),
-            'type' => 'setting',
-          ),
+          )
         )
-      )
-      */
-    );
+        */
+      );
+      
+      
+    }
   }
   
   return $block;
