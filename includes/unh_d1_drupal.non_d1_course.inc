@@ -134,8 +134,6 @@ function _unh_d1_drupal_non_d1_course_schedule($node) {
 /**
  * Given course node, returns course location.
  */
-
-// Course Location
 function _unh_d1_drupal_non_d1_course_location($node) {
   $ret = '';
   
@@ -146,8 +144,35 @@ function _unh_d1_drupal_non_d1_course_location($node) {
   return $ret;
 }
  
- 
- 
+/**
+ * Given course node, returns array of course instructors.
+ */
+function _unh_d1_drupal_non_d1_course_instructors($node) {
+  $ret = array();
+
+  if (!empty($node) && !empty($node->field_instructor_bio)) {
+    foreach ($node->field_instructor_bio['und'] as $target) {
+      $target_id = $target['target_id'];
+      $instructor_bio = node_load($target_id);
+      $ret[] = $instructor_bio->title;
+    }
+  }
+
+  return $ret;
+}
+
+/**
+ * Given course node, returns a url to the course page.
+ */
+function _unh_d1_drupal_non_d1_course_url($node) {
+  $ret = '';
+
+  if (!empty($node)) {
+   $ret = url(drupal_get_path_alias('node/' . $node->nid));
+  }
+
+  return $ret;
+}
  
  
  

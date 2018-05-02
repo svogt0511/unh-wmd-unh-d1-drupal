@@ -18,11 +18,17 @@ if (!empty($course_nid)) {
       $enrollment_url = _unh_d1_drupal_non_d1_course_enrollment_url($node);
       $dates_times = _unh_d1_drupal_non_d1_course_schedule($node);
       $location_name = _unh_d1_drupal_non_d1_course_location($node);
+      $instructors = _unh_d1_drupal_non_d1_course_instructors($node);
+      //$tuition = _d1pdt_course_tuition($node);
+      //$contact_hours = _d1pdt_course_contact_hours($node);
+      //$ceus = _d1pdt_course_ceus($node);
+      $course_url = _unh_d1_drupal_non_d1_course_url($node);
+
 ?>
     <div class='card course-info-pane'>
       <div class='card-header' role='tab' id='courseHeader'>
         <h5 class='mb-0'>
-          <a href='$current_url'>
+          <a href='<?=$course_url?>'>
             <?=$course_title?>
           </a>
         </h5>
@@ -98,8 +104,10 @@ if (!empty($course_nid)) {
               </div>
             </div> <!-- row -->
           </div> <!-- section sectionTimes -->
-<?php          
-        if (!empty($location_name)) {
+<?php 
+      }
+                 
+      if (!empty($location_name)) {
 ?>
           <div class='section item courseLocation'>
             <div class='row'>
@@ -112,19 +120,42 @@ if (!empty($course_nid)) {
                 </span>
               </div>
             </div> <!-- row -->
-          </div>
+          </div> <!-- section item courseLocation -->
 <?php
-        }     
-      } else {
-        // Commented this out - shows nothing on 'section unavailable'.
-        $output .= "<!-- <div class='section-unavailable'>$sectionTitle (UNAVAILABLE $sectionSemester)</div> -->";
       }
-  
+                
+      if (!empty($instructors)) {
+?>
+          <div class='section item courseInstructors'>
+            <div class='row'>
+              <div class='header col-xs-5'>
+                <label for='courseInstructors'>Instructor(s):</label>
+              </div>
+              <div class='content col-xs-7'>
+                <span id='courseInstructors'>
+<?php
+          foreach($instructors as $instructor) {
+?>
+                  <div class='course-instructor'><?=$instructor?></div>
+<?php
+          }
+?>
+                </span>
+              </div>
+            </div> <!-- row -->
+          </div> <!-- section item courseInstructors -->
+<?php
+      }           
+    } else {
+?>
+      // Commented this out - shows nothing on 'section unavailable'.
+      <!-- <div class='section-unavailable'>$sectionTitle (UNAVAILABLE $sectionSemester)</div> -->
+<?php
+    }
 ?>
   </div> <!--course-info_pane--> 
 </div> <!--<?=$classes?>-->
 <?php
-    }
   }
 }
 ?>
