@@ -9,20 +9,22 @@
  */
 
 /**
- * 
+ * Given course node, returns course status.
  */
 function _unh_d1_drupal_non_d1_course_is_available($node) {
   $ret = FALSE;
   
-  $wrapper = entity_metadata_wrapper('node', $node);
-  $availability = $wrapper->field_course_availability->value();
-  $ret = ((strcasecmp($availability, UNH_D1_DRUPAL_NON_D1_COURSE_IS_AVAILABLE) == 0) ? TRUE : FALSE);
+  if (!empty($node)) {
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $availability = $wrapper->field_course_availability->value();
+    $ret = ((strcasecmp($availability, UNH_D1_DRUPAL_NON_D1_COURSE_IS_AVAILABLE) == 0) ? TRUE : FALSE);
+  }
 
   return $ret;
 }
 
 /**
- * 
+ * Given course node, returns course title.
  */
 function _unh_d1_drupal_non_d1_course_title($node) {
   $ret = '';
@@ -34,19 +36,26 @@ function _unh_d1_drupal_non_d1_course_title($node) {
   return $ret;
 }
 
-// Course enrollment url
+/**
+ * Given course node, returns course enrollment url.
+ */
 function _unh_d1_drupal_non_d1_course_enrollment_url($node) {
+  $ret = '';
 
-  $ret = (!empty($node->field_course_enrollment_link) ? $node->field_course_enrollment_link['und'][0]['url'] : "");
+  if (!empty($node)) {
+    $ret = (!empty($node->field_course_enrollment_link) ? $node->field_course_enrollment_link['und'][0]['url'] : "");
+  }
 
   return $ret;
 }
 
-// Course schedule (dates/times)
+/**
+ * Given course node, returns Course schedule (dates/times).
+ */
 function _unh_d1_drupal_non_d1_course_schedule($node) {
   $ret = array();
 
-  if (!empty($node->field_course_dates_times)) {
+  if (!empty($node) && !empty($node->field_course_dates_times)) {
     $node_wrapper = entity_metadata_wrapper('node', $node);
 
     foreach ($node_wrapper->field_course_dates_times as $field_collection_wrapper) {
@@ -103,7 +112,7 @@ function _unh_d1_drupal_non_d1_course_schedule($node) {
     }
   }
 
-  //// Here is where we get the time. (loop through the field collections)
+// Here is where we get the time. (loop through the field collections).
 /*  $ret = array(
     array(
       'start_date' => '10 Jan 2018',
@@ -122,4 +131,24 @@ function _unh_d1_drupal_non_d1_course_schedule($node) {
   return $ret;
 }
 
+/**
+ * Given course node, returns course location.
+ */
+
+// Course Location
+function _unh_d1_drupal_non_d1_course_location($node) {
+  $ret = '';
+  
+  if (!empty($node)) {
+    $ret = (!empty($node->field_course_location_name) ? $node->field_course_location_name['und'][0]['value'] : "");
+  }
+
+  return $ret;
+}
+ 
+ 
+ 
+ 
+ 
+ 
 

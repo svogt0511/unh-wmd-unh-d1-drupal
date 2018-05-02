@@ -17,6 +17,7 @@ if (!empty($course_nid)) {
       $course_title = _unh_d1_drupal_non_d1_course_title($node);
       $enrollment_url = _unh_d1_drupal_non_d1_course_enrollment_url($node);
       $dates_times = _unh_d1_drupal_non_d1_course_schedule($node);
+      $location_name = _unh_d1_drupal_non_d1_course_location($node);
 ?>
     <div class='card course-info-pane'>
       <div class='card-header' role='tab' id='courseHeader'>
@@ -97,7 +98,23 @@ if (!empty($course_nid)) {
               </div>
             </div> <!-- row -->
           </div> <!-- section sectionTimes -->
+<?php          
+        if (!empty($location_name)) {
+?>
+          <div class='section item courseLocation'>
+            <div class='row'>
+              <div class='header col-xs-5'>
+                <label for='courseLocation'>Location:</label>
+              </div>
+              <div class='content col-xs-7'>
+                <span id='courseLocation'>
+                  <?=$location_name?>
+                </span>
+              </div>
+            </div> <!-- row -->
+          </div>
 <?php
+        }     
       } else {
         // Commented this out - shows nothing on 'section unavailable'.
         $output .= "<!-- <div class='section-unavailable'>$sectionTitle (UNAVAILABLE $sectionSemester)</div> -->";
