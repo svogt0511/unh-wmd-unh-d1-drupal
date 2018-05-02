@@ -17,6 +17,7 @@
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.ajax.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.constants.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.course_node.inc';
+require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.non_d1_course.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.settings.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.sort.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.utils.inc';
@@ -258,17 +259,17 @@ function unh_d1_drupal_theme() {
   );
 
   $ret = array(
-    'unh_d1_drupal__course_sections_pane' => $base + array(
-      'template' => 'unh-d1-drupal--course-sections-pane',
+    'unh_d1_drupal__d1__course_overview_pane' => $base + array(
+      'template' => 'unh-d1-drupal--d1--course-overview-pane',
       'variables' => array(
         'course_nid' => '0',
         'course' => NULL,
-        'sections' => array(),
+        'course_overview' => '',
         'config' => array(),
       ),
     ),
-    'unh_d1_drupal__course_section' => $base + array(
-      'template' => 'unh-d1-drupal--course-section',
+    'unh_d1_drupal__d1__course_section' => $base + array(
+      'template' => 'unh-d1-drupal--d1--course-section',
       'variables' => array(
         'course_nid' => 0,
         'course' => NULL,
@@ -278,12 +279,30 @@ function unh_d1_drupal_theme() {
         'disp_open' => FALSE,
       ),
     ),
-    'unh_d1_drupal__course_overview_pane' => $base + array(
-      'template' => 'unh-d1-drupal--course-overview-pane',
+    'unh_d1_drupal__d1__course_sections_pane' => $base + array(
+      'template' => 'unh-d1-drupal--d1--course-sections-pane',
+      'variables' => array(
+        'course_nid' => '0',
+        'course' => NULL,
+        'sections' => array(),
+        'config' => array(),
+      ),
+    ),
+    'unh_d1_drupal__non_d1__course_overview_pane' => $base + array(
+      'template' => 'unh-d1-drupal--non-d1--course-overview-pane',
       'variables' => array(
         'course_nid' => '0',
         'course' => NULL,
         'course_overview' => '',
+        'config' => array(),
+      ),
+    ),
+    'unh_d1_drupal__non_d1__course_sections_pane' => $base + array(
+      'template' => 'unh-d1-drupal--non-d1--course-sections-pane',
+      'variables' => array(
+        'course_nid' => '0',
+        'course' => NULL,
+        'sections' => array(),
         'config' => array(),
       ),
     ),
