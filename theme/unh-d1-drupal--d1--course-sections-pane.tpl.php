@@ -1,7 +1,4 @@
-<?php 
-ddl("COURSE SECTIONS PANE TEMPLATE BEGIN");
-ddl($variables, '$variables - COURSE SECTIONS PANE');
-ddl("COURSE SECTIONS PANE TEMPLATE END");
+<?php
 if (!empty($sections)) {
   // sort the sections
   if ($config['section_sort']['sort']) {
@@ -27,14 +24,13 @@ if (!empty($sections)) {
     // Should we display the first section box open or closed?
     $disp_open = ($first && $disp_open);
     
-    
     if (unh_d1_client_sectionIsAvailable($section) ||
         unh_d1_client_sectionIsFutureOffering($section) ||
         unh_d1_client_sectionIsWaitlisted($section) ||
         unh_d1_client_sectionIsEnrollmentClosed($section) ||
         unh_d1_client_sectionIsFull($section)) {
       
-      $output .= theme('unh_d1_drupal__course_section', 
+      $output .= theme('unh_d1_drupal__d1__course_section', 
         array('course_nid' => $course_nid,
           'course' => $course,
           'section' => $section,

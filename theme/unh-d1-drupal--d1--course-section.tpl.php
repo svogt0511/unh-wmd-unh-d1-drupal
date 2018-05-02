@@ -1,8 +1,5 @@
 <div class="<?=$classes?>"<?=$attributes?>> <!-- <?=$classes?> -->
 <?php 
-ddl("SECTION TEMPLATE BEGIN");
-ddl($variables, '$variables - template');
-ddl("SECTION TEMPLATE END");
 
 // Normally, there would be a number of themed blocks here, but we don't have the time.
 // This seems to be a reasonable organization for now.  More can be done later.

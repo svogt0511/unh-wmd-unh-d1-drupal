@@ -17,6 +17,7 @@
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.ajax.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.constants.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.course_node.inc';
+require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.non_d1_course.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.settings.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.sort.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.utils.inc';
@@ -56,6 +57,12 @@ function unh_d1_drupal_menu() {
   
   $items['title/autocomplete'] = array(
     'page callback' => '_unh_d1_drupal_title_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  ); 
+
+  $items['certificate_title/autocomplete'] = array(
+    'page callback' => '_unh_d1_drupal_certificate_title_autocomplete',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
@@ -129,9 +136,35 @@ function unh_d1_drupal_form_course_node_form_alter(&$form, &$form_state, $form_i
 
   $form['title']['#autocomplete_path'] = 'title/autocomplete';
   $form['field_course_code']['und'][0]['value']['#attributes']['readonly'] = 'readonly';
+  
+  // Autocomplete for course content type (certificate title)
+  foreach($form['field_certificate'][LANGUAGE_NONE] as $delta => $field) {
+    if(is_array($field) && is_numeric($delta)) {
+      foreach($field['field_certificate_title'][LANGUAGE_NONE] as $delta_1 => $field_1) {
+        if(is_array($field_1) && is_numeric($delta_1)) {
+          $form['field_certificate'][LANGUAGE_NONE][$delta]['field_certificate_title'][LANGUAGE_NONE][$delta_1]['value']['#autocomplete_path'] = 'certificate_title/autocomplete';
+        }
+      }
+    }
+  }
+
+  //
+  // Supply settings for course certificates.
+  //
+  // Make certificate codes readonly.
+  foreach($form['field_certificate'][LANGUAGE_NONE] as $delta => $field) {
+    if(is_array($field) && is_numeric($delta)) {
+      foreach($field['field_certificate_code'][LANGUAGE_NONE] as $delta_1 => $field_1) {
+        if(is_array($field_1) && is_numeric($delta_1)) {
+          $form['field_certificate'][LANGUAGE_NONE][$delta]['field_certificate_code'][LANGUAGE_NONE][$delta_1]['value']['#attributes']['readonly'] = 'readonly';
+        }
+      }
+    }
+  }
+
 
   // @todo: if you ever delete the location field, get rid of this line.
-  $form['field_location']['#access'] = FALSE;
+  //$form['field_location']['#access'] = FALSE;
   
 }
 
@@ -226,17 +259,17 @@ function unh_d1_drupal_theme() {
   );
 
   $ret = array(
-    'unh_d1_drupal__course_sections_pane' => $base + array(
-      'template' => 'unh-d1-drupal--course-sections-pane',
+    'unh_d1_drupal__d1__course_overview_pane' => $base + array(
+      'template' => 'unh-d1-drupal--d1--course-overview-pane',
       'variables' => array(
         'course_nid' => '0',
         'course' => NULL,
-        'sections' => array(),
+        'course_overview' => '',
         'config' => array(),
       ),
     ),
-    'unh_d1_drupal__course_section' => $base + array(
-      'template' => 'unh-d1-drupal--course-section',
+    'unh_d1_drupal__d1__course_section' => $base + array(
+      'template' => 'unh-d1-drupal--d1--course-section',
       'variables' => array(
         'course_nid' => 0,
         'course' => NULL,
@@ -246,11 +279,30 @@ function unh_d1_drupal_theme() {
         'disp_open' => FALSE,
       ),
     ),
-    'unh_d1_drupal__course_overview_pane' => $base + array(
-      'template' => 'unh-d1-drupal--course-overview-pane',
+    'unh_d1_drupal__d1__course_sections_pane' => $base + array(
+      'template' => 'unh-d1-drupal--d1--course-sections-pane',
       'variables' => array(
         'course_nid' => '0',
         'course' => NULL,
+        'sections' => array(),
+        'config' => array(),
+      ),
+    ),
+    'unh_d1_drupal__non_d1__course_overview_pane' => $base + array(
+      'template' => 'unh-d1-drupal--non-d1--course-overview-pane',
+      'variables' => array(
+        'course_nid' => '0',
+        'course' => NULL,
+        'course_overview' => '',
+        'config' => array(),
+      ),
+    ),
+    'unh_d1_drupal__non_d1__course_sections_pane' => $base + array(
+      'template' => 'unh-d1-drupal--non-d1--course-sections-pane',
+      'variables' => array(
+        'course_nid' => '0',
+        'course' => NULL,
+        'sections' => array(),
         'config' => array(),
       ),
     ),

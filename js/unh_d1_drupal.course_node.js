@@ -6,14 +6,16 @@
 (function ($) {
   Drupal.behaviors.autocompleteSupervisor = {
     attach: function (context, settings) {      
-      // Autocomplete for course node edit form.
+      // Autocomplete for course node edit form - course title.
       // Used in combination with the php callback that builds the list of courses
       // available from D1.  The user does not need to choose from the list.
+      //
+      // ** See the module hook_menu for the autocomplete callback.
       $("form.node-course-form input#edit-title", context).bind('autocompleteSelect', function(event, node) {
         courseCode = $(node).data('autocompleteValue');
         courseTitle = $(node).text();
-        
-        // Remove the '(coursecode)' from the title string.
+
+        // Remove the '(code)' from the title string.
         part_to_remove = '(' + courseCode + ')';
         courseTitle_slice = courseTitle.slice(-part_to_remove.length);
         if (courseTitle_slice === part_to_remove) {
@@ -24,6 +26,34 @@
         // Set the form properties.
         $("form.node-course-form input#edit-title").val(courseTitle); 
         $("form.node-course-form input#edit-field-course-code-und-0-value").val(courseCode);
+      });
+
+      // Autocomplete for course node edit form - certificate title.
+      // Used in combination with the php callback that builds the list of certificates
+      // available from D1.  The user does not need to choose from the list.
+      //
+      // ** See the module hook_menu for the autocomplete callback.
+      $('form.node-course-form input[id*="field-certificate-title"][id^="edit-field-certificate"]' , context).bind('autocompleteSelect', function(event, node) {
+      // $("form.node-course-form input#edit-field-certificate-und-0-field-certificate-title-und-0-value" , context).bind('autocompleteSelect', function(event, node) {
+
+        certificateCode = $(node).data('autocompleteValue');
+        certificateTitle = $(node).text();
+        
+        // Remove the '(code)' from the title string.
+        part_to_remove = '(' + certificateCode + ')';
+        certificateTitle_slice = certificateTitle.slice(-part_to_remove.length);
+        if (certificateTitle_slice === part_to_remove) {
+          certificateTitle = certificateTitle.substring(0, certificateTitle.length - (part_to_remove.length + 1));
+          certificateTitle = certificateTitle.trim();
+        }
+  
+        parent_this = $(this).closest('div[class*="field-name-field-certificate-title"]');
+        sibling_this = $(parent_this).next('div[class*="field-name-field-certificate-code"]');
+        child_this = $(sibling_this).find('input[id*="field-certificate-code"]');
+        $(child_this).val(certificateCode);
+        // $(this).val($(node).text());
+        $(this).val(certificateTitle);
+        $('div[class="dropdown"]').hide();
       });
     }
   };
@@ -36,7 +66,18 @@
         function() {
           $("form.node-course-form input#edit-field-course-code-und-0-value").val('');
         }
-      );     
+      );
+      
+      $('form.node-course-form input[id*="field-certificate-title"]' ).keydown(
+
+        function() {
+            parent_this = $(this).closest('div[class*="field-name-field-certificate-title"]');
+            sibling_this = $(parent_this).next('div[class*="field-name-field-certificate-code"]');
+            child_this = $(sibling_this).find('input[id*="field-certificate-code"]');
+            $(child_this).val('');
+        }
+      );
+     
     }
   };
 
