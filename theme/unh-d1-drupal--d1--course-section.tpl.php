@@ -1,3 +1,6 @@
+<?php
+if (!empty($course) && !empty($section)) {
+?>
 <div class="<?=$classes?>"<?=$attributes?>> <!-- <?=$classes?> -->
 <?php 
 
@@ -11,6 +14,8 @@ $node = node_load($course_nid);
 $course_code = unh_d1_client_getcourseNumber($course);
 $semester = unh_d1_client_getsectionSemester($section);
 $section_title = unh_d1_client_getsectionTitle($section);
+$section_number = unh_d1_client_getsectionCustomSectionNumber($section);
+
 
 $i = $disp_idx;
 $in = $disp_open;
@@ -105,6 +110,7 @@ if($body_section_fields['action_button']){
   }
 */
 
+////
 // GET SECTION DATES
 $section_dates = "";
 if($body_section_fields['section_dates']['show']){
@@ -119,7 +125,7 @@ if($body_section_fields['section_dates']['show']){
       if ($start_date == $end_date) {
         $dates[] = $start_date->format(UNH_D1_DRUPAL_DATE_FORMAT);
       } else {
-        $dates[] = $start_date->format(UNH_D1_DRUPAL_DATE_FORMAT) . ' to ' . $end_date->format(UNH_D1_DRUPAL_DATE_FORMAT);
+        $dates[] = $start_date->format(UNH_D1_DRUPAL_DATE_FORMAT) . ' - ' . $end_date->format(UNH_D1_DRUPAL_DATE_FORMAT);
       }
     } elseif (($body_section_fields['section_dates']['options'] == UNH_D1_DRUPAL_BODY_SECTIONS_SHOW_START_DATE_ONLY) && 
       !empty($start_date)) { 
@@ -145,7 +151,7 @@ if($body_section_fields['section_dates']['show']){
 ";
   }
 }
-
+////
 // GET SECTION TIMES
 $section_times = "";
 if($body_section_fields['section_times']['show']) {
@@ -187,6 +193,75 @@ if($body_section_fields['section_times']['show']) {
   }
 }
 
+////
+// GET SECTION LOCATION/CAMPUS
+$section_locations = "";
+ddl($body_section_fields, '$body_section_fields');
+if($body_section_fields['section_locations']){
+  $section_schedules = unh_d1_client_getSectionSchedules($section);
+ddl($section_schedules, '$section_schedule ccc');
+  $locations = [];
+  foreach($section_schedules as $section_schedule) {
+    $location = unh_d1_client_getSectionCampusName($section_schedule);
+    if (!empty($location)) {
+      $locations[] = $location;
+    }
+  }
+  ddl($locations, '$locations ccc');
+  if (!empty($locations)) {
+    $section_locations .= "
+<div class='section item courseLocation'>
+  <div class='row'>
+    <div class='header col-xs-5'>
+      <label for='courseLocation'>Location:</label>
+    </div>
+    <div class='content col-xs-7'>
+      <span id='courseLocation'>"
+        . implode('<br>', $locations) . "
+      </span>
+    </div>
+  </div> <!-- row -->
+</div>";
+  }
+}
+
+////
+// GET SECTION INSTRUCTORS
+$section_instructors = "";
+if($body_section_fields['section_instructors']){
+  $section_schedules = unh_d1_client_getSectionSchedules($section);
+  $instructors = [];
+  foreach($section_schedules as $section_schedule) {
+    $instructor_list = unh_d1_client_getSectionInstructorNames($section_schedule);
+    if (!empty($instructor_list)) {
+      $instructors = $instructors + $instructor_list;
+    }
+  }
+  
+  if (!empty($instructors)) {
+    $section_instructors = "
+<div class='section item courseInstructors'>
+  <div class='row'>
+    <div class='header col-xs-5'>
+      <label for='courseInstructors'>Instructor(s):</label>
+    </div>
+    <div class='content col-xs-7'>
+      <span id='courseInstructors'>";
+
+  foreach($instructors as $instructor) {
+      $section_instructors .= "
+        <div class='course-instructor'>$instructor</div>";
+  }
+
+  $section_instructors .= "
+      </span>
+    </div>
+  </div> <!-- row -->
+</div> <!-- section item courseInstructors -->";
+  }
+}
+
+////
 // GET SECTION TUITION
 $section_tuition = "";
 if($body_section_fields['section_tuition']['show']) {
@@ -205,7 +280,6 @@ if($body_section_fields['section_tuition']['show']) {
       ($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '');
   }
   
-  //$show_published_code = $body_section_fields['section_tuition']['published_code'];
   if (!empty($tuition)) {
     $tuition_str = implode('<br>', $tuition);
     $section_tuition = "
@@ -225,6 +299,26 @@ if($body_section_fields['section_tuition']['show']) {
   }
 }
 
+////
+// GET SECTION COURSE CODE
+$section_course_code = "";
+if($body_section_fields['section_course_code'] && !empty($course_code)) {
+  $section_course_code = "
+  <div class='section item courseCode'>
+    <div class='row'>
+      <div class='header col-xs-5'>
+        <label for='courseCode$i'>Course Code:</label>
+      </div>
+      <div class='content col-xs-7'>
+        <span id='courseCode$i'>
+          " . $course_code . "
+          </span>
+      </div>
+    </div>
+  </div>
+";
+}
+
 // UNH_D1_DRUPAL_DATE_FORMAT
   //$section_dates .= _d1pdt_sectionDates_block($section, $i, (array_key_exists('section_dates', $body_section_fields ) ? $body_section_fields['section_dates'] : null));
 
@@ -237,7 +331,10 @@ $body_output .= "
     <div class='section sectionDescription'>" .
       $section_dates . 
       $section_times . 
-      $section_tuition . "
+      $section_locations .
+      $section_instructors .
+      $section_tuition . 
+      $section_course_code . "
     </div>
   </div>
 </div>
@@ -251,6 +348,8 @@ $output .= "<div class='card'>$header_output$body_output</div><!--card-->";
 <?=$output?>
 
 </div>  <!-- <?=$classes?> -->
+<?php
+} // !empty($section)
 
 
 

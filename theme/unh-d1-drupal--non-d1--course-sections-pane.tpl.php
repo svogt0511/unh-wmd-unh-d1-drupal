@@ -167,7 +167,7 @@ if (!empty($course_nid)) {
             </div>
 <?php
       } 
-/////
+
       if (!empty($contact_hours)) {
 ?>
           <div class='section item sectionContactHours'>
