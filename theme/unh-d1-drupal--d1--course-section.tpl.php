@@ -194,8 +194,13 @@ if($body_section_fields['section_tuition']['show']) {
   $show_published_code = $body_section_fields['section_tuition']['published_code'];
   $tuition_items = unh_d1_client_getSectionTuitionInfo($section);  
   $tuition = [];
+  setlocale(LC_MONETARY, 'en_US.UTF-8');
   foreach($tuition_items as $tuition_item) {
-    $amounts = array_column($tuition_item['items'], 'amount');
+    $amounts_raw = array_column($tuition_item['items'], 'amount');
+    $amounts = [];
+    foreach ($amounts_raw as $amount) {
+      $amounts[] = money_format('%.2n', $amount);
+    }
     $tuition[] = implode(($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '') . '<br>', $amounts) .
       ($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '');
   }

@@ -173,6 +173,22 @@ function _unh_d1_drupal_non_d1_course_url($node) {
 
   return $ret;
 }
+
+
+/**
+ * Given course node, returns a money-formatted cost.
+ */
+function _unh_d1_drupal_non_d1_course_tuition($node) {
+  $ret = '';
+
+  if (!empty($node)) {
+    $tuition = (!empty($node->field_course_tuition) ? $node->field_course_tuition['und'][0]['value'] : "");
+    $ret = $tuition;
+  }
+  
+  return $ret;
+}
+
  
  
  

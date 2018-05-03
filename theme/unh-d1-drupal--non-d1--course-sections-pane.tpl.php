@@ -19,7 +19,12 @@ if (!empty($course_nid)) {
       $dates_times = _unh_d1_drupal_non_d1_course_schedule($node);
       $location_name = _unh_d1_drupal_non_d1_course_location($node);
       $instructors = _unh_d1_drupal_non_d1_course_instructors($node);
-      //$tuition = _d1pdt_course_tuition($node);
+      $tuition = _unh_d1_drupal_non_d1_course_tuition($node);
+      if (!empty($tuition)) {
+        setlocale(LC_MONETARY, 'en_US.UTF-8');
+        $tuition = money_format('%.2n', $tuition);
+      }
+
       //$contact_hours = _d1pdt_course_contact_hours($node);
       //$ceus = _d1pdt_course_ceus($node);
       $course_url = _unh_d1_drupal_non_d1_course_url($node);
@@ -145,7 +150,23 @@ if (!empty($course_nid)) {
             </div> <!-- row -->
           </div> <!-- section item courseInstructors -->
 <?php
-      }           
+      }       
+      if (!empty($tuition)) {
+?>
+            <div class='section item courseTuition'>
+              <div class='row'>
+                <div class='header col-xs-5'>
+                  <label for='courseTuition'>Tuition:</label>
+                </div>
+                <div class='content col-xs-7'>
+                  <span id='courseTuition'>
+                    <?=$tuition?>
+                  </span>
+                </div>
+              </div> <!-- row -->
+            </div>
+<?php
+      }                
     } else {
 ?>
       // Commented this out - shows nothing on 'section unavailable'.
