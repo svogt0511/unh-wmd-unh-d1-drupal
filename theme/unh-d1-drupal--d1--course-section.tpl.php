@@ -17,6 +17,7 @@ $section_title = unh_d1_client_getsectionTitle($section);
 $section_number = unh_d1_client_getsectionCustomSectionNumber($section);
 $contact_hours = unh_d1_client_getsectionContactHours($section);
 $ceus = unh_d1_client_getsectionCEUs($section);
+$discounts = unh_d1_client_getsectionDiscountNames($section);
 
 $i = $disp_idx;
 $in = $disp_open;
@@ -34,7 +35,7 @@ $output = '';
     $status = '<div class="section-enrollment-closed-status" style="5px 0 0 0">Enrollment Closed</div>';
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
     $dt = unh_d1_client_getSectionEnrollmentBeginDate($section);
-    $date = $dt->format('Y-m-d');
+    $date = $dt->format(UNH_D1_DRUPAL_DATE_FORMAT);
     $msg = "Enrollment opens:&nbsp;&nbsp;" . $date;
     if (!empty($msg)) {
       $status = '<div class="section-wait-list-status"  style="margin: 5px 0 0 0">' . $msg . '</div>';
@@ -310,11 +311,32 @@ if ($body_section_fields['section_contact_hours'] && !empty($contact_hours)) {
     <div class='content col-xs-7'>
       <span id='sectionContactHours$i'>
         " . $contact_hours . "
-
       </span>
     </div>
   </div>
 </div>
+";
+}
+
+
+////
+// GET SECTION DISCOUNTS
+$section_discounts = '';
+if ($body_section_fields['section_discounts'] && !empty($discounts)) {
+  $discounts_str = implode('<br>', $discounts);
+  $section_discounts =  "
+  <div class='section item courseDiscounts'>
+    <div class='row'>
+      <div class='header col-xs-5'>
+        <label for='courseDiscounts$i'>Potential Discount(s):</label>
+      </div>
+      <div class='content col-xs-7'>
+        <span id='courseDiscounts$i'>
+          " . $discounts_str . "
+        </span>
+      </div>
+    </div>
+  </div>
 ";
 }
 
@@ -390,6 +412,7 @@ $body_output .= "
       $section_instructors .
       $section_tuition . 
       $section_contact_hours . 
+      $section_discounts . 
       $section_ceus . 
       $section_course_code . 
       $section_number . "

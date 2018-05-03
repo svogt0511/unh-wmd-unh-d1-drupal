@@ -53,7 +53,7 @@ This feature adds the necessary code for tracking of enrollment button clicks.  
 /**
  * TIME CONSTANTS.
  */
-define("UNH_D1_DRUPAL_DATE_FORMAT", "M-d-Y");
+define("UNH_D1_DRUPAL_DATE_FORMAT", "d M Y");
 define("UNH_D1_DRUPAL_TIME_FORMAT", "h:ia");
 
 
