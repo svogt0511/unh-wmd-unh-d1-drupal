@@ -15,7 +15,8 @@ $course_code = unh_d1_client_getcourseNumber($course);
 $semester = unh_d1_client_getsectionSemester($section);
 $section_title = unh_d1_client_getsectionTitle($section);
 $section_number = unh_d1_client_getsectionCustomSectionNumber($section);
-
+$contact_hours = unh_d1_client_getsectionContactHours($section);
+$ceus = unh_d1_client_getsectionCEUs($section);
 
 $i = $disp_idx;
 $in = $disp_open;
@@ -196,10 +197,8 @@ if($body_section_fields['section_times']['show']) {
 ////
 // GET SECTION LOCATION/CAMPUS
 $section_locations = "";
-ddl($body_section_fields, '$body_section_fields');
 if($body_section_fields['section_locations']){
   $section_schedules = unh_d1_client_getSectionSchedules($section);
-ddl($section_schedules, '$section_schedule ccc');
   $locations = [];
   foreach($section_schedules as $section_schedule) {
     $location = unh_d1_client_getSectionCampusName($section_schedule);
@@ -207,7 +206,6 @@ ddl($section_schedules, '$section_schedule ccc');
       $locations[] = $location;
     }
   }
-  ddl($locations, '$locations ccc');
   if (!empty($locations)) {
     $section_locations .= "
 <div class='section item courseLocation'>
@@ -264,7 +262,7 @@ if($body_section_fields['section_instructors']){
 ////
 // GET SECTION TUITION
 $section_tuition = "";
-if($body_section_fields['section_tuition']['show']) {
+if ($body_section_fields['section_tuition']['show']) {
   $field_label = (!empty($body_section_fields['section_tuition']['label']) ? $body_section_fields['section_tuition']['label'] : 'Tuition:');
   $show_published_code = $body_section_fields['section_tuition']['published_code'];
   $tuition_items = unh_d1_client_getSectionTuitionInfo($section);  
@@ -300,6 +298,47 @@ if($body_section_fields['section_tuition']['show']) {
 }
 
 ////
+// GET SECTION CONTACT HOURS
+$section_contact_hours = '';
+if ($body_section_fields['section_contact_hours'] && !empty($contact_hours)) {
+  $section_contact_hours = "
+<div class='section item sectionContactHours'>
+  <div class='row'>
+    <div class='header col-xs-5'>
+      <label for='sectionContactHours$i'>Contact Hours:</label>
+    </div>
+    <div class='content col-xs-7'>
+      <span id='sectionContactHours$i'>
+        " . $contact_hours . "
+
+      </span>
+    </div>
+  </div>
+</div>
+";
+}
+
+////
+// GET SECTION CEUs
+$section_ceus = '';
+if ($body_section_fields['section_contact_hours'] && !empty($ceus)) {
+  $section_ceus = "
+  <div class='section item sectionCEUs'>
+    <div class='row'>
+      <div class='header col-xs-5'>
+        <label for='sectionCEU$i'>CEU(s):</label>
+      </div>
+      <div class='content col-xs-7'>
+        <span id='sectionCEU$i'>
+          " . $ceus . "
+        </span>
+      </div>
+    </div>
+  </div>
+";
+}
+
+////
 // GET SECTION COURSE CODE
 $section_course_code = "";
 if($body_section_fields['section_course_code'] && !empty($course_code)) {
@@ -319,9 +358,25 @@ if($body_section_fields['section_course_code'] && !empty($course_code)) {
 ";
 }
 
-// UNH_D1_DRUPAL_DATE_FORMAT
-  //$section_dates .= _d1pdt_sectionDates_block($section, $i, (array_key_exists('section_dates', $body_section_fields ) ? $body_section_fields['section_dates'] : null));
-
+////
+// GET SECTION NUMBER section_number
+if($body_section_fields['section_number'] && !empty($section_number)) {
+  $section_number = "
+  <div class='section item sectionNumber'>
+    <div class='row'>
+      <div class='header col-xs-5'>
+        <label for='sectionNumber$i'>Section Number:</label>
+      </div>
+      <div class='content col-xs-7'>
+        <span id='sectionNumber$i'>
+"
+    . $section_number .
+    "       </span>
+      </div>
+    </div>
+  </div>
+";
+}
 
 // WRAP BODY BLOCK.
 $body_output .= "
@@ -334,7 +389,10 @@ $body_output .= "
       $section_locations .
       $section_instructors .
       $section_tuition . 
-      $section_course_code . "
+      $section_contact_hours . 
+      $section_ceus . 
+      $section_course_code . 
+      $section_number . "
     </div>
   </div>
 </div>
