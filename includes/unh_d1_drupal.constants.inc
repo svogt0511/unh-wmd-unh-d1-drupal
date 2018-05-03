@@ -53,7 +53,7 @@ This feature adds the necessary code for tracking of enrollment button clicks.  
 /**
  * TIME CONSTANTS.
  */
-define("UNH_D1_DRUPAL_DATE_FORMAT", "M-d-Y");
+define("UNH_D1_DRUPAL_DATE_FORMAT", "d M Y");
 define("UNH_D1_DRUPAL_TIME_FORMAT", "h:ia");
 
 
@@ -74,7 +74,9 @@ define("UNH_D1_DRUPAL_BODY_SECTIONS_SORT_BY_SECTION_TITLE", 1);
 define("UNH_D1_DRUPAL_SORT_ASCENDING", 0);
 define("UNH_D1_DRUPAL_SORT_DESCENDING", 1);
 
-/* CONSTANTS FOR NON-D1 COURSES */
+/**
+ * CONSTANTS FOR NON-D1 COURSES 
+ */
 
 /* COURSE TYPE - from 'Course Types' vocab */
 define("UNH_D1_DRUPAL_COURSETYPES_DESTINYONE", "DestinyOne");
