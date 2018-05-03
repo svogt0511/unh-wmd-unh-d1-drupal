@@ -189,6 +189,32 @@ function _unh_d1_drupal_non_d1_course_tuition($node) {
   return $ret;
 }
 
+/**
+ * Given course node, returns contact hours.
+ */
+function _unh_d1_drupal_non_d1_course_contact_hours($node) {
+  $ret = '';
+
+  if (!empty($node)) {
+    $ret = (!empty($node->field_course_contact_hours) ? $node->field_course_contact_hours['und'][0]['value'] : "");
+  }
+
+  return $ret;
+}
+
+/**
+ * Given course node, returns ceus.
+ */
+function _unh_d1_drupal_non_d1_course_ceus($node) {
+  $ret = '';
+
+  if (!empty($node)) {
+    $ret = (!empty($node->field_course_ceus) ? $node->field_course_ceus['und'][0]['value'] : "");
+  }
+
+  return $ret;
+}
+
  
  
  

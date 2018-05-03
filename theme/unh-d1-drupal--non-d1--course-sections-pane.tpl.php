@@ -25,8 +25,8 @@ if (!empty($course_nid)) {
         $tuition = money_format('%.2n', $tuition);
       }
 
-      //$contact_hours = _d1pdt_course_contact_hours($node);
-      //$ceus = _d1pdt_course_ceus($node);
+      $contact_hours = _unh_d1_drupal_non_d1_course_contact_hours($node);
+      $ceus = _unh_d1_drupal_non_d1_course_ceus($node);
       $course_url = _unh_d1_drupal_non_d1_course_url($node);
 
 ?>
@@ -166,7 +166,41 @@ if (!empty($course_nid)) {
               </div> <!-- row -->
             </div>
 <?php
-      }                
+      } 
+/////
+      if (!empty($contact_hours)) {
+?>
+          <div class='section item sectionContactHours'>
+            <div class='row'>
+              <div class='header col-xs-5'>
+                <label for='courseContactHours'>Contact Hours:</label>
+              </div>
+              <div class='content col-xs-7'>
+                <span id='courseContactHours'>
+                  <?=$contact_hours?>
+                </span>
+              </div>
+            </div> <!-- row -->
+          </div>
+<?php
+      }
+
+      if (!empty($ceus)) {
+?>
+          <div class='section item sectionCEUs'>
+            <div class='row'>
+              <div class='header col-xs-5'>
+                <label for='courseCEU5'>CEU(s):</label>
+              </div>
+              <div class='content col-xs-7'>
+                <span id='courseCEU5'>
+                  <?=$ceus?>
+                </span>
+              </div>
+            </div> <!-- row -->
+          </div>
+<?php
+      }                     
     } else {
 ?>
       // Commented this out - shows nothing on 'section unavailable'.
