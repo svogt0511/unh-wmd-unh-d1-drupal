@@ -518,19 +518,24 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
  margin-top: 0;
 }
 
-/* Required forms block. */
-.required-forms-block {
-  margin-bottom: 15px;
+.field-name-field-brochure-link a, .field-name-field-housing-information a {
+  color: white;
 }
 
+.field-name-field-brochure-link a:hover, .field-name-field-housing-information a:hover {
+  color: white;
+}
+
+/* Required forms block. */
+.required-forms-block {
+  margin: 15px 0;
+}
 
 .required-forms-block .required-forms-header {
   font-weight: bold;
   font-size: 15px;
   color: #263645;
 }
-
-
 
 /*
  *
@@ -766,7 +771,7 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
   margin-left: 10px;
 }
 
-
+/* Right Rail Buttons */
 
   
 
