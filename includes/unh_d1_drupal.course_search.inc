@@ -1248,7 +1248,7 @@ function unh_d1_drupal_search_by_text_other($search_text) {
             'courseTitle' => $node->title,
             //'rollUpAvailabilityStatus' => (_d1pdt_course_is_available($node) ? D1PDT_ROLLUP_AVAILABILITY_STATUS_AVAIL : D1PDT_ROLLUP_AVAILABILITY_STATUS_UNAVAIL),
             'rollUpAvailabilityStatus' => (
-              _unh_d1_drupal_non_d1_course_is_available($node) ?
+              unh_d1_drupal_non_d1_course_is_available($node) ?
                 array('message' => 'Available', 'label' => 'available') :
                 array('message' => 'Not Currently Available', 'label' => 'not_yet_available')),
             'courseURL' => unh_d1_drupal_get_drupal_course_alias_other($result->nid),
@@ -1429,7 +1429,7 @@ function unh_d1_drupal_search_by_keyword_other($tid) {
         'courseTitle' => $node->title,
         //'rollUpAvailabilityStatus' => (_d1pdt_course_is_available($node) ? D1PDT_ROLLUP_AVAILABILITY_STATUS_AVAIL : D1PDT_ROLLUP_AVAILABILITY_STATUS_UNAVAIL),
         'rollUpAvailabilityStatus' => (
-          _unh_d1_drupal_non_d1_course_is_available($node)  ?
+          unh_d1_drupal_non_d1_course_is_available($node)  ?
             array('message' => 'Available', 'label' => 'available') :
             array('message' => 'Not Currently Available', 'label' => 'not_yet_available')),
         'courseURL' => _unh_d1_drupal_get_drupal_course_alias_other($result->nid),
