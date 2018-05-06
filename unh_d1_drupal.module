@@ -17,6 +17,8 @@
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.ajax.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.constants.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.course_node.inc';
+require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.course_search.inc';
+require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.course_utils.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.non_d1_course.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.settings.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.sort.inc';
@@ -39,8 +41,8 @@ drupal_add_js(array('unh_d1_drupal' => $settings), array('type' => 'setting'));
 function unh_d1_drupal_preprocess_node(&$vars) {
   // Add JS & CSS by node type
   $testvar = 'MAKING MY AJAX CALL!!';
-  ddl('got here!');
-    ddl($vars, '$vars - pre got here!!');
+  // ddl('got here!');
+    // ddl($vars, '$vars - pre got here!!');
   if( $vars['type'] == 'course') {
 
     drupal_add_js(array('unh_d1_drupal' => array('testvar' => $testvar)), array('type' => 'setting'));
@@ -96,6 +98,31 @@ function unh_d1_drupal_menu() {
     'type' => MENU_CALLBACK,
     'access arguments' => array('access content'),
     'delivery callback' => 'unh_d1_drupal_ajax_get_section_status_callback',  // Magic goes here.
+  );
+  
+  $items['course-search-bar'] = array(
+    'title' => 'Course Search Bar',
+    'page callback' => 'drupal_get_form',
+    'page arguments'=>array('unh_d1_drupal_courseSearchBar'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+
+  $items['course-search-by-text'] = array(
+    'title' => 'Course Search - Textual',
+    'page callback' => 'drupal_get_form',
+    'page arguments'=>array('unh_d1_drupal_courseSearchByText'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+
+  // All search form results are forwarded here for display
+  $items['course-search-results/%'] = array(
+    'title' => 'Course Search Results',
+    'page callback' => 'unh_d1_drupal_courseSearch_results',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
   );
 
   return $items;

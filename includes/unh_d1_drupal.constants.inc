@@ -75,7 +75,7 @@ define("UNH_D1_DRUPAL_SORT_ASCENDING", 0);
 define("UNH_D1_DRUPAL_SORT_DESCENDING", 1);
 
 /**
- * CONSTANTS FOR NON-D1 COURSES 
+ * CONSTANTS COURSE SEARCH BLOCKS/PAGES
  */
 
 /* COURSE TYPE - from 'Course Types' vocab */
@@ -85,6 +85,39 @@ define("UNH_D1_DRUPAL_COURSETYPES_NONDESTINYONE", "Non-DestinyOne");
 /* COURSE STATUSES - must correspond with the 'course status' taxonomy. */
 define("UNH_D1_DRUPAL_NON_D1_COURSE_IS_AVAILABLE", "1");
 define("UNH_D1_DRUPAL_NON_D1_COURSE_IS_UNAVAILABLE", "0");
+
+// SECTION STATUSES - must correspond with the 'section status' taxonomy
+define("UNH_D1_DRUPAL_NON_D1_SECTION_IS_AVAILABLE", "available");
+define("UNH_D1_DRUPAL_NON_D1_SECTION_IS_WAITLISTED", "waitlisted");
+define("UNH_D1_DRUPAL_NON_D1_SECTION_WILL_BE_AVAILABLE", "future offering");
+
+
+// These constants define wording and states for various search bar elements.
+define("NO_TITLE", "<none>");
+define("UNH_D1_DRUPAL_COURSESEARCHBAR_BLOCKTITLE_DEFAULT", "UNH D1 Course Search Bar Block");
+define("UNH_D1_DRUPAL_LABEL_DEFAULT", "What do you want to learn?");
+define("UNH_D1_DRUPAL_COURSESEARCHBAR_TAB_DEFAULT", "CHOOSE A TOPIC");
+define("UNH_D1_DRUPAL_COURSESEARCHBAR_PHRASE_DEFAULT", "Choose your topics...");
+define("UNH_D1_DRUPAL_COURSESEARCHBAR_SUBMIT_DEFAULT", "SEARCH BY TOPICS");
+define("UNH_D1_DRUPAL_COURSESEARCHBAR_FILTERS_DEFAULT", TRUE);
+
+define("UNH_D1_DRUPAL_COURSESEARCHBYTEXT_BLOCKTITLE_DEFAULT", "UNH D1 Course Search by Text Block");
+
+define("UNH_D1_DRUPAL_EXCLUDE_NONNODE", TRUE);// These constants determine which courses a course search should exclude:
+// Ex: exclude_nonnode means delete results that don't have an equivalent Drupal 'course' node
+define("UNH_D1_DRUPAL_EXCLUDE_NONE", 0);
+define("UNH_D1_DRUPAL_EXCLUDE_ORPHANS", 1);
+define("UNH_D1_DRUPAL_EXCLUDE_NON_ORPHANS", 2);
+
+// DATE FORMAT - how the heck do you get this programmatically from the
+// content type definition??
+define("UNH_D1_DRUPAL_DATE_FORMAT_MACH_NAME", 'short_date_day_first_no_time');
+define("UNH_D1_DRUPAL_TIME_FORMAT_MACH_NAME", 'time');
+
+// CERTIFICATE ICON
+//define("UNH_D1_DRUPAL_CERTIFICATE_ICON", 'fa-graduation-cap');
+define("UNH_D1_DRUPAL_CERTIFICATE_ICON", 'fa-certificate');
+
 
 
 
