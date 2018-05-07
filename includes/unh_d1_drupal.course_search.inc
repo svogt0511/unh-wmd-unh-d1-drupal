@@ -129,7 +129,7 @@ function unh_d1_drupal_courseSearchBar($form, &$form_state) {
 
   if (!$form_state['submitted']) {
     $phrase = unh_d1_drupal_settings_courseSearchBar_phrase();
-    $submit = unh_d1_drupal_settings_courseSearchBar_phrase();
+    $submit = unh_d1_drupal_settings_courseSearchBar_submit();
     $filters = unh_d1_drupal_settings_courseSearchBar_filters();
 
     // Can shut these off by checkbox in block config, or if filters taxonomy is empty.
