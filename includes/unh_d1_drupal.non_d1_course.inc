@@ -11,7 +11,7 @@
 /**
  * Given course node, returns course status.
  */
-function _unh_d1_drupal_non_d1_course_is_available($node) {
+function unh_d1_drupal_non_d1_course_is_available($node) {
   $ret = FALSE;
   
   if (!empty($node)) {
@@ -215,7 +215,6 @@ function _unh_d1_drupal_non_d1_course_ceus($node) {
   return $ret;
 }
 
- 
- 
+
  
 

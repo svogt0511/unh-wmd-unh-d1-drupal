@@ -12,6 +12,12 @@
 function unh_d1_drupal_install() {
   variable_set('unh_d1_drupal_program_area', '');
   variable_set('unh_d1_drupal_google_track_enrollments', 0);
+  variable_set('unh_d1_drupal_courseSearchBar_blockTitle', UNH_D1_DRUPAL_COURSESEARCHBAR_BLOCKTITLE_DEFAULT);
+  variable_set('unh_d1_drupal_courseSearchBar_label', UNH_D1_DRUPAL_COURSESEARCHBAR_LABEL_DEFAULT);
+  variable_set('unh_d1_drupal_courseSearchBar_tab', UNH_D1_DRUPAL_COURSESEARCHBAR_TAB_DEFAULT);
+  variable_set('unh_d1_drupal_courseSearchBar_phrase', UNH_D1_DRUPAL_COURSESEARCHBAR_PHRASE_DEFAULT);
+  variable_set('unh_d1_drupal_courseSearchBar_submit', UNH_D1_DRUPAL_COURSESEARCHBAR_SUBMIT_DEFAULT);
+  variable_set('unh_d1_drupal_courseSearchBar_filters', UNH_D1_DRUPAL_COURSESEARCHBAR_FILTERS_DEFAULT);
 }
 
 /**
