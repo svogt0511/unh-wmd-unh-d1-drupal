@@ -80,7 +80,7 @@ function unh_d1_drupal_block_configure($delta = '') {
     $form['unh_d1_drupal_courseSearchBar_phrase'] = array(
       '#type' => 'textfield',
       '#title' => t('Enter the keyword search phrase:'),
-      '#default_value' => variable_get('dunh_d1_drupal_courseSearchBar_phrase'),
+      '#default_value' => variable_get('unh_d1_drupal_courseSearchBar_phrase'),
       '#size' => 60,
     );
 
