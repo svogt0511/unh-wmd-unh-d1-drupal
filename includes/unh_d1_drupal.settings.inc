@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 /**
- * Returns the program area as set in this module's settings.
+ * Returns the given module setting.
  */
 function unh_d1_drupal_settings_program_area() {
   $ret = NULL;
@@ -29,3 +29,94 @@ function unh_d1_drupal_settings_program_area() {
   
   return $ret;
 }
+
+
+/**
+ * Returns the given module setting.
+ */
+function unh_d1_drupal_settings_google_track_enrollments() {
+  $ret = NULL;
+  
+  $ret = variable_get('unh_d1_drupal_google_track_enrollments', '');
+  
+  return $ret;
+}
+
+
+/**
+ * Returns the given module setting.
+ */
+function unh_d1_drupal_settings_courseSearchBar_blockTitle() {
+  $ret = NULL;
+  
+  $ret = variable_get('unh_d1_drupal_courseSearchBar_blockTitle', '');
+  
+  return $ret;
+}
+
+
+/**
+ * Returns the given module setting.
+ */
+function unh_d1_drupal_settings_courseSearchBar_label() {
+  $ret = NULL;
+  
+  $ret = variable_get('unh_d1_drupal_courseSearchBar_label', '');
+  
+  return $ret;
+}
+
+
+/**
+ * Returns the given module setting.
+ */
+function unh_d1_drupal_settings_courseSearchBar_tab() {
+  $ret = NULL;
+  
+  $ret = variable_get('unh_d1_drupal_courseSearchBar_tab', '');
+  
+  return $ret;
+}
+
+
+/**
+ * Returns the given module setting.
+ */
+function unh_d1_drupal_settings_courseSearchBar_phrase() {
+  $ret = NULL;
+  
+  $ret = variable_get('unh_d1_drupal_courseSearchBar_phrase', '');
+  
+  return $ret;
+}
+
+
+/**
+ * Returns the given module setting.
+ */
+function unh_d1_drupal_settings_courseSearchBar_submit() {
+  $ret = NULL;
+  
+  $ret = variable_get('unh_d1_drupal_courseSearchBar_submit', '');
+  
+  return $ret;
+}
+
+
+
+
+/**
+ * Returns the given module setting.
+ */
+function unh_d1_drupal_settings_courseSearchBar_filters() {
+  $ret = NULL;
+  
+  $ret = variable_get('unh_d1_drupal_courseSearchBar_filters', '');
+  
+  return $ret;
+}
+
+
+
+
+

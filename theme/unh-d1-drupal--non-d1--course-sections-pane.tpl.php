@@ -12,7 +12,7 @@ if (!empty($course_nid)) {
 
 <?php
     $output = '';
-    $course_is_available =_unh_d1_drupal_non_d1_course_is_available($node);
+    $course_is_available = unh_d1_drupal_non_d1_course_is_available($node);
     if ($course_is_available) {
       $course_title = _unh_d1_drupal_non_d1_course_title($node);
       $enrollment_url = _unh_d1_drupal_non_d1_course_enrollment_url($node);
