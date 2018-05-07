@@ -95,7 +95,7 @@ define("UNH_D1_DRUPAL_NON_D1_SECTION_WILL_BE_AVAILABLE", "future offering");
 // These constants define wording and states for various search bar elements.
 define("NO_TITLE", "<none>");
 define("UNH_D1_DRUPAL_COURSESEARCHBAR_BLOCKTITLE_DEFAULT", "UNH D1 Course Search Bar Block");
-define("UNH_D1_DRUPAL_LABEL_DEFAULT", "What do you want to learn?");
+define("UNH_D1_DRUPAL_COURSESEARCHBAR_LABEL_DEFAULT", "What do you want to learn?");
 define("UNH_D1_DRUPAL_COURSESEARCHBAR_TAB_DEFAULT", "CHOOSE A TOPIC");
 define("UNH_D1_DRUPAL_COURSESEARCHBAR_PHRASE_DEFAULT", "Choose your topics...");
 define("UNH_D1_DRUPAL_COURSESEARCHBAR_SUBMIT_DEFAULT", "SEARCH BY TOPICS");
@@ -117,8 +117,6 @@ define("UNH_D1_DRUPAL_TIME_FORMAT_MACH_NAME", 'time');
 // CERTIFICATE ICON
 //define("UNH_D1_DRUPAL_CERTIFICATE_ICON", 'fa-graduation-cap');
 define("UNH_D1_DRUPAL_CERTIFICATE_ICON", 'fa-certificate');
-
-
 
 
 
