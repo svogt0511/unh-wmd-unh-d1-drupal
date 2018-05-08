@@ -289,7 +289,7 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
   if ($node->type == 'course') {
   
     // If course is available, display sections.
-    if (unh_d1_client_courseIsAvailable($course_code, array($program_area)) || unh_d1_drupal_non_d1_course_is_available($node)) {
+    if (unh_d1_client_courseIsAvailable_courseCode($course_code, array($program_area)) || unh_d1_drupal_non_d1_course_is_available($node)) {
 
       // D1 Course Sections
       if (!empty($course_code)) {

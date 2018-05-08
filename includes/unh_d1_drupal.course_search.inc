@@ -1146,7 +1146,7 @@ function unh_d1_drupal_search_by_text($search_text, $exclude_flag = UNH_D1_DRUPA
   $results3 = array_merge($results1[1], $results2[1]);
 
   uasort($results3, function ($a, $b) {
-    return strnatcasecmp($a, $b); }
+    return strnatcasecmp($a['name'], $b['name']); }
   );
 
   $ret = array($total, $results3);
