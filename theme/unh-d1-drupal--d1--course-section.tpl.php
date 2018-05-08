@@ -14,7 +14,6 @@ $node = node_load($course_nid);
 $course_code = unh_d1_client_getcourseNumber($course);
 $semester = unh_d1_client_getsectionSemester($section);
 $section_title = unh_d1_client_getsectionTitle($section);
-$section_number = unh_d1_client_getsectionCustomSectionNumber($section);
 $contact_hours = unh_d1_client_getsectionContactHours($section);
 $ceus = unh_d1_client_getsectionCEUs($section);
 $discounts = unh_d1_client_getsectionDiscountNames($section);
@@ -382,7 +381,8 @@ if($body_section_fields['section_course_code'] && !empty($course_code)) {
 
 ////
 // GET SECTION NUMBER section_number
-if($body_section_fields['section_number'] && !empty($section_number)) {
+$section_number = '';
+if($body_section_fields['section_number'] && !empty($sectionNumber)) {
   $section_number = "
   <div class='section item sectionNumber'>
     <div class='row'>
