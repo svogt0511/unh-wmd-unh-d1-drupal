@@ -78,12 +78,13 @@ if($body_section_fields['action_button']){
   } elseif (unh_d1_client_sectionIsWaitlisted($section)) {
     $action_button = '<a class="btn btn-primary btn-block btn-waitlist" href="' . unh_d1_client_get_wait_list_url($section) . '">Join Wait List</a>';
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
-    
+    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Notify Me When Enrollment Opends</a>';     
   } elseif (unh_d1_client_sectionIsNoLongerAvailable($section)) {
+    // $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Request Information</a>';  
   } elseif (unh_d1_client_sectionIsFull($section)) {
     $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Request Information</a>';  
   } elseif (unh_d1_client_sectionIsEnrollmentClosed($section)) {
-  
+    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Request Information</a>';    
   } else {
     $action_button = "";
   }
@@ -392,7 +393,7 @@ if($body_section_fields['section_number'] && !empty($sectionNumber)) {
       <div class='content col-xs-7'>
         <span id='sectionNumber$i'>
 "
-    . $section_number .
+    . $sectionNumber .
     "       </span>
       </div>
     </div>
