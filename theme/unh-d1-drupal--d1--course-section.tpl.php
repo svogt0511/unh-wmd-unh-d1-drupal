@@ -34,6 +34,7 @@ $output = '';
     $status = '<div class="section-enrollment-closed-status" style="5px 0 0 0">Enrollment Closed</div>';
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
     $dt = unh_d1_client_getSectionEnrollmentBeginDate($section);
+    // $date = $dt->format(UNH_D1_DRUPAL_DATE_FORMAT);
     $date = $dt->format(UNH_D1_DRUPAL_DATE_FORMAT);
     $msg = "Enrollment opens:&nbsp;&nbsp;" . $date;
     if (!empty($msg)) {
@@ -78,7 +79,7 @@ if($body_section_fields['action_button']){
   } elseif (unh_d1_client_sectionIsWaitlisted($section)) {
     $action_button = '<a class="btn btn-primary btn-block btn-waitlist" href="' . unh_d1_client_get_wait_list_url($section) . '">Join Wait List</a>';
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
-    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Notify Me When Enrollment Opends</a>';     
+    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Notify Me When Enrollment Opens</a>';     
   } elseif (unh_d1_client_sectionIsNoLongerAvailable($section)) {
     // $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Request Information</a>';  
   } elseif (unh_d1_client_sectionIsFull($section)) {
