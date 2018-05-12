@@ -368,6 +368,7 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
     } else {
 /////////////
       $message = "<b>This course is currently unavailable.</b>";
+      $output = '';
 
       // Get the 'request more information' (associated forms and files - goes in the right
       // side rail).  This form is optional.
@@ -403,7 +404,7 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
       } else {
 
       $output .= '
-<div class="card">
+<div class="card course-unavailable">
   <div class = "card-header">
     ' . $message . '
   </div>
