@@ -372,10 +372,9 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
 
       // Get the 'request more information' (associated forms and files - goes in the right
       // side rail).  This form is optional.
-      $form_nid = $node->field_more_info_webform['und'][0]['target_id'];
+      $form_nid = (!empty($node->field_more_info_webform) ? $node->field_more_info_webform['und'][0]['target_id'] : NULL);
 
       if (!empty($form_nid)) {
-
         $form_node = node_load($form_nid);
         $form_node_header_text = $form_node->title;
         $form_node_body_text = $message . '<br>' . $form_node->field_body['und'][0]['value'];
