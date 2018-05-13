@@ -43,6 +43,19 @@ function unh_d1_drupal_settings_google_track_enrollments() {
 }
 
 
+//UTIL: Returns the google tracking call for enrollments (if we are tracking);
+function unh_d1_drupal_get_enrollment_tracking_code($section) {
+  $ret = '';
+  
+  if (!empty($section)) {
+    $ret = (unh_d1_drupal_settings_google_track_enrollments() ? 'onclick="trackOutboundLink(\'' . unh_d1_client_get_enrollment_url($section) . '\'); return false;"' : '');
+  }
+  
+  return $ret;
+}
+
+
+
 /**
  * Returns the given module setting.
  */

@@ -75,7 +75,7 @@ $action_button = "";
 if($body_section_fields['action_button']){
   // Get the action button.
   if (unh_d1_client_sectionIsAvailable($section)) {  
-    $action_button = '<a class="btn btn-primary btn-block btn-enroll" ' . /* _d1pdt_get_enrollment_tracking_code($section) */ "" . ' href="' . unh_d1_client_get_enrollment_url($section) . '">Enroll Now</a>';
+    $action_button = '<a class="btn btn-primary btn-block btn-enroll" ' .  unh_d1_drupal_get_enrollment_tracking_code($section)  . ' href="' . unh_d1_client_get_enrollment_url($section) . '">Enroll Now</a>';
   } elseif (unh_d1_client_sectionIsWaitlisted($section)) {
     $action_button = '<a class="btn btn-primary btn-block btn-waitlist" href="' . unh_d1_client_get_wait_list_url($section) . '">Join Wait List</a>';
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
