@@ -87,7 +87,36 @@ function course_overview_pane_content_type_edit_form_submit($form, &$form_state)
       $program_area = unh_d1_drupal_settings_program_area();
       
       $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area), $information_level);
-      $course_overview = unh_d1_client_getcourseOverview($course);
+      $course_overview = '<div class="course-overview">' . unh_d1_client_getcourseOverview($course) . '</div>';
+      
+      $course_certificates = '';
+      
+        // Make sure we have a D1 course.
+      if (!empty($node->field_course_code)) {
+
+        // Now get the markup for certificates.
+        if (!empty($node->field_certificate)) {
+          $course_certificates = '
+<div class="certificates-block">';
+
+          $items = field_get_items('node', $node, 'field_certificate');
+          foreach ($items as $item) {
+            $fc = field_collection_field_get_entity($item);
+            $url = $fc->field_certificate_page['und'][0]['url'];
+            $title = $fc->field_certificate_title['und'][0]['value'];
+
+            $course_certificates .= '
+  <div class="certificate">
+    <a href="' . $url . '"><i class="fa ' . UNH_D1_DRUPAL_CERTIFICATE_ICON . '"></i>' . $title . '</a>
+  </div>';
+          }
+
+          $course_certificates .= '
+</div>';
+        }
+      }
+     $course_overview .= $course_certificates;
+
 
       // Render the content with either theme() or by building a render array.
       $block = new stdClass();
@@ -121,7 +150,7 @@ function course_overview_pane_content_type_edit_form_submit($form, &$form_state)
         */
       );
     } else {
-      $course_overview = $wrapper->field_overview->value()['safe_value'];
+      $course_overview = '<div class="course-overview">' . $wrapper->field_overview->value()['safe_value'] . '</div>';
       
       // Render the content with either theme() or by building a render array.
       $block = new stdClass();
