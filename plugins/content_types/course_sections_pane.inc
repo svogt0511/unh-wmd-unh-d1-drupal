@@ -279,28 +279,145 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
   $node = menu_get_object();
   $wrapper = entity_metadata_wrapper('node', $node);
   $course_code = $wrapper->field_course_code->value();
+  $course_title = $wrapper->title->value();
   $course = NULL;
   $sections = array();
   $config = $conf;
   $courseId = 0;
   $sectionIds = array();
-  
+  $program_area = unh_d1_drupal_settings_program_area();
+
   if ($node->type == 'course') {
-    // D1 Course Sections
-    if (!empty($course_code)) {
-        $information_level = 'full';
-        $program_area = unh_d1_drupal_settings_program_area();
+    // If course is available, display sections.
+    if ((!empty($course_code) && unh_d1_client_courseIsAvailable_courseCode($course_code, array($program_area))) || (empty($course_code) && unh_d1_drupal_non_d1_course_is_available($node))) {
+      // D1 Course Sections
+      if (!empty($course_code)) {
+          $information_level = 'full';
       
-        $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area));
+          $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area));
       
-        if (!empty($course)) {
-          $sections = unh_d1_client_searchCourseSections($course_code, array($program_area), $information_level);
+          if (!empty($course)) {
+            $sections = unh_d1_client_searchCourseSections($course_code, array($program_area), $information_level);
         
-          $courseId = unh_d1_client_getcourseObjectId($course);
-          $sectionIds = unh_d1_client_getSectionArrayObjectIds($sections);
+            $courseId = unh_d1_client_getcourseObjectId($course);
+            $sectionIds = unh_d1_client_getSectionArrayObjectIds($sections);
+          }
+
+        // Render the content with either theme() or by building a render array.
+        $block = new stdClass();
+        $block->content = array(
+          // Render with theme() - example.
+          // $args = array('course_nid' => '160', 'sections' => '20') + $panel_args;
+          // '#markup' => theme('unh_d1_drupal__course_sections_pane', $args)
+          // '#markup' => d1pdt_courseView_infoPane($panel_args[0])
+
+          // Render with a render array - example.
+          '#theme' => 'unh_d1_drupal__d1__course_sections_pane',
+          '#course_nid' => $node->nid,
+          '#course' => $course,
+          '#sections' => $sections,
+          '#config' => $config,
+          '#attached' => array(
+            'js'=> array(
+              drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.sections_pane.js',
+              array(
+                'data' => array(
+                  'courseId' => $courseId,
+                  'sectionIds' => $sectionIds,
+                  'section_status' => 'SECTION IS AVAILABLE'
+                ),
+                'type' => 'setting',
+              ),
+            )
+          )
+        );
+      }
+      // Non-D1 Course Sections - only 1 'section' for a non-d1 course
+      else {
+        // Render the content with either theme() or by building a render array.
+        $block = new stdClass();
+        $block->content = array(
+          // Render with theme() - example.
+          // $args = array('course_nid' => '160', 'sections' => '20') + $panel_args;
+          // '#markup' => theme('unh_d1_drupal__course_sections_pane', $args)
+          // '#markup' => d1pdt_courseView_infoPane($panel_args[0])
+
+          // Render with a render array - example.
+          '#theme' => 'unh_d1_drupal__non_d1__course_sections_pane',
+          '#course_nid' => $node->nid,
+          '#course' => NULL,
+          '#sections' => array(),
+          '#config' => $config,
+          '#attached' => array(
+            'js'=> array(
+              drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.sections_pane.js',
+              array(
+                'data' => array(
+                  'courseId' => $courseId,
+                  'sectionIds' => $sectionIds,
+                  'section_status' => 'SECTION IS AVAILABLE'
+                ),
+                'type' => 'setting',
+              ),
+            )
+          )
+        );
+      }
+
+    // If course is unavailable, display 'request more info'.
+    } else {
+/////////////
+      $message = "<b>This course is currently unavailable.</b>";
+      $output = '';
+
+      // Get the 'request more information' (associated forms and files - goes in the right
+      // side rail).  This form is optional.
+      $form_nid = (!empty($node->field_more_info_webform) ? $node->field_more_info_webform['und'][0]['target_id'] : NULL);
+
+      if (!empty($form_nid)) {
+        $form_node = node_load($form_nid);
+        $form_node_header_text = $form_node->title;
+        $form_node_body_text = $message;
+        if (!empty($form_node->field_body)) {
+          $form_node_body_text .= '<br>' . $form_node->field_body['und'][0]['value'];
         }
 
-      // Render the content with either theme() or by building a render array.
+        // if we have components in the webform whose ids are either 'course_title'
+        // or 'course_code' assign them appropriate values from the $courseProfile.
+        // This could be done better. (To do: - find a better implementation?).
+        $key1 = unh_d1_drupal_array_search('form_key', 'course_title', $form_node->webform['components']);
+        if (empty($key1)) {
+          $key1 = unh_d1_drupal_array_search('form_key', 'course_name', $form_node->webform['components']);
+        }
+        $key2 = unh_d1_drupal_array_search('form_key', 'course_code', $form_node->webform['components']);
+        if ($key1 != NULL) {
+          $form_node->webform['components'][$key1]['value'] = $course_title;
+        }
+        if ($key2 != NULL) {
+          $form_node->webform['components'][$key2]['value'] = $course_code;
+        }
+        //$form =  drupal_get_form('webform_client_form_' . $form_id, $form_node, array());
+        $form =  drupal_get_form('webform_client_form_' . $form_nid, $form_node, array());
+        $rendered_form = '
+<div class="side-form-block">
+  <div class="side-form-header">' . $form_node_header_text . '</div>' . '
+  <div class="side-form-body">' . $form_node_body_text . '</div>' . '
+  <div class="side-form">' . drupal_render($form) . '</div>
+</div>';
+
+        $output .= $rendered_form;
+      } else {
+
+      $output .= '
+<div class="card course-unavailable">
+  <div class = "card-header">
+    ' . $message . '
+  </div>
+</div>
+  ';
+      }
+
+
       $block = new stdClass();
       $block->content = array(
         // Render with theme() - example.
@@ -309,57 +426,9 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
         // '#markup' => d1pdt_courseView_infoPane($panel_args[0])
 
         // Render with a render array - example.
-        '#theme' => 'unh_d1_drupal__d1__course_sections_pane',
-        '#course_nid' => $node->nid,
-        '#course' => $course,
-        '#sections' => $sections,
-        '#config' => $config,
-        '#attached' => array(
-          'js'=> array(
-            drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.sections_pane.js',
-            array(
-              'data' => array(
-                'courseId' => $courseId,
-                'sectionIds' => $sectionIds,
-                'section_status' => 'SECTION IS AVAILABLE'
-              ),
-              'type' => 'setting',
-            ),
-          )
-        )
-      );
-    }
-    // Non-D1 Course Sections - only 1 'section' for a non-d1 course
-    else {
-      // Render the content with either theme() or by building a render array.
-      $block = new stdClass();
-      $block->content = array(
-        // Render with theme() - example.
-        // $args = array('course_nid' => '160', 'sections' => '20') + $panel_args;
-        // '#markup' => theme('unh_d1_drupal__course_sections_pane', $args)
-        // '#markup' => d1pdt_courseView_infoPane($panel_args[0])
-
-        // Render with a render array - example.
-        '#theme' => 'unh_d1_drupal__non_d1__course_sections_pane',
-        '#course_nid' => $node->nid,
-        '#course' => NULL,
-        '#sections' => array(),
-        '#config' => $config,
-        '#attached' => array(
-          'js'=> array(
-            drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.sections_pane.js',
-            array(
-              'data' => array(
-                'courseId' => $courseId,
-                'sectionIds' => $sectionIds,
-                'section_status' => 'SECTION IS AVAILABLE'
-              ),
-              'type' => 'setting',
-            ),
-          )
-        )
-      );
-  
+        '#markup' => $output
+      ); 
+ /////////////   
     }
   }
   

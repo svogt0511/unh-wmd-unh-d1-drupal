@@ -43,6 +43,8 @@ if (!empty($sections)) {
       $first = FALSE;
     } else {
       // Commented this out - shows nothing on 'section unavailable'.
+      $sectionTitle = unh_d1_client_getsectionTitle($section);
+      $sectionSemester = unh_d1_client_getsectionSemester($section);
       $output .= "<!-- <div class='section-unavailable'>$sectionTitle (UNAVAILABLE $sectionSemester)</div> -->";
     }
   }

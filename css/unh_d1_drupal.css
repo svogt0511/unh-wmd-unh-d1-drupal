@@ -376,13 +376,14 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
     position: absolute;
     right: 10px;
     top: 25px;
+    padding: 0 0 10px 10px;
 }
 
 .card .card-header .fa.fa-minus {
   display: none;
 }
 
-.card .card-header .section-wait-list-status, .card .card-header .section-full-status {
+.card .card-header .section-wait-list-status, .card .card-header .section-full-status, .section-enrollment-closed-status {
     background-color: #B5231D !important;
     color: #ffffff;
     display: inline-block;

@@ -16,8 +16,11 @@ function unh_d1_drupal_non_d1_course_is_available($node) {
   
   if (!empty($node)) {
     $wrapper = entity_metadata_wrapper('node', $node);
-    $availability = $wrapper->field_course_availability->value();
-    $ret = ((strcasecmp($availability, UNH_D1_DRUPAL_NON_D1_COURSE_IS_AVAILABLE) == 0) ? TRUE : FALSE);
+    $course_code = $wrapper->field_course_code->value();
+    if (empty($wrapper->field_course_code->value())) {
+      $availability = $wrapper->field_course_availability->value();
+      $ret = ((strcasecmp($availability, UNH_D1_DRUPAL_NON_D1_COURSE_IS_AVAILABLE) == 0) ? TRUE : FALSE);
+    }
   }
 
   return $ret;
@@ -30,7 +33,6 @@ function _unh_d1_drupal_non_d1_course_title($node) {
   $ret = '';
   
   $wrapper = entity_metadata_wrapper('node', $node);
-  $ret = '';
   $ret = $wrapper->title->value();
   
   return $ret;
@@ -214,7 +216,4 @@ function _unh_d1_drupal_non_d1_course_ceus($node) {
 
   return $ret;
 }
-
-
- 
 
