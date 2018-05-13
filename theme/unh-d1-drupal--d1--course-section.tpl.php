@@ -14,7 +14,6 @@ $node = node_load($course_nid);
 $course_code = unh_d1_client_getcourseNumber($course);
 $semester = unh_d1_client_getsectionSemester($section);
 $section_title = unh_d1_client_getsectionTitle($section);
-$section_number = unh_d1_client_getsectionCustomSectionNumber($section);
 $contact_hours = unh_d1_client_getsectionContactHours($section);
 $ceus = unh_d1_client_getsectionCEUs($section);
 $discounts = unh_d1_client_getsectionDiscountNames($section);
@@ -35,6 +34,7 @@ $output = '';
     $status = '<div class="section-enrollment-closed-status" style="5px 0 0 0">Enrollment Closed</div>';
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
     $dt = unh_d1_client_getSectionEnrollmentBeginDate($section);
+    // $date = $dt->format(UNH_D1_DRUPAL_DATE_FORMAT);
     $date = $dt->format(UNH_D1_DRUPAL_DATE_FORMAT);
     $msg = "Enrollment opens:&nbsp;&nbsp;" . $date;
     if (!empty($msg)) {
@@ -75,16 +75,17 @@ $action_button = "";
 if($body_section_fields['action_button']){
   // Get the action button.
   if (unh_d1_client_sectionIsAvailable($section)) {  
-    $action_button = '<a class="btn btn-primary btn-block btn-enroll" ' . /* _d1pdt_get_enrollment_tracking_code($section) */ "" . ' href="' . unh_d1_client_get_enrollment_url($section) . '">Enroll Now</a>';
+    $action_button = '<a class="btn btn-primary btn-block btn-enroll" ' .  unh_d1_drupal_get_enrollment_tracking_code($section)  . ' href="' . unh_d1_client_get_enrollment_url($section) . '">Enroll Now</a>';
   } elseif (unh_d1_client_sectionIsWaitlisted($section)) {
     $action_button = '<a class="btn btn-primary btn-block btn-waitlist" href="' . unh_d1_client_get_wait_list_url($section) . '">Join Wait List</a>';
   } elseif (unh_d1_client_sectionIsFutureOffering($section)) {
-    
+    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Notify Me When Enrollment Opens</a>';     
   } elseif (unh_d1_client_sectionIsNoLongerAvailable($section)) {
+    // $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Request Information</a>';  
   } elseif (unh_d1_client_sectionIsFull($section)) {
     $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Request Information</a>';  
   } elseif (unh_d1_client_sectionIsEnrollmentClosed($section)) {
-  
+    $action_button = '<a class="btn btn-primary btn-block btn-request-more-info" href="' . unh_d1_client_get_request_more_info_url($section) . '">Request Information</a>';    
   } else {
     $action_button = "";
   }
@@ -382,7 +383,8 @@ if($body_section_fields['section_course_code'] && !empty($course_code)) {
 
 ////
 // GET SECTION NUMBER section_number
-if($body_section_fields['section_number'] && !empty($section_number)) {
+$section_number = '';
+if($body_section_fields['section_number'] && !empty($sectionNumber)) {
   $section_number = "
   <div class='section item sectionNumber'>
     <div class='row'>
@@ -392,7 +394,7 @@ if($body_section_fields['section_number'] && !empty($section_number)) {
       <div class='content col-xs-7'>
         <span id='sectionNumber$i'>
 "
-    . $section_number .
+    . $sectionNumber .
     "       </span>
       </div>
     </div>

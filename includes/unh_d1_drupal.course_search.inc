@@ -80,7 +80,7 @@ function unh_d1_drupal_block_configure($delta = '') {
     $form['unh_d1_drupal_courseSearchBar_phrase'] = array(
       '#type' => 'textfield',
       '#title' => t('Enter the keyword search phrase:'),
-      '#default_value' => variable_get('dunh_d1_drupal_courseSearchBar_phrase'),
+      '#default_value' => variable_get('unh_d1_drupal_courseSearchBar_phrase'),
       '#size' => 60,
     );
 
@@ -129,7 +129,7 @@ function unh_d1_drupal_courseSearchBar($form, &$form_state) {
 
   if (!$form_state['submitted']) {
     $phrase = unh_d1_drupal_settings_courseSearchBar_phrase();
-    $submit = unh_d1_drupal_settings_courseSearchBar_phrase();
+    $submit = unh_d1_drupal_settings_courseSearchBar_submit();
     $filters = unh_d1_drupal_settings_courseSearchBar_filters();
 
     // Can shut these off by checkbox in block config, or if filters taxonomy is empty.
@@ -1146,7 +1146,7 @@ function unh_d1_drupal_search_by_text($search_text, $exclude_flag = UNH_D1_DRUPA
   $results3 = array_merge($results1[1], $results2[1]);
 
   uasort($results3, function ($a, $b) {
-    return strnatcasecmp($a, $b); }
+    return strnatcasecmp($a['name'], $b['name']); }
   );
 
   $ret = array($total, $results3);
