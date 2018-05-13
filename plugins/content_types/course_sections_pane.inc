@@ -279,16 +279,17 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
   $node = menu_get_object();
   $wrapper = entity_metadata_wrapper('node', $node);
   $course_code = $wrapper->field_course_code->value();
+  $course_title = $wrapper->title->value();
   $course = NULL;
   $sections = array();
   $config = $conf;
   $courseId = 0;
   $sectionIds = array();
   $program_area = unh_d1_drupal_settings_program_area();
-  
+
   if ($node->type == 'course') {
     // If course is available, display sections.
-    if (unh_d1_client_courseIsAvailable_courseCode($course_code, array($program_area)) || unh_d1_drupal_non_d1_course_is_available($node)) {
+    if ((!empty($course_code) && unh_d1_client_courseIsAvailable_courseCode($course_code, array($program_area))) || (empty($course_code) && unh_d1_drupal_non_d1_course_is_available($node))) {
       // D1 Course Sections
       if (!empty($course_code)) {
           $information_level = 'full';
@@ -376,18 +377,24 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
       if (!empty($form_nid)) {
         $form_node = node_load($form_nid);
         $form_node_header_text = $form_node->title;
-        $form_node_body_text = $message . '<br>' . $form_node->field_body['und'][0]['value'];
+        $form_node_body_text = $message;
+        if (!empty($form_node->field_body)) {
+          $form_node_body_text .= '<br>' . $form_node->field_body['und'][0]['value'];
+        }
 
         // if we have components in the webform whose ids are either 'course_title'
         // or 'course_code' assign them appropriate values from the $courseProfile.
         // This could be done better. (To do: - find a better implementation?).
         $key1 = unh_d1_drupal_array_search('form_key', 'course_title', $form_node->webform['components']);
+        if (empty($key1)) {
+          $key1 = unh_d1_drupal_array_search('form_key', 'course_name', $form_node->webform['components']);
+        }
         $key2 = unh_d1_drupal_array_search('form_key', 'course_code', $form_node->webform['components']);
         if ($key1 != NULL) {
-          $form_node->webform['components'][$key1]['value'] = $courseTitle;
+          $form_node->webform['components'][$key1]['value'] = $course_title;
         }
         if ($key2 != NULL) {
-          $form_node->webform['components'][$key2]['value'] = $courseCode;
+          $form_node->webform['components'][$key2]['value'] = $course_code;
         }
         //$form =  drupal_get_form('webform_client_form_' . $form_id, $form_node, array());
         $form =  drupal_get_form('webform_client_form_' . $form_nid, $form_node, array());
