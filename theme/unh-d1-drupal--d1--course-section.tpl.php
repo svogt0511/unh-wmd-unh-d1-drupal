@@ -204,7 +204,7 @@ if($body_section_fields['section_locations']){
   $locations = [];
   foreach($section_schedules as $section_schedule) {
     $location = unh_d1_client_getSectionCampusName($section_schedule);
-    if (!empty($location)) {
+    if (!empty($location) && (!in_array($location, $locations))) {
       $locations[] = $location;
     }
   }
@@ -213,7 +213,7 @@ if($body_section_fields['section_locations']){
 <div class='section item courseLocation'>
   <div class='row'>
     <div class='header col-xs-5'>
-      <label for='courseLocation'>Location:</label>
+      <label for='courseLocation'>Location(s):</label>
     </div>
     <div class='content col-xs-7'>
       <span id='courseLocation'>"
@@ -274,7 +274,9 @@ if ($body_section_fields['section_tuition']['show']) {
     $amounts_raw = array_column($tuition_item['items'], 'amount');
     $amounts = [];
     foreach ($amounts_raw as $amount) {
-      $amounts[] = money_format('%.2n', $amount);
+      if ($amounts_raw !== 0) {
+        $amounts[] = money_format('%.2n', $amount);
+      }
     }
     $tuition[] = implode(($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '') . '<br>', $amounts) .
       ($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '');
