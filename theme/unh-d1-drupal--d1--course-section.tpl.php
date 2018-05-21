@@ -113,6 +113,33 @@ if($body_section_fields['action_button']){
   }
 */
 
+
+////
+// GET SECTION TYPE (if 'online' or 'online, self-paced')
+$section_type = "";
+if (unh_d1_client_sectionIsOnline($section)) {
+  $type = UNH_D1_CLIENT_SECTION_ONLINE;
+  if (unh_d1_client_sectionIsOnlineSelfPaced($section)) {
+    $type = UNH_D1_CLIENT_SECTION_SCHEDULE_ONLINE_SELF_PACED;
+  }
+  $section_type = "
+<div class='section item sectionType'>
+    <div class='row'>
+      <div class='header col-xs-5'>
+        <label for='sectionNumber$i'>Type:</label>
+      </div>
+      <div class='content col-xs-7'>
+        <span id='sectionNumber$i'>
+          " . $type  . "
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+";
+}
+
+
 ////
 // GET SECTION DATES
 $section_dates = "";
@@ -410,6 +437,7 @@ $body_output .= "
   <div class='card-block'>" . 
     $action_button . "
     <div class='section sectionDescription'>" .
+      $section_type . 
       $section_dates . 
       $section_times . 
       $section_locations .
