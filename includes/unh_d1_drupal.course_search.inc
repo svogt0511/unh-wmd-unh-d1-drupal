@@ -567,7 +567,8 @@ function unh_d1_drupal_search_by_filter(&$form_state, $informationLevel = 'full'
 
     foreach($courseProfiles as $key => $course) {
       // Get the URL from drupal based on the course code.
-      $url = unh_d1_drupal_get_drupal_course_alias($course['name']);
+      // $url = unh_d1_drupal_get_drupal_course_alias($course['name']);
+      $url = unh_d1_drupal_get_drupal_course_alias(unh_d1_client_getcourseName($course));
       if (!(empty($url) && ($exclude_flag === UNH_D1_DRUPAL_EXCLUDE_NONNODE))) {
         $course['courseURL'] = $url;
         $results['courseProfile'][] = $course;
@@ -611,7 +612,8 @@ function unh_d1_drupal_search_by_topic(&$form_state, $informationLevel = 'full',
 
           foreach($courseProfiles as $key => $course) {
             // Get the URL from drupal based on the course code.
-            $url = unh_d1_drupal_get_drupal_course_alias($course['courseNumber']);
+            // $url = unh_d1_drupal_get_drupal_course_alias($course['courseNumber']);
+            $url = unh_d1_drupal_get_drupal_course_alias(unh_d1_client_getcourseNumber($course));
             if (!(empty($url) && ($exclude_flag === UNH_D1_DRUPAL_EXCLUDE_NONNODE))) {
               $course['courseURL'] = $url;
               $results['courseProfile'][] = $course;
@@ -684,7 +686,8 @@ function unh_d1_drupal_search_combined_filter_topic(&$form_state) {
 function unh_d1_drupal_course_matches_filter(&$form_state, &$course, $filter) {
 
   foreach($form_state['storage']['results']['filter'][$filter]['courseProfiles'] as $courseProfile) {
-    if ($course['courseCode'] == $courseProfile['courseCode']) {
+    if (unh_d1_client_getcourseNumber($course) == unh_d1_client_getcourseNumber($courseProfile)) {
+    // if ($course['courseCode'] == $courseProfile['courseCode']) {
       return $courseProfile;
     }
   }
@@ -993,7 +996,7 @@ function unh_d1_drupal_get_courseListBlock_markup($courses) {
 }
 
 
-//GET MARKUP FOR SEARCH results course list
+//GET MARKUP FOR SEARCH results course list - by now 
 
 function unh_d1_drupal_get_simpleCourseListBlock_markup($courses) {
 
@@ -1011,7 +1014,8 @@ function unh_d1_drupal_get_simpleCourseListBlock_markup($courses) {
     $str .= '
   <li class="course-row">';
 
-    $str .= '<a href="' . $course['courseURL']  . '>' . $course['courseTitle'] . ' (' . $course['courseCode'] .')</a>';
+    // $str .= '<a href="' . $course['courseURL']  . '>' . $course['courseTitle'] . ' (' . $course['courseCode'] .')</a>';
+    $str .= '<a href="' . $course['courseURL']  . '>' . $course['courseTitle'] . ' (' . unh_d1_client_getcourseNumber($course) .')</a>';
 
     $str .= '
   </li>';
@@ -1074,7 +1078,7 @@ function unh_d1_drupal_courseSearch_results($search_by) {
     case 'combined':
       if ($valid_terms = unh_d1_drupal_search_by_keywords($params['topic'])) {
         if ($valid_filters = unh_d1_drupal_search_by_filters($params['filters'])) {
-          if ($filtered_terms = unh_d1_drupal_filter_op($valid_terms, $valid_filters, 'include')) {
+          if ($filtered_terms = unh_d1_drupal_filter_op_v1($valid_terms, $valid_filters, 'include')) {
             $form_state['storage']['results']['area'] = $filtered_terms;
           } else {
             $form_state['storage']['results'] = array();
@@ -1563,27 +1567,6 @@ function unh_d1_drupal_search_by_filter_other($tid) {
 
 /**
  *
- * Given a generic course structure, determines its type then finds its title/name
- *
- **/
-
-function unh_d1_drupal_get_courseName($course = NULL) {
-  $ret = '';
-  
-  if (!empty($course)) {
-    if (!empty(unh_d1_client_getcourseNumber($course))) {
-      $ret = unh_d1_client_getcourseName($course);
-    }
-  } else {
-    $ret = $course['courseTitle'];
-  }
-
-  return $ret;
-}
-
-
-/**
- *
  * Given a list of terms containing course search results, remove any terms with no courses.
  *
  **/
@@ -1654,13 +1637,43 @@ function unh_d1_drupal_filter_op($terms, $filters, $op) {
 }
 
 
+
+function unh_d1_drupal_filter_op_v1($terms, $filters, $op) {
+  foreach($terms as &$area) {
+    foreach($area['topic'] as &$topic) {
+      foreach($topic['courseProfiles'] as $key=>$course) {
+        if ($op == 'include') {
+          if (!unh_d1_drupal_filter_match($course, $filters)) {
+            unset($topic['courseProfiles'][$key]);
+            //ddl($course, 'unsetting $course! ');
+          }
+          else {
+            //ddl($course, 'SETTing $course! ');
+            // Leave it!
+          }
+        } elseif ($op == 'exclude')  {
+          // No exclude op implemented at this time. Skip for now.
+        } else {
+          // Error - just skip for now.
+        }
+      }
+    }
+  }
+
+  $valid_terms = unh_d1_drupal_remove_empties($terms);
+
+  return $valid_terms;
+}
+
+
 function unh_d1_drupal_filter_match($course, $filters) {
-  $match = false;
+  $match = FALSE;
   foreach($filters as $filter) {
     foreach($filter['courseProfiles'] as $filterBy) {
-      if ($course['courseCode'] == $filterBy['courseCode']) {
-        $match = true;
-        break 2;
+      if (unh_d1_client_getcourseNumber($course) == unh_d1_client_getcourseNumber($filterBy)) {
+      //if ($course['courseCode'] == $filterBy['courseCode']) {
+        $match = TRUE;
+        break;
       }
     }
   }
