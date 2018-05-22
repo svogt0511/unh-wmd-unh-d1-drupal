@@ -333,7 +333,7 @@ if ($body_section_fields['section_tuition']['show']) {
 // GET SECTION NOTES
 $section_notes = '';
 $notes = unh_d1_client_getsectionNotes($section);
-if (!empty($notes)) {
+if ($body_section_fields['section_notes'] && !empty($notes)) {
   $section_notes = "
 <div class='section item sectionNotes'>
   <div class='row'>
