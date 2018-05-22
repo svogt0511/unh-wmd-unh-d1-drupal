@@ -336,15 +336,14 @@ $notes = unh_d1_client_getsectionNotes($section);
 if (!empty($notes)) {
   $section_notes = "
 <div class='section item sectionNotes'>
-    <div class='row'>
-      <div class='header col-xs-5'>
-        <label for='sectionNotes$i'>Section Notes:</label>
-      </div>
-      <div class='content col-xs-7'>
-        <span id='sectionNotes$i'>
-          " . $notes . "
-        </span>
-      </div>
+  <div class='row'>
+    <div class='header col-xs-5'>
+      <label for='sectionNotes$i'>Section Notes:</label>
+    </div>
+    <div class='content col-xs-7'>
+      <span id='sectionNotes$i'>
+        " . $notes . "
+      </span>
     </div>
   </div>
 </div>
