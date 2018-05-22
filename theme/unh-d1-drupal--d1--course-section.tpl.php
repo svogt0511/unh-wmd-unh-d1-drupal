@@ -113,6 +113,33 @@ if($body_section_fields['action_button']){
   }
 */
 
+
+////
+// GET SECTION TYPE (if 'online' or 'online, self-paced')
+$section_type = "";
+if (unh_d1_client_sectionIsOnline($section)) {
+  $type = UNH_D1_CLIENT_SECTION_ONLINE;
+  if (unh_d1_client_sectionIsOnlineSelfPaced($section)) {
+    $type = UNH_D1_CLIENT_SECTION_SCHEDULE_ONLINE_SELF_PACED;
+  }
+  $section_type = "
+<div class='section item sectionType'>
+    <div class='row'>
+      <div class='header col-xs-5'>
+        <label for='sectionNumber$i'>Type:</label>
+      </div>
+      <div class='content col-xs-7'>
+        <span id='sectionNumber$i'>
+          " . $type  . "
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+";
+}
+
+
 ////
 // GET SECTION DATES
 $section_dates = "";
@@ -204,7 +231,7 @@ if($body_section_fields['section_locations']){
   $locations = [];
   foreach($section_schedules as $section_schedule) {
     $location = unh_d1_client_getSectionCampusName($section_schedule);
-    if (!empty($location)) {
+    if (!empty($location) && (!in_array($location, $locations))) {
       $locations[] = $location;
     }
   }
@@ -213,7 +240,7 @@ if($body_section_fields['section_locations']){
 <div class='section item courseLocation'>
   <div class='row'>
     <div class='header col-xs-5'>
-      <label for='courseLocation'>Location:</label>
+      <label for='courseLocation'>Location(s):</label>
     </div>
     <div class='content col-xs-7'>
       <span id='courseLocation'>"
@@ -274,7 +301,9 @@ if ($body_section_fields['section_tuition']['show']) {
     $amounts_raw = array_column($tuition_item['items'], 'amount');
     $amounts = [];
     foreach ($amounts_raw as $amount) {
-      $amounts[] = money_format('%.2n', $amount);
+      if ($amounts_raw !== 0) {
+        $amounts[] = money_format('%.2n', $amount);
+      }
     }
     $tuition[] = implode(($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '') . '<br>', $amounts) .
       ($show_published_code ? (!empty($tuition_item['published_code']) ? ' <span class="published-code">' . $tuition_item['published_code'] . '</span>' : '') : '');
@@ -298,6 +327,29 @@ if ($body_section_fields['section_tuition']['show']) {
 ";
   }
 }
+
+
+////
+// GET SECTION NOTES
+$section_notes = '';
+$notes = unh_d1_client_getsectionNotes($section);
+if (!empty($notes)) {
+  $section_notes = "
+<div class='section item sectionNotes'>
+  <div class='row'>
+    <div class='header col-xs-5'>
+      <label for='sectionNotes$i'>Section Notes:</label>
+    </div>
+    <div class='content col-xs-7'>
+      <span id='sectionNotes$i'>
+        " . $notes . "
+      </span>
+    </div>
+  </div>
+</div>
+";
+}
+
 
 ////
 // GET SECTION CONTACT HOURS
@@ -408,11 +460,13 @@ $body_output .= "
   <div class='card-block'>" . 
     $action_button . "
     <div class='section sectionDescription'>" .
+      $section_type . 
       $section_dates . 
       $section_times . 
-      $section_locations .
-      $section_instructors .
+      $section_locations . 
+      $section_instructors . 
       $section_tuition . 
+      $section_notes . 
       $section_contact_hours . 
       $section_discounts . 
       $section_ceus . 
