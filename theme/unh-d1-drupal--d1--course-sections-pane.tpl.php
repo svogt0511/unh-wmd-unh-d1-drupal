@@ -4,12 +4,12 @@ if (!empty($sections)) {
   if ($config['section_sort']['sort']) {
     $sections = unh_d1_drupal_sort_rr_sections($sections, $config['section_sort']['options'], $config['section_sort']['direction']);
   }
-?> 
-<div class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <div id="ajax-target-801725"></div>
-  <div id="ajax-target-801751"></div>  
-  <div id="ajax-target"></div>
 
+  $section_class = (!empty($config['section_status_cached']) ? 'cached' : 'noncached');
+  $classes = (!empty($classes) ? $classes . ' ' . $section_class : $section_class);
+?>
+<div id="ajax-target"></div> 
+<div class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class='sections_pane'>
     <div id='sectionAccordion' role='tablist' aria-multiselectable='true' class='sectionAccordion_class'>
   
