@@ -9,33 +9,38 @@
  * Functions implementing backend for ajax calls.  (Mostly section status.)
  */
 
-/******************************************************************************
- *
- * Calls to extract settings for this module.
- *
- ******************************************************************************/
-
 /**
- * Returns the program area as set in this module's settings.
+ *
+ * Implements the callback functions to render section RR with fresh statuses.
+ *
  */
-function unh_d1_drupal_ajax_get_section_status($courseId, $sectionId) {
-  // ddl($courseId, 'GOT HERE - AJAX CALL HANDLER');
-  // ddl($sectionId, 'GOT HERE - AJAX CALL HANDLER');
 
-  //$ret = 'GOT HERE - AJAX CALL HANDLER';
+function unh_d1_drupal_ajax_get_section_status($nid, $program_area, $course_code, $conf) {
   $ret = '';
-  if (!empty($courseId) && !empty($sectionId)) {
-    //$ret .= ' for: ' . $courseId . ' / ' . $sectionId;
+  $conf = $_POST;
+  
+  if (!empty($nid) && !empty($program_area) && !empty($course_code)) {
+    $node = node_load($nid);
+    $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area), 'full');
+    $sections_ret = unh_d1_client_searchCourseSections($course_code, array($program_area), 'full');
+    
+    $sections = [];
+    // Only use current course sections.
+    foreach($sections_ret as $section) {
+      if (!unh_d1_client_sectionIsNoLongerAvailable($section)) {
+        $sections[] = $section;
+      }
+    }
+  
+    $ret = theme('unh_d1_drupal__d1__course_sections_pane', array('course_nid' => $nid, 'course' => $course, 'sections' => $sections, 'config' => $conf));
   }
+  
   return $ret;
 }
 
 function unh_d1_drupal_ajax_get_section_status_callback($page_callback_result) {
-  // Only render content and validates return
   $content = $page_callback_result;
-  // $content = is_string($page_callback_result) ? $page_callback_result :   drupal_render($page_callback_result);
   $html = '<div id="ajax-section-status">' . $content . '</div>';
-  // $html = '' . drupal_get_css() . drupal_get_js() . '' . $content . '';
+
   print $html;
-  // drupal_page_footer(); 
 }

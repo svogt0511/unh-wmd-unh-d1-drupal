@@ -49,10 +49,7 @@
         parent_this = $(this).closest('div[class*="field-name-field-certificate-title"]');
         sibling_this = $(parent_this).next('div[class*="field-name-field-certificate-code"]');
         child_this = $(sibling_this).find('input[id*="field-certificate-code"]');
-        //console.log($(this).attr('id'));
-        //console.log($(parent_this).attr('id'));
-        //console.log($(sibling_this).attr('id'));
-        //console.log($(child_this).attr('id'));
+
         $(child_this).val(certificateCode);
         $(this).val(certificateTitle);
         $('div[class="dropdown"]').hide();
