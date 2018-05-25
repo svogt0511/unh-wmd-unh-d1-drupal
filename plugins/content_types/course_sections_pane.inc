@@ -249,11 +249,11 @@ function course_sections_pane_content_type_edit_form($form, &$form_state) {
     '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['disp_open']), 
   ); 
 
-  $form['section_status_noncached'] = array(
-    '#title' => t('Don\'t Cache Section Status'),
+  $form['section_status_cached'] = array(
+    '#title' => t('Use Cached Section Status'),
     '#type' => 'checkbox',
     '#return_value' => 1, 
-    '#default_value' => (($form_state['op'] == 'add') ? 0 : $conf['section_status_noncached']), 
+    '#default_value' => (($form_state['op'] == 'add') ? 1 : $conf['section_status_cached']), 
   );   
 
   return $form;
@@ -322,9 +322,10 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
               drupal_get_path('module', 'unh_d1_drupal') . '/js/unh_d1_drupal.sections_pane.js',
               array(
                 'data' => array(
-                  'courseId' => $courseId,
-                  'sectionIds' => $sectionIds,
-                  'section_status' => 'SECTION IS AVAILABLE'
+                  'nid' => $node->nid,
+                  'programArea' => $program_area,
+                  'courseCode' => $course_code,
+                  'conf' => $conf
                 ),
                 'type' => 'setting',
               ),
@@ -366,7 +367,6 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
 
     // If course is unavailable, display 'request more info'.
     } else {
-/////////////
       $message = "<b>This course is currently unavailable.</b>";
       $output = '';
 

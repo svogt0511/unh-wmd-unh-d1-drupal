@@ -90,10 +90,10 @@ function unh_d1_drupal_menu() {
   );
   
   // Add callback for non-cached loading of status (ajax).
-  $items['unh_d1_drupal/ajax/get_section_status/%/%'] = array(
+  $items['unh_d1_drupal/ajax/get_section_status/%/%/%'] = array(
   //$items['unh_d1_drupal/ajax/get_section_status'] = array(
     'page callback' => 'unh_d1_drupal_ajax_get_section_status', // Render HTML.
-    'page arguments' => array(3, 4),
+    'page arguments' => array(3, 4, 5, 6),
     //page arguments' => array('abc'),
     'type' => MENU_CALLBACK,
     'access arguments' => array('access content'),
