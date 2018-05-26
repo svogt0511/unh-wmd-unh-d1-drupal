@@ -274,6 +274,9 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
  * Run-time rendering course sections pane (right-rail list of section blocks).
  */
  function course_sections_pane_content_type_render($subtype, $conf, $panel_args) {
+ 
+  global $base_url;
+  global $base_path;
   
   $block = NULL;
   $node = menu_get_object();
@@ -325,7 +328,8 @@ function course_sections_pane_content_type_edit_form_submit($form, &$form_state)
                   'nid' => $node->nid,
                   'programArea' => $program_area,
                   'courseCode' => $course_code,
-                  'conf' => $conf
+                  'conf' => $conf,
+                  'base_url' => $base_url
                 ),
                 'type' => 'setting',
               ),
