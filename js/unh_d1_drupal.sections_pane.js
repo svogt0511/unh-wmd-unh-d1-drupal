@@ -14,7 +14,8 @@ function unh_d1_drupal_ajax_load(nid, programArea, courseCode, conf, base_url) {
     // console.log('MAKING THE Call!!'); 
     // console.log('base_url: ' + base_url)
     jQuery(".unh-d1-drupal--d1--course-sections-pane").hide();
-    jQuery("#ajax-target").load(base_url + "/unh_d1_drupal/ajax/get_section_status/" + nid + '/' + programArea + '/' + courseCode, conf);
+    random_num = Math.floor(Math.random() * 1000) + 1;
+    jQuery("#ajax-target").load(base_url + "/unh_d1_drupal/ajax/get_section_status/" + nid + '/' + programArea + '/' + courseCode + '/' + random_num, conf);
   } else {
       // console.log('NOT NOT NOT - MAKING THE Call!!'); 
 
