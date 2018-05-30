@@ -53,11 +53,11 @@ $header_output = "
     <a data-toggle='collapse' data-parent='#sectionAccordion' href='#sectionCollapse$i'
       aria-expanded='" . ($in ? 'true' : 'false') . "'
       aria-controls='sectionCollapse$i'>
+      <i class='fa fa-plus' style='display:" . $plus_style . ";'></i>
+      <i class='fa fa-minus' style='display:" . $minus_style . ";'></i>
       " . $section_title . "
       <br><span class='sectionSemester'>$semester</span>" . "
       <br>" . (!empty($status) ? $status : "" ) . "
-      <i class='fa fa-plus' style='display:" . $plus_style . ";'></i>
-      <i class='fa fa-minus' style='display:" . $minus_style . ";'></i>
     </a>
   </h5>
 </div>
