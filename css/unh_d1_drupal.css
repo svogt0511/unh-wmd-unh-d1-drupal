@@ -372,10 +372,8 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
     font-size: 12px;
 }
 
-.card .card-header .fa.fa-minus,.card .card-header .fa.fa-plus {
-    position: absolute;
-    right: 10px;
-    top: 25px;
+.card .card-header .fa.fa-minus, .card .card-header .fa.fa-plus {
+    float: right;
     padding: 0 0 10px 10px;
 }
 
