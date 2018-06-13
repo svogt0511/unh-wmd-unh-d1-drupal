@@ -89,34 +89,39 @@ function course_overview_pane_content_type_edit_form_submit($form, &$form_state)
       $course = unh_d1_client_searchCourse_courseCode($course_code, array($program_area), $information_level);
       $course_overview = '<div class="course-overview">' . unh_d1_client_getcourseOverview($course) . '</div>';
       
-      $course_certificates = '';
+      $course_certificates_block = '';
       
         // Make sure we have a D1 course.
       if (!empty($node->field_course_code)) {
 
         // Now get the markup for certificates.
         if (!empty($node->field_certificate)) {
-          $course_certificates = '
-<div class="certificates-block">';
 
           $items = field_get_items('node', $node, 'field_certificate');
+          $course_certificates = '';
           foreach ($items as $item) {
             $fc = field_collection_field_get_entity($item);
-            $url = $fc->field_certificate_page['und'][0]['url'];
-            $title = $fc->field_certificate_title['und'][0]['value'];
+            if (!empty($fc)) {
+              $url = $fc->field_certificate_page['und'][0]['url'];
+              $title = $fc->field_certificate_title['und'][0]['value'];
 
-            $course_certificates .= '
+              $course_certificates .= '
   <div class="certificate">
     <a href="' . $url . '"><i class="fa ' . UNH_D1_DRUPAL_CERTIFICATE_ICON . '"></i>' . $title . '</a>
   </div>';
+            }
           }
-
-          $course_certificates .= '
+          
+          if (!empty($course_certificates)) {
+            $course_certificates_block = '
+<div class="certificates-block">
+' . $course_certificates . '
 </div>';
+          }
         }
       }
-     $course_overview .= $course_certificates;
-
+      
+     $course_overview .= $course_certificates_block;
 
       // Render the content with either theme() or by building a render array.
       $block = new stdClass();
