@@ -7,6 +7,21 @@
  * Perhaps this should be in a separate module.
  *
  */
+ 
+/**
+ * Given a course structure, returns the drupal course node if it is a non-d1 course, otherwise returns NULL.
+ */
+function unh_d1_drupal_get_course_node($course) {
+  $ret =  NULL;
+  
+  if (!empty($course)) {
+    if (array_key_exists('node', $course)) {
+      $ret = $course['node'];
+    }
+  }
+    
+  return $ret;
+}
 
 /**
  * Given course node, returns course status.

@@ -489,19 +489,22 @@ function unh_d1_drupal_get_drupal_course_alias($courseCode = NULL) {
 function unh_d1_drupal_get_drupal_course_alias_D1($courseCode) {
 
   $alias = '';
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'Course')
-    ->fieldCondition('field_course_code', 'value', $courseCode);
+  
+  if (!empty($courseCode)) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'Course')
+      ->fieldCondition('field_course_code', 'value', $courseCode);
 
-  $result = $query->execute();
-  if (empty($result)) {
-    $alias = '';
-  } else {
-    $last_node = end($result['node']);
-    $nid = $last_node->nid;
+    $result = $query->execute();
+    if (empty($result)) {
+      $alias = '';
+    } else {
+      $last_node = end($result['node']);
+      $nid = $last_node->nid;
 
-    $alias = base_path() . drupal_get_path_alias('node/' . $nid);
+      $alias = base_path() . drupal_get_path_alias('node/' . $nid);
+    }
   }
 
   return $alias;
@@ -1150,7 +1153,22 @@ function unh_d1_drupal_search_by_text($search_text, $exclude_flag = UNH_D1_DRUPA
   $results3 = array_merge($results1[1], $results2[1]);
 
   uasort($results3, function ($a, $b) {
-    return strnatcasecmp($a['name'], $b['name']); }
+    // return strnatcasecmp($a['name'], $b['name']); }
+    // Be careful here.  We are searching for D1 and non-D1 courses.  We will need to differentiate.
+    
+    if (!empty($node = unh_d1_drupal_get_course_node($a))) {
+      $a_name = _unh_d1_drupal_non_d1_course_title($node);
+    } else {
+      $a_name = unh_d1_client_getcourseName($a);
+    }
+    
+    if (!empty($node = unh_d1_drupal_get_course_node($b))) {
+      $b_name = _unh_d1_drupal_non_d1_course_title($node);
+    } else {
+      $b_name = unh_d1_client_getcourseName($b);
+    }
+    
+    return strnatcasecmp($a_name, $b_name); }
   );
 
   $ret = array($total, $results3);
@@ -1170,6 +1188,7 @@ function unh_d1_drupal_search_by_text_D1($search_text, $exclude_flag = UNH_D1_DR
   $total_courses = 0;
 
   $results = unh_d1_client_searchCourse_keyword($keyword, unh_d1_drupal_settings_program_area());
+  $total = count($results);
 
   // got the resulting courses from the search, now get the urls from drupal
   if (!empty($results)) {
@@ -1202,7 +1221,8 @@ function unh_d1_drupal_search_by_text_D1($search_text, $exclude_flag = UNH_D1_DR
     }
   }
 
-  return(array(count($results), $results));
+  // return(array(count($results), $results));
+  return(array($total, $results));
 }
 
 
@@ -1246,7 +1266,8 @@ function unh_d1_drupal_search_by_text_other($search_text) {
       foreach ($result['node'] as $result) {
         $node = node_load($result->nid);
         if (($first_result && empty($node->field_course_code)) ||
-            (!$first_result && empty($node->field_course_code) && (array_search($node->title, array_column($courseProfiles->courseTitle)) === FALSE))) {
+            // (!$first_result && empty($node->field_course_code) && (array_search($node->title, array_column($courseProfiles->courseTitle)) === FALSE))) {
+            (!$first_result && empty($node->field_course_code) && (array_search($node->title, unh_d1_client_getCourseArrayTitles($courseProfiles)) === FALSE))) {
           $courseProfile = array(
             'courseCode' => '',
             'courseTitle' => $node->title,

@@ -123,5 +123,3 @@ define("UNH_D1_DRUPAL_CERTIFICATE_ICON", 'fa-certificate');
 
 
 
-
-
