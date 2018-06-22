@@ -1152,26 +1152,9 @@ function unh_d1_drupal_search_by_text($search_text, $exclude_flag = UNH_D1_DRUPA
   $total = $results1[0] + $results2[0];
   $results3 = array_merge($results1[1], $results2[1]);
 
-  uasort($results3, function ($a, $b) {
-    // return strnatcasecmp($a['name'], $b['name']); }
-    // Be careful here.  We are searching for D1 and non-D1 courses.  We will need to differentiate.
-    
-    if (!empty($node = unh_d1_drupal_get_course_node($a))) {
-      $a_name = _unh_d1_drupal_non_d1_course_title($node);
-    } else {
-      $a_name = unh_d1_client_getcourseName($a);
-    }
-    
-    if (!empty($node = unh_d1_drupal_get_course_node($b))) {
-      $b_name = _unh_d1_drupal_non_d1_course_title($node);
-    } else {
-      $b_name = unh_d1_client_getcourseName($b);
-    }
-    
-    return strnatcasecmp($a_name, $b_name); }
-  );
+  $results4 = _unh_d1_drupal_sort_courses_by_title($results3);
 
-  $ret = array($total, $results3);
+  $ret = array($total, $results4);
 
   return $ret;
 }
@@ -1301,9 +1284,9 @@ function unh_d1_drupal_search_by_text_other($search_text) {
  ******************************************************************************/
 
 function unh_d1_drupal_search_by_keywords($params, $exclude_flag = UNH_D1_DRUPAL_EXCLUDE_ORPHANS) {
-  if (empty($params)) {
-    $ret = null;
-  } else {
+  $ret = [];
+    
+  if (!empty($params)) {
     $terms = explode(',', $params);
     $valid_terms = array();
 
@@ -1324,12 +1307,13 @@ function unh_d1_drupal_search_by_keywords($params, $exclude_flag = UNH_D1_DRUPAL
           'topic_title' => $term_obj->name,
           'courseProfiles' => unh_d1_drupal_search_by_keyword_d1($term_obj, $exclude_flag),
         );
-        $results1 = $valid_terms[$parent->tid]['topic'][$tid]['courseProfiles'];
-        $results2 = unh_d1_drupal_search_by_keyword_other($tid);
-        $results3 = array_merge($results1, $results2);
-        uasort($results3, function ($a, $b) { return strnatcasecmp($a['courseTitle'], $b['courseTitle']); });
+        $results1 = (!empty($valid_terms[$parent->tid]['topic'][$tid]['courseProfiles']) ? $valid_terms[$parent->tid]['topic'][$tid]['courseProfiles'] : array());
+        $results2 = unh_d1_drupal_search_by_keyword_other($tid); 
+        $results3 = array_merge($results1, $results2);        
+        $results4 = _unh_d1_drupal_sort_courses_by_title($results3);
+        //uasort($results3, function ($a, $b) { return strnatcasecmp($a['courseTitle'], $b['courseTitle']); });
 
-        $valid_terms[$parent->tid]['topic'][$tid]['courseProfiles'] = $results3;
+        $valid_terms[$parent->tid]['topic'][$tid]['courseProfiles'] = $results4;
       }
     }
 
@@ -1381,22 +1365,22 @@ function unh_d1_drupal_search_by_keyword_d1($term, $exclude_flag = UNH_D1_DRUPAL
           if (!empty($url)) {
             $course['courseURL'] = $url;
             $course['courseTitle'] = $title;
-            $result['courseProfile'][] = $course;
+            $results[] = $course;
           }
         } elseif ($exclude_flag === UNH_D1_DRUPAL_EXCLUDE_NON_ORPHANS) {
           if (empty($url)) {
             $course['courseURL'] = $url;
             $course['courseTitle'] = $title;
-            $result['courseProfile'][] = $course;
+            $results[] = $course;
           }
         } else { // UNH_D1_DRUPAL_EXCLUDE_NONE
           $course['courseURL'] = $url;
           $course['courseTitle'] = $title;
-          $result['courseProfile'][] = $course;
+          $results[] = $course;
         }
       }
     }
-    $ret =  $result['courseProfile'] ;
+    $ret =  $results ;
   }
 
   return $ret;
