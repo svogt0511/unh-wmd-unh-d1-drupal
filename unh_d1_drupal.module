@@ -24,6 +24,7 @@ require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drup
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.sort.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.utils.inc';
 require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.views_php.inc';
+require_once drupal_get_path('module', 'unh_d1_drupal') . '/includes/unh_d1_drupal.admin.inc';
 
     
 // Allows us to pass variables from php to javascript.  We need this in order to make
@@ -89,6 +90,17 @@ function unh_d1_drupal_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   
+
+  // Admin config page for d1_drupal reports.
+  $items['admin/config/unh-d1/unh-d1-drupal-reports-orphan-d1-courses'] = array(
+    'title' => 'UNH D1: Reports - Orphan D1 Courses',
+    'description' => 'Reports DestinyOne (D1) Courses that are visible to the UNH web app through the D1 Client, but have no corresponding Drupal course node.',
+    'page callback' => 'unh_d1_drupal_reports_orphan_d1_courses',
+//    'page arguments' => array('d1pdt_reports_orphans'),
+    'access arguments' => array('view unh_d1_drupal reports'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
   // Add callback for non-cached loading of status (ajax).
   $items['unh_d1_drupal/ajax/get_section_status/%/%/%'] = array(
   //$items['unh_d1_drupal/ajax/get_section_status'] = array(
@@ -136,6 +148,10 @@ function unh_d1_drupal_permission() {
     'administer unh_d1_drupal' => array(
       'title' => t('Administer UNH D1 Drupal Settings'),
       'description' => t('Configure UNH Drupal module settings for this site.'),
+    ),
+    'view unh_d1_drupal reports' => array(
+      'title' => t('View UNH D1 Drupal reports'),
+      'description' => t('View UNH D1 Drupal reports.'),
     ),
   );
 }
@@ -428,3 +444,5 @@ function unh_d1_drupal_preprocess_unh_d1_drupal__course_overview_pane(&$vars) {
   // ddl($vars, '$vars - preprocess a section block');
   // ddl("YYYY - GOT HERE PREPROCESS COURSE OVERVIEW PANE! END!");
 }
+
+
