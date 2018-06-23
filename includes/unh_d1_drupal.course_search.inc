@@ -489,19 +489,22 @@ function unh_d1_drupal_get_drupal_course_alias($courseCode = NULL) {
 function unh_d1_drupal_get_drupal_course_alias_D1($courseCode) {
 
   $alias = '';
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'Course')
-    ->fieldCondition('field_course_code', 'value', $courseCode);
+  
+  if (!empty($courseCode)) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'Course')
+      ->fieldCondition('field_course_code', 'value', $courseCode);
 
-  $result = $query->execute();
-  if (empty($result)) {
-    $alias = '';
-  } else {
-    $last_node = end($result['node']);
-    $nid = $last_node->nid;
+    $result = $query->execute();
+    if (empty($result)) {
+      $alias = '';
+    } else {
+      $last_node = end($result['node']);
+      $nid = $last_node->nid;
 
-    $alias = base_path() . drupal_get_path_alias('node/' . $nid);
+      $alias = base_path() . drupal_get_path_alias('node/' . $nid);
+    }
   }
 
   return $alias;
@@ -1149,11 +1152,9 @@ function unh_d1_drupal_search_by_text($search_text, $exclude_flag = UNH_D1_DRUPA
   $total = $results1[0] + $results2[0];
   $results3 = array_merge($results1[1], $results2[1]);
 
-  uasort($results3, function ($a, $b) {
-    return strnatcasecmp($a['name'], $b['name']); }
-  );
+  $results4 = _unh_d1_drupal_sort_courses_by_title($results3);
 
-  $ret = array($total, $results3);
+  $ret = array($total, $results4);
 
   return $ret;
 }
@@ -1170,6 +1171,7 @@ function unh_d1_drupal_search_by_text_D1($search_text, $exclude_flag = UNH_D1_DR
   $total_courses = 0;
 
   $results = unh_d1_client_searchCourse_keyword($keyword, unh_d1_drupal_settings_program_area());
+  $total = count($results);
 
   // got the resulting courses from the search, now get the urls from drupal
   if (!empty($results)) {
@@ -1202,7 +1204,8 @@ function unh_d1_drupal_search_by_text_D1($search_text, $exclude_flag = UNH_D1_DR
     }
   }
 
-  return(array(count($results), $results));
+  // return(array(count($results), $results));
+  return(array($total, $results));
 }
 
 
@@ -1246,7 +1249,8 @@ function unh_d1_drupal_search_by_text_other($search_text) {
       foreach ($result['node'] as $result) {
         $node = node_load($result->nid);
         if (($first_result && empty($node->field_course_code)) ||
-            (!$first_result && empty($node->field_course_code) && (array_search($node->title, array_column($courseProfiles->courseTitle)) === FALSE))) {
+            // (!$first_result && empty($node->field_course_code) && (array_search($node->title, array_column($courseProfiles->courseTitle)) === FALSE))) {
+            (!$first_result && empty($node->field_course_code) && (array_search($node->title, unh_d1_client_getCourseArrayTitles($courseProfiles)) === FALSE))) {
           $courseProfile = array(
             'courseCode' => '',
             'courseTitle' => $node->title,
@@ -1280,9 +1284,9 @@ function unh_d1_drupal_search_by_text_other($search_text) {
  ******************************************************************************/
 
 function unh_d1_drupal_search_by_keywords($params, $exclude_flag = UNH_D1_DRUPAL_EXCLUDE_ORPHANS) {
-  if (empty($params)) {
-    $ret = null;
-  } else {
+  $ret = [];
+    
+  if (!empty($params)) {
     $terms = explode(',', $params);
     $valid_terms = array();
 
@@ -1303,12 +1307,13 @@ function unh_d1_drupal_search_by_keywords($params, $exclude_flag = UNH_D1_DRUPAL
           'topic_title' => $term_obj->name,
           'courseProfiles' => unh_d1_drupal_search_by_keyword_d1($term_obj, $exclude_flag),
         );
-        $results1 = $valid_terms[$parent->tid]['topic'][$tid]['courseProfiles'];
-        $results2 = unh_d1_drupal_search_by_keyword_other($tid);
-        $results3 = array_merge($results1, $results2);
-        uasort($results3, function ($a, $b) { return strnatcasecmp($a['courseTitle'], $b['courseTitle']); });
+        $results1 = (!empty($valid_terms[$parent->tid]['topic'][$tid]['courseProfiles']) ? $valid_terms[$parent->tid]['topic'][$tid]['courseProfiles'] : array());
+        $results2 = unh_d1_drupal_search_by_keyword_other($tid); 
+        $results3 = array_merge($results1, $results2);        
+        $results4 = _unh_d1_drupal_sort_courses_by_title($results3);
+        //uasort($results3, function ($a, $b) { return strnatcasecmp($a['courseTitle'], $b['courseTitle']); });
 
-        $valid_terms[$parent->tid]['topic'][$tid]['courseProfiles'] = $results3;
+        $valid_terms[$parent->tid]['topic'][$tid]['courseProfiles'] = $results4;
       }
     }
 
@@ -1360,22 +1365,22 @@ function unh_d1_drupal_search_by_keyword_d1($term, $exclude_flag = UNH_D1_DRUPAL
           if (!empty($url)) {
             $course['courseURL'] = $url;
             $course['courseTitle'] = $title;
-            $result['courseProfile'][] = $course;
+            $results[] = $course;
           }
         } elseif ($exclude_flag === UNH_D1_DRUPAL_EXCLUDE_NON_ORPHANS) {
           if (empty($url)) {
             $course['courseURL'] = $url;
             $course['courseTitle'] = $title;
-            $result['courseProfile'][] = $course;
+            $results[] = $course;
           }
         } else { // UNH_D1_DRUPAL_EXCLUDE_NONE
           $course['courseURL'] = $url;
           $course['courseTitle'] = $title;
-          $result['courseProfile'][] = $course;
+          $results[] = $course;
         }
       }
     }
-    $ret =  $result['courseProfile'] ;
+    $ret =  $results ;
   }
 
   return $ret;
