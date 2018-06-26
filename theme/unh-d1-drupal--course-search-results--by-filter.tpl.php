@@ -1,7 +1,6 @@
 <?php
   $output = '';
   $form_state = $variables['form_state'];
-  $filtered = $variables['filtered'];
 
   if (empty($form_state["storage"]["results"])) {
     $str = unh_d1_drupal_get_search_no_results_text() . unh_d1_drupal_get_search_again_button() . PHP_EOL;
