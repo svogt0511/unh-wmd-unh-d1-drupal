@@ -1080,7 +1080,9 @@ function unh_d1_drupal_courseSearch_results($search_by) {
         $form_state['storage']['results'] = array();
       }
 
-      $html = unh_d1_drupal_get_searchByTopic_results_markup($form_state);
+      $html = theme('unh_d1_drupal__course_search_results__by_topic', array('form_state' => $form_state, 'filtered' => FALSE));
+      
+      // $html = unh_d1_drupal_get_searchByTopic_results_markup($form_state);
       break;
     case 'by-filter':
       if ($valid_filters = unh_d1_drupal_search_by_filters($params['filters'])) {
@@ -1088,8 +1090,10 @@ function unh_d1_drupal_courseSearch_results($search_by) {
       } else {
         $form_state['storage']['results'] = array();
       }
+      
+      $html = theme('unh_d1_drupal__course_search_results__by_filter', array('form_state' => $form_state));  
 
-      $html = unh_d1_drupal_get_searchByFilter_results_markup($form_state);
+      //$html = unh_d1_drupal_get_searchByFilter_results_markup($form_state);
       break;
     case 'combined':
       if ($valid_terms = unh_d1_drupal_search_by_keywords($params['topic'])) {
@@ -1104,7 +1108,10 @@ function unh_d1_drupal_courseSearch_results($search_by) {
       } else {
         $form_state['storage']['results'] = array();
       }
-      $html = unh_d1_drupal_get_searchByTopic_results_markup($form_state, TRUE);
+ 
+      $html = theme('unh_d1_drupal__course_search_results__by_topic', array('form_state' => $form_state, 'filtered' => TRUE));  
+      
+      //$html = unh_d1_drupal_get_searchByTopic_results_markup($form_state, TRUE);
       break;
     case 'by-text';
       $search_text = $params['search_text'];
@@ -1133,7 +1140,9 @@ function unh_d1_drupal_courseSearch_results($search_by) {
     $result = $query->execute();
   */
 
-      $html = unh_d1_drupal_get_searchByText_results_markup($form_state);
+      $html = theme('unh_d1_drupal__course_search_results__by_text', array('form_state' => $form_state));
+
+      //$html = unh_d1_drupal_get_searchByText_results_markup($form_state);
       break;
     default:
       return MENU_NOT_FOUND;
