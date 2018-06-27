@@ -121,5 +121,7 @@ define("UNH_D1_DRUPAL_TIME_FORMAT_MACH_NAME", 'time');
 //define("UNH_D1_DRUPAL_CERTIFICATE_ICON", 'fa-graduation-cap');
 define("UNH_D1_DRUPAL_CERTIFICATE_ICON", 'fa-certificate');
 
-
+/* COURSE ATTRIBUTES - NON_D1 - from 'Course Types' vocab */
+define("UNH_D1_DRUPAL_NON_D1_COURSEATTRS_ONLINE", "online");
+define("UNH_D1_DRUPAL_NON_D1_COURSEATTRS_EXTERNAL_PARTNER", "external_partner");
 

@@ -41,6 +41,50 @@ function unh_d1_drupal_non_d1_course_is_available($node) {
   return $ret;
 }
 
+
+/**
+ * Given course node, returns whether course is online.
+ */
+function unh_d1_drupal_non_d1_course_is_online($node) {
+  $ret = FALSE;
+  
+  if (!empty($node)) {
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $course_type = $wrapper->field_course_type->value();
+    if (empty($wrapper->field_course_code->value())) {
+      if (in_array(UNH_D1_DRUPAL_NON_D1_COURSEATTRS_ONLINE, $course_type) === TRUE) {
+        $ret = TRUE;
+      }
+      //$availability = $wrapper->field_course_availability->value();
+      //$ret = ((strcasecmp($availability, UNH_D1_DRUPAL_NON_D1_COURSE_IS_AVAILABLE) == 0) ? TRUE : FALSE);
+    }
+  }
+
+  return $ret;
+}
+
+
+/**
+ * Given course node, returns whether course is online.
+ */
+function unh_d1_drupal_non_d1_course_is_externalPartner($node) {
+  $ret = FALSE;
+  
+  if (!empty($node)) {
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $course_type = $wrapper->field_course_type->value();
+    if (empty($wrapper->field_course_code->value())) {
+        if (in_array(UNH_D1_DRUPAL_NON_D1_COURSEATTRS_EXTERNAL_PARTNER, $course_type) === TRUE) {
+          $ret = TRUE;
+        }
+      //$availability = $wrapper->field_course_availability->value();
+      //$ret = ((strcasecmp($availability, UNH_D1_DRUPAL_NON_D1_COURSE_IS_AVAILABLE) == 0) ? TRUE : FALSE);
+    }
+  }
+
+  return $ret;
+}
+
 /**
  * Given course node, returns course title.
  */

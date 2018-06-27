@@ -28,6 +28,10 @@ if (!empty($course_nid)) {
       $contact_hours = _unh_d1_drupal_non_d1_course_contact_hours($node);
       $ceus = _unh_d1_drupal_non_d1_course_ceus($node);
       $course_url = _unh_d1_drupal_non_d1_course_url($node);
+      
+      
+      $course_is_online = unh_d1_drupal_non_d1_course_is_online($node);
+      $course_is_externalPartner = unh_d1_drupal_non_d1_course_is_externalPartner($node);
 
 ?>
     <div class='card course-info-pane'>
@@ -49,8 +53,34 @@ if (!empty($course_nid)) {
         </div>
 <?php
       } 
-?>     
+?> 
         <div class='section sectionDescription'>
+
+<?php
+      if ($course_is_online || $course_is_externalPartner) {
+        $course_attrs = [];
+        $course_type = '';
+
+        if ($course_is_online) {$course_attrs[] = 'Online';}
+        if ($course_is_externalPartner) {$course_attrs[] = 'External Partner';}
+        $course_type = implode(',<br>', $course_attrs);
+?>
+          <div class='section sectionType'>
+            <div class='row'>
+              <div class='header col-xs-5'>
+                <label for='sectionNumber'>Type:</label>
+              </div>
+              <div class='content col-xs-7'>
+                <span id='sectionNumber'>
+                  <?=$course_type?>
+                </span>
+              </div>
+            </div>
+          </div>
+<?php
+      } 
+?> 
+    
 <?php
       if (!empty($dates_times)) {
 ?>

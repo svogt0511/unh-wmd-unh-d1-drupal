@@ -349,6 +349,37 @@ function unh_d1_drupal_theme() {
         'config' => array(),
       ),
     ),
+    'unh_d1_drupal__course_search_results__by_text' => $base + array(
+      'template' => 'unh-d1-drupal--course-search-results--by-text',
+      'variables' => array(
+        'form_state' => array(),
+      ),
+    ),
+    'unh_d1_drupal__course_search_results__by_topic' => $base + array(
+      'template' => 'unh-d1-drupal--course-search-results--by-topic',
+      'variables' => array(
+        'form_state' => array(),
+        'filtered' => FALSE,
+      ),
+    ),    
+    'unh_d1_drupal__course_search_results__by_filter' => $base + array(
+      'template' => 'unh-d1-drupal--course-search-results--by-filter',
+      'variables' => array(
+        'form_state' => array(),
+      ),
+    ),  
+    'unh_d1_drupal__course_search_results__course_list_block' => $base + array(
+      'template' => 'unh-d1-drupal--course-search-results--course-list-block',
+      'variables' => array(
+        'course_profiles' => array(),
+      ),
+    ),   
+    'unh_d1_drupal__course_search_results__applicable_certificates_block' => $base + array(
+      'template' => 'unh-d1-drupal--course-search-results--applicable-certificates-block',
+      'variables' => array(
+        'course' => NULL,
+      ),
+    ),   
   );
 
   return $ret;
