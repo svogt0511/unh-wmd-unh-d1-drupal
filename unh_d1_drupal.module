@@ -373,7 +373,13 @@ function unh_d1_drupal_theme() {
       'variables' => array(
         'course_profiles' => array(),
       ),
-    ),     
+    ),   
+    'unh_d1_drupal__course_search_results__applicable_certificates_block' => $base + array(
+      'template' => 'unh-d1-drupal--course-search-results--applicable-certificates-block',
+      'variables' => array(
+        'course' => NULL,
+      ),
+    ),   
   );
 
   return $ret;
