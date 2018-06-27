@@ -14,7 +14,9 @@
     <div class="search-area-header h2">' . $filter['filter_title'] . '</div>
     <div class="search-area-body">';
 
-      $str .= unh_d1_drupal_get_courseListBlock_markup($filter['courseProfiles']);
+      $str .= theme('unh_d1_drupal__course_search_results__course_list_block', array('course_profiles' => $filter['courseProfiles']));  
+
+      //$str .= unh_d1_drupal_get_courseListBlock_markup($filter['courseProfiles']);
 
       $str .= '
     </div>

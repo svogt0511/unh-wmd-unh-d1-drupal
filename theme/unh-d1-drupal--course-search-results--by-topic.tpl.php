@@ -26,7 +26,9 @@
       <div class="search-topic-header h3">' . $topic['topic_title'] . '</div>
       <div class="search-topic-body">';
 
-        $str .= unh_d1_drupal_get_courseListBlock_markup($topic['courseProfiles']);
+        $str .= theme('unh_d1_drupal__course_search_results__course_list_block', array('course_profiles' => $topic['courseProfiles'])); 
+
+        // $str .= unh_d1_drupal_get_courseListBlock_markup($topic['courseProfiles']);
 
         $str .= '
       </div>

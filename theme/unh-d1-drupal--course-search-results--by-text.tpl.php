@@ -17,8 +17,10 @@
       $str .= '
     <div class="search-topic">
       <div class="search-topic-body">';
+
+      $str .= theme('unh_d1_drupal__course_search_results__course_list_block', array('course_profiles' => $result['courseProfiles']));  
         
-      $str .= unh_d1_drupal_get_courseListBlock_markup($result['courseProfiles']);
+      // $str .= unh_d1_drupal_get_courseListBlock_markup($result['courseProfiles']);
 
       $str .= '
       </div>

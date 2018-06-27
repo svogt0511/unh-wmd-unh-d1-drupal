@@ -368,7 +368,12 @@ function unh_d1_drupal_theme() {
         'form_state' => array(),
       ),
     ),  
-    
+    'unh_d1_drupal__course_search_results__course_list_block' => $base + array(
+      'template' => 'unh-d1-drupal--course-search-results--course-list-block',
+      'variables' => array(
+        'course_profiles' => array(),
+      ),
+    ),     
   );
 
   return $ret;
