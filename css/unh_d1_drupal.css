@@ -772,7 +772,9 @@ form.search-by-topic-form .topic-filters .form-group:last-child {
 
 /* Right Rail Buttons */
 
-  
+.course-search-icon {
+  padding-left: 15px;
+}
 
 
 

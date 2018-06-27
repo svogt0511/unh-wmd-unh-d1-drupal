@@ -165,10 +165,14 @@ function unh_d1_drupal_courseSearchBar($form, &$form_state) {
 
 
 function unh_d1_drupal_courseSearchBar_getMarkup(&$form_state) {
+  $html = '';
 
-  unh_d1_drupal_get_searchByTopic_results_markup($form_state);
+  $html = theme('unh_d1_drupal__course_search_results__by_topic', array('form_state' => $form_state, 'filtered' => FALSE));
+  
+  return $html;
 
-  return $form_state['storage']['html'];
+  //unh_d1_drupal_get_searchByTopic_results_markup($form_state);
+  //return $form_state['storage']['html'];
 }
 
 
@@ -281,9 +285,14 @@ function unh_d1_drupal_courseSearchByText($form, &$form_state) {
 
 
 function unh_d1_drupal_courseSearchByText_getMarkup(&$form_state) {
+  $html = '';
 
-  unh_d1_drupal_get_searchByTopic_results_markup($form_state);
-  return $form_state['storage']['html'];
+  $html = theme('unh_d1_drupal__course_search_results__by_topic', array('form_state' => $form_state, 'filtered' => FALSE));
+  
+  return $html;
+  
+  //unh_d1_drupal_get_searchByTopic_results_markup($form_state);
+  //return $form_state['storage']['html'];
 
 }
 
@@ -803,6 +812,7 @@ function unh_d1_drupal_filter_available_courses_only($courses) {
  *
  */
  
+ /*
  function unh_d1_drupal_get_search_results_markup(&$form_state) {
 
   if ($form_state['storage']['search-type'] == 'by-topic') {
@@ -819,6 +829,7 @@ function unh_d1_drupal_filter_available_courses_only($courses) {
 
   return $form_state['storage']['html'];
 }
+*/
 
 // UTILS - SEARCH RESULTS from search by topic (upper right search form radio buttons)
 function unh_d1_drupal_get_searchByTopic_results_markup(&$form_state, $filtered = FALSE) {
@@ -956,14 +967,22 @@ function unh_d1_drupal_get_courseListBlock_markup($courses) {
 
     $course_has_drupal_node = TRUE;
     $course_has_certificates = TRUE;
+    
+    $ep_icon = '<i class="fa fa-external-link course-search-icon"></i>';
+    $online_icon = '<i class="fa fa-bolt course-search-icon"></i>';
 
     //FILTER: This controls the listing of applicable certificates in course search results.
     $list_applicable_certificates = FALSE;
-
+    $list_online = TRUE;
+    $list_external_partner = TRUE;
+    $course_is_online = FALSE;
+    $course_is_externalPartner = FALSE;
     if (!empty(unh_d1_client_getcourseNumber($course))) {
       $course_is_available = unh_d1_client_courseIsAvailable($course);
     } else {
       $course_is_available = unh_d1_drupal_non_d1_course_is_available($course['node']);
+      $course_is_externalPartner = unh_d1_drupal_non_d1_course_is_externalPartner($course['node']);
+      $course_is_online = unh_d1_drupal_non_d1_course_is_online($course['node']);
     }
 
     if (empty($course['applicableCertificates'])) {
@@ -978,7 +997,12 @@ function unh_d1_drupal_get_courseListBlock_markup($courses) {
 
     if ($course_has_drupal_node) {
       $str .= '
-    ' . (!$course_is_available ? '<span class="course-unavailable">(Currently Unavailable - Request More Information)</span> ' : '') . '<a href="' . $course['courseURL']  . '"' . (!$course_is_available ? ' class="course-unavailable"' : '') . '>' . $course['courseTitle'] .'</a>';
+    ' . (!$course_is_available ? '<span class="course-unavailable">(Currently Unavailable - Request More Information)</span> ' : '') .
+      '<a href="' . $course['courseURL']  . '"' . (!$course_is_available ? ' class="course-unavailable"' : '') . '>' . 
+      $course['courseTitle'] .
+      '</a>' .
+      (($list_online && $course_is_online) ? '&nbsp;&nbsp;' . $online_icon : '') .
+      (($list_external_partner && $course_is_externalPartner) ? '&nbsp;&nbsp;' . $ep_icon : '');
     } else {
       $str .= '
       <span class="course-error">' . $course['courseTitle'] . '</span>';
@@ -1067,7 +1091,9 @@ function unh_d1_drupal_courseSearch_results($search_by) {
         $form_state['storage']['results'] = array();
       }
 
-      $html = unh_d1_drupal_get_searchByTopic_results_markup($form_state);
+      $html = theme('unh_d1_drupal__course_search_results__by_topic', array('form_state' => $form_state, 'filtered' => FALSE));
+      
+      // $html = unh_d1_drupal_get_searchByTopic_results_markup($form_state);
       break;
     case 'by-filter':
       if ($valid_filters = unh_d1_drupal_search_by_filters($params['filters'])) {
@@ -1075,8 +1101,10 @@ function unh_d1_drupal_courseSearch_results($search_by) {
       } else {
         $form_state['storage']['results'] = array();
       }
+      
+      $html = theme('unh_d1_drupal__course_search_results__by_filter', array('form_state' => $form_state));  
 
-      $html = unh_d1_drupal_get_searchByFilter_results_markup($form_state);
+      //$html = unh_d1_drupal_get_searchByFilter_results_markup($form_state);
       break;
     case 'combined':
       if ($valid_terms = unh_d1_drupal_search_by_keywords($params['topic'])) {
@@ -1091,7 +1119,10 @@ function unh_d1_drupal_courseSearch_results($search_by) {
       } else {
         $form_state['storage']['results'] = array();
       }
-      $html = unh_d1_drupal_get_searchByTopic_results_markup($form_state, TRUE);
+ 
+      $html = theme('unh_d1_drupal__course_search_results__by_topic', array('form_state' => $form_state, 'filtered' => TRUE));  
+      
+      //$html = unh_d1_drupal_get_searchByTopic_results_markup($form_state, TRUE);
       break;
     case 'by-text';
       $search_text = $params['search_text'];
@@ -1120,7 +1151,9 @@ function unh_d1_drupal_courseSearch_results($search_by) {
     $result = $query->execute();
   */
 
-      $html = unh_d1_drupal_get_searchByText_results_markup($form_state);
+      $html = theme('unh_d1_drupal__course_search_results__by_text', array('form_state' => $form_state));
+
+      //$html = unh_d1_drupal_get_searchByText_results_markup($form_state);
       break;
     default:
       return MENU_NOT_FOUND;
