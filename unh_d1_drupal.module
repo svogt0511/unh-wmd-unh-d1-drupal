@@ -75,7 +75,8 @@ function unh_d1_drupal_menu() {
     'title' => 'UNH DestinyOne',
     'description' => 'UNH settings for DestinyOne web services.',
     'page callback' => 'system_admin_menu_block_page',
-    'access arguments' => array('administer site configuration'),
+    //'access arguments' => array('administer site configuration'),
+    'access callback' => TRUE,
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
   );
@@ -86,7 +87,8 @@ function unh_d1_drupal_menu() {
     'description' => 'Configuration UNH DestinyOne Drupal module.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('unh_d1_drupal_settings_form'),
-    'access arguments' => array('administer unh_d1_drupal'),
+    //'access callback' => TRUE,
+    'access arguments' => array('administer unh_d1_drupal module'),
     'type' => MENU_NORMAL_ITEM,
   );
   
@@ -96,7 +98,8 @@ function unh_d1_drupal_menu() {
     'title' => 'UNH D1: Reports - Orphan D1 Courses',
     'description' => 'Reports DestinyOne (D1) Courses that are visible to the UNH web app through the D1 Client, but have no corresponding Drupal course node.',
     'page callback' => 'unh_d1_drupal_reports_orphan_d1_courses',
-//    'page arguments' => array('d1pdt_reports_orphans'),
+    //'page arguments' => array('d1pdt_reports_orphans'),
+    //'access callback' => TRUE,
     'access arguments' => array('view unh_d1_drupal reports'),
     'type' => MENU_NORMAL_ITEM,
   );
@@ -145,7 +148,7 @@ function unh_d1_drupal_menu() {
 */
 function unh_d1_drupal_permission() {
   return array(
-    'administer unh_d1_drupal' => array(
+    'administer unh_d1_drupal module' => array(
       'title' => t('Administer UNH D1 Drupal Settings'),
       'description' => t('Configure UNH Drupal module settings for this site.'),
     ),
